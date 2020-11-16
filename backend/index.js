@@ -25,15 +25,11 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
 
 const pgconnectPool = new pg.Pool({
-    user: 'uqhumdashdqieg',
-    password: '5a0a6876cd265a20148fcb4c7c33dbfb364b25c58492b2ef0ef0820a721a6c0d',
-    host: 'ec2-54-246-89-234.eu-west-1.compute.amazonaws.com',
-    port: 5432,
-    database: 'd4hi7j4oht1ghh',
-    ssl: {
-      rejectUnauthorized: false,
-      require:true
-    },
+  user: 'postgres',
+  password: 'nhom05',
+  host: '104.248.149.21',
+  port: 31388,
+  database: 'DatabaseNhom5',
 });
 
 const sess_cfg = {
