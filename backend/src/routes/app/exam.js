@@ -41,6 +41,10 @@ router.put('/api/admin/exam/:id',validateAdminApi,  async (req, res) => {
     const { id } = req.params;
     const { examname, examyear, semester,note, status } = req.body;
     if (!examname || !examyear || !semester || !id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+    if(status) {
+      await knex('exam')
+      .update({ status: 0 });
+    }
     const check = await knex('exam')
       .update({ examname, examyear, semester, note, status })
       .where({ id });
