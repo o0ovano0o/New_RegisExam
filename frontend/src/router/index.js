@@ -10,11 +10,28 @@ Vue.use(vueRouter)
 export default new vueRouter({
   mode: "history",
   routes: [
+    // {
+    //   path: "/login",
+    //   name: "user_login",
+    //   component: require("@/views/_general/logIn/logIn").default
+    // },
     {
-      path: "/login",
-      name: "user_login",
-      component: require("@/views/_general/logIn/logIn").default
+      path: "/student/login",
+      name: "student_login",
+      component: require("@/views/user/login/login-student").default
     },
+    {
+      path: "/admin/home",
+      name:"admin_home",
+      component: require("@/views/admin/layout").default,
+      children:[
+        {
+          path:'',
+          name:"admin_home_detail",
+          component: require("@/views/admin/home").default
+        }
+      ]
+    }
     // {
     //   path: "/catalog",
     //   name: "catalog",

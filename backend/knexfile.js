@@ -1,38 +1,3 @@
-// require('dotenv').config();
-
-// const development = {
-//   client: 'pg',
-//   connection: {
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: {
-//       rejectUnauthorized: false,
-//       require:true
-//     },
-//   },
-//   pool: {
-//     min: 2,
-//     max: 10,
-// },
-// searchPath: ["public"],
-// // pool: isDev ? { max: 4 } : { min: 4 },
-// asyncStackTraces: true,
-// };
-
-// module.exports = {
-//   development,
-//   production: development,
-// };
-
-
-// // const { Pool } = require('pg');
-
-// // const pool = new Pool({
-// //   connectionString: process.env.DATABASE_URL,
-// //   ssl: {
-// //     rejectUnauthorized: false
-// //   }
-// // });
-
 const development = {
   client: 'pg',
   connection: {

@@ -15,7 +15,7 @@ router.post('/api/admin/login', async (req, res) => {
     req.session.username= user.username;
     req.session.password= user.password;
     req.session.fullname= user.fullname;
-    req.session.userrole = 1;
+    req.session.userrole = 2;
     return res.status(200).json({
       success: true,
       msg: `Đăng nhập thành công`,
@@ -41,7 +41,7 @@ router.post('/api/student/login', async (req, res) => {
     req.session.gender= user.gender;
     req.session.hometown= user.hometown;
     req.session.class= user.class;
-    req.session.userrole = 0;
+    req.session.userrole = 1;
     return res.status(200).json({
       success: true,
       msg: `Đăng nhập thành công`,

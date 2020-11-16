@@ -15,7 +15,7 @@ app.use(
     allowedHeaders:
       'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     origin: [
-      'http://localhost:3006',
+      'http://localhost:8080',
     ],
   })
 );
