@@ -75,9 +75,9 @@ router.get('/api/admin/exam/:id',validateAdminAPI, async (req, res) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
     const exam = await knex('exam')
-      .select()
+      .first()
       .where({ id });
-    if (!check) return res.status(400).json({ success: false, msg: 'Lấy thông tin kỳ thi thất bại' });
+    if (!exam) return res.status(400).json({ success: false, msg: 'Lấy thông tin kỳ thi thất bại' });
     return res.status(200).json({
       success: true,
       data:exam,

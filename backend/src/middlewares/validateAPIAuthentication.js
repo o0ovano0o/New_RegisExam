@@ -26,9 +26,7 @@ function validateAppAPI(req, res, next) {
 }
 
 function validateAdminAPI(req, res, next) {
-  console.log(123);
   const validateRes = validateAdmin(req);
-  console.log(validateRes);
   if (validateRes.success) return next();
   return res.status(401).json(validateRes);
 }
