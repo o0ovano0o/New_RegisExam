@@ -21,6 +21,18 @@ export default new vueRouter({
       component: require("@/views/user/login/login-student").default
     },
     {
+      path: "/demo-import",
+      name: "demo-import",
+      component: require("@/views/admin/layout").default,
+      children:[
+        {
+          path:'',
+          name:"demo-import-detail",
+          component: require("@/views/admin/import/index.vue").default
+        }
+      ]
+    },
+    {
       path: "/admin/home",
       name:"admin_home",
       component: require("@/views/admin/layout").default,

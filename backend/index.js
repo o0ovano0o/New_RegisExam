@@ -66,6 +66,7 @@ const PUPLIC_APIS = [
 
 const APP_APIS = [
   'exam',
+  'student'
 ];
 
 /* eslint-disable global-require */
