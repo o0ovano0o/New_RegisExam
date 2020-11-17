@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminApi } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
 
-router.post('/api/admin/exam',validateAdminApi,  async (req, res) => {
+router.post('/api/admin/exam',validateAdminAPI , async (req, res) => {
   try {
     const { examname, examyear, semester,note } = req.body;
-    if (!examname || !examyear || !semester) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+    if (!examname || !examyear || !semester || !note) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
     const check = await knex('exam')
       .insert({ examname, examyear, semester, note, status: 0 });
     if (!check) return res.status(400).json({ success: false, msg: 'Tạo kỳ thi thất bại' });
@@ -19,7 +19,7 @@ router.post('/api/admin/exam',validateAdminApi,  async (req, res) => {
   }
 });
 
-router.delete('/api/admin/exam/:id',validateAdminApi,  async (req, res) => {
+router.delete('/api/admin/exam/:id',validateAdminAPI, async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
@@ -36,7 +36,7 @@ router.delete('/api/admin/exam/:id',validateAdminApi,  async (req, res) => {
   }
 });
 
-router.put('/api/admin/exam/:id',validateAdminApi,  async (req, res) => {
+router.put('/api/admin/exam/:id',validateAdminAPI,  async (req, res) => {
   try {
     const { id } = req.params;
     const { examname, examyear, semester,note, status } = req.body;
@@ -58,7 +58,7 @@ router.put('/api/admin/exam/:id',validateAdminApi,  async (req, res) => {
   }
 });
 
-router.get('/api/admin/exams',validateAdminApi,  async (req, res) => {
+router.get('/api/admin/exams',validateAdminAPI,  async (req, res) => {
   try {
     const listexam = await knex('exam').select();
     return res.status(200).json({
@@ -70,7 +70,7 @@ router.get('/api/admin/exams',validateAdminApi,  async (req, res) => {
   }
 });
 
-router.get('/api/admin/exam',validateAdminApi,  async (req, res) => {
+router.get('/api/admin/exam/:id',validateAdminAPI, async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
@@ -86,3 +86,6 @@ router.get('/api/admin/exam',validateAdminApi,  async (req, res) => {
     handleAPIError(err, res);
   }
 });
+
+
+module.exports = router;
