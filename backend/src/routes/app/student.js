@@ -33,28 +33,15 @@ router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.post('/api/admin/user', validateAdminAPI, async(req, res) => {
+router.get('/api/admin/student', validateAdminAPI, async(req, res) => {
     try {
-        const { studentcode, fullname, datebirth, gender, hometown, class, password } = req.body;
-        if (!studentcode || !fullname || !datebirth || !gender || !hometown || !class || !password) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
-        const check = await knex('student')
-            .insert({ studentcode, fullname, datebirth, gender, hometown, class, password });
-        if (!check) return res.status(400).json({ success: false, msg: 'Thêm sinh viên thất bại' });
+        const { studentcode } = req.query;
+        const student = await knex('student')
+            .select()
+            .where({ studentcode });
         return res.status(200).json({
             success: true,
-            msg: `Thêm sinh viên thành công`,
-        });
-    } catch (err) {
-        handleAPIError(err, res);
-    }
-});
-
-router.get('/api/admin/users', validateAdminAPI, async(req, res) => {
-    try {
-        const listuser = await knex('student').select();
-        return res.status(200).json({
-            success: true,
-            data: listuser,
+            data: student,
         });
     } catch (err) {
         handleAPIError(err, res);
