@@ -76,4 +76,18 @@ router.get('/api/admin/students',validateAdminAPI,  async (req, res) => {
   }
 });
 
+router.get('/api/admin/student', validateAdminAPI, async(req, res) => {
+    try {
+        const { studentcode } = req.query;
+        const student = await knex('student')
+            .select()
+            .where({ studentcode });
+        return res.status(200).json({
+            success: true,
+            data: student,
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
+});
 module.exports = router;
