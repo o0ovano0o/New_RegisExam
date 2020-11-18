@@ -9,7 +9,9 @@ router.post('/api/admin/student/import',validateAdminAPI , async (req, res) => {
     const { datarow } = req.body;
     if (!datarow) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
     const column = datarow[0];
+    let listcode = [];
     let obj = await datarow.splice(1).map((row, index) => {
+      listcode.push(row[column.findIndex((item)=> item.toLowerCase() == 'studentcode')]);
         return {
           studentcode: row[column.findIndex((item)=> item.toLowerCase() == 'studentcode')],
           fullname: row[column.findIndex((item)=> item.toLowerCase() == 'fullname')],
@@ -20,13 +22,54 @@ router.post('/api/admin/student/import',validateAdminAPI , async (req, res) => {
           password: sha1(row[column.findIndex((item)=> item.toLowerCase() == 'studentcode')]),
         }
     });
-    console.log(obj);
+    console.log(listcode);
+    await knex('student').delete().whereIn('studentcode', listcode);
+    const check = await knex('student')
+      .insert(obj);
+    if (!check) return res.status(400).json({ success: false, msg: 'Nhập sinh viên thất bại' });
+    return res.status(200).json({
+      success: true,
+      msg: `Nhập sinh viên thành công`,
+      check
+    });
+  } catch (err) {
+    handleAPIError(err, res);
+  }
+});
+
+router.post('/api/admin/student',validateAdminAPI , async (req, res) => {
+  try {
+    const { studentcode, fullname, datebirth, gender, hometown, classes   } = req.body;
+    if (!studentcode || !fullname || !datebirth || !gender || !hometown || !classes) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+    let obj = {
+          studentcode,
+          fullname,
+          datebirth,
+          gender,
+          hometown,
+          class: classes,
+          password: sha1(studentcode),
+        };
     const check = await knex('student')
       .insert(obj);
     if (!check) return res.status(400).json({ success: false, msg: 'Tạo kỳ thi thất bại' });
     return res.status(200).json({
       success: true,
       msg: `Tạo ca thi thành công`,
+      check
+    });
+  } catch (err) {
+    handleAPIError(err, res);
+  }
+});
+
+
+router.get('/api/admin/students',validateAdminAPI,  async (req, res) => {
+  try {
+    const listexam = await knex('student').select();
+    return res.status(200).json({
+      success: true,
+      data:listexam,
     });
   } catch (err) {
     handleAPIError(err, res);

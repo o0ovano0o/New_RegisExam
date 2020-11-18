@@ -12,7 +12,7 @@ router.post('/api/admin/exam',validateAdminAPI , async (req, res) => {
     if (!check) return res.status(400).json({ success: false, msg: 'Tạo kỳ thi thất bại' });
     return res.status(200).json({
       success: true,
-      msg: `Tạo ca thi thành công`,
+      msg: `Tạo kỳ thi thành công`,
     });
   } catch (err) {
     handleAPIError(err, res);
@@ -29,7 +29,7 @@ router.delete('/api/admin/exam/:id',validateAdminAPI, async (req, res) => {
     if (!check) return res.status(400).json({ success: false, msg: 'Xóa kỳ thi thất bại' });
     return res.status(200).json({
       success: true,
-      msg: `Xóa ca thi thành công`,
+      msg: `Xóa kỳ thi thành công`,
     });
   } catch (err) {
     handleAPIError(err, res);
@@ -51,7 +51,7 @@ router.put('/api/admin/exam/:id',validateAdminAPI,  async (req, res) => {
     if (!check) return res.status(400).json({ success: false, msg: 'Sửa kỳ thi thất bại' });
     return res.status(200).json({
       success: true,
-      msg: `Sửa ca thi thành công`,
+      msg: `Sửa kỳ thi thành công`,
     });
   } catch (err) {
     handleAPIError(err, res);
