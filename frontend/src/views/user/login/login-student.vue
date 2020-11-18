@@ -9,7 +9,7 @@
             <div class="container" style="background-color: #f1f5f7;">
                 <div class="signin-content">
                     <div class="signin-image">
-                        <figure><img src="login/images/signup-image.png" alt="sing up image"></figure>
+                        <figure><img src="./images/signup-image.png" alt="sing up image"></figure>
                     </div>
 
                     <div class="signin-form">
