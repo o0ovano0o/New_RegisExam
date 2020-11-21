@@ -1,8 +1,8 @@
 <template>
 
-<body id="backtotop">
-    <!-- Left Panel -->
-    <aside id="left-panel" class="left-panel">
+<div id="backtotop">
+    <!-- Left Paneal -->
+    <aside id="left-panel" class="left-panel text-left">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -10,25 +10,25 @@
                         <a href="/student/home"><i class="menu-icon fa fa-laptop"></i>Trang Chủ </a>
                     </li>
                     <li class="">
-                        <a class="collapse-item"
-                            href="/student/exam-registration"> <i class="menu-icon fa fa-th-large"></i>Đăng Ký Môn Thi</a>
+                        <a class="collapse-item  "
+                            href="/student/exam-registration"> <i class="menu-icon fa fa-th-large"></i>Đăng ký môn thi</a>
                     </li>
                     <li class="">
-                        <a class="collapse-item"
-                            href="/student/print-exam-registration"> <i class="menu-icon fa fa-print"></i>In Danh Sách Thi</a>
-                    </li>
+                        <a class="collapse-item "
+                            href="/student/print-exam-registration"> <i class="menu-icon fa fa-print"></i>In danh sách thi</a>
+                    </li>                   
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
     <!-- /#left-panel -->
     <!-- Right Panel -->
-    <div id="right-panel" class="right-panel">
+    <div id="right-panel" class="right-panel" >
         <!-- Header-->
         <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="./"><img src="./assets/images/logo.png" alt="Logo"></a>
+                    <a class="navbar-brand" href="/student/home"><img src="./assets/images/logo.png" alt="Logo"></a>
                     <a class="navbar-brand hidden" href="./"><img src="./assets/images/logo2.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
@@ -45,7 +45,7 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="ho-so-sinh-vien"><i class="fa fa-user"></i>Hồ sơ sinh viên</a>
+                            <a class="nav-link" href="/student/profile"><i class="fa fa-user"></i>Hồ sơ sinh viên</a>
 
                             <a class="nav-link" href="index.php?controller=Logout" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-power-off"></i>Đăng xuất</a>
                         </div>
@@ -56,50 +56,28 @@
         </header>
         <!-- /#header -->
         <!-- Content -->
-        
-        <router-view/>
+          <router-view/>
         <!-- /.content -->
-        <div class="clearfix"></div>
+        <div class="clearfix">
+
+        </div>
         <!-- Footer -->
-        <footer class="site-footer">
+        <footer class="site-footer text-left">
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-10">
                         Copyright &copy;
+                    </div>
+                    <div class="col-sm-2 text-right">
                     </div>
                 </div>
             </div>
         </footer>
         <!-- /.site-footer -->
     </div>
-    <!-- /#right-panel -->
-    <!-- Logout Modal-->
-
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn thoát phiên đăng nhập?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Chọn "Đăng xuất" bên dưới nếu bạn đã sẵn sàng kết thúc phiên hiện tại của mình.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                    <a class="btn btn-primary" href="index.php?controller=Logout">Đăng xuất</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-</body>
+</div>
 </template>
-
 <script>
-
 export default {
 
 }

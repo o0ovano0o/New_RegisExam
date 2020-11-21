@@ -3,37 +3,37 @@ const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
 const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
 
-router.post('/api/admin/exam',validateAdminAPI , async (req, res) => {
-  try {
-    const { examname, examyear, semester,note } = req.body;
-    if (!examname || !examyear || !semester || !note) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
-    const check = await knex('exam')
-      .insert({ examname, examyear, semester, note, status: 0 });
-    if (!check) return res.status(400).json({ success: false, msg: 'Tạo kỳ thi thất bại' });
-    return res.status(200).json({
-      success: true,
-      msg: `Tạo kỳ thi thành công`,
-    });
-  } catch (err) {
-    handleAPIError(err, res);
-  }
+router.post('/api/admin/exam', validateAdminAPI, async(req, res) => {
+    try {
+        const { examname, examyear, semester, note } = req.body;
+        if (!examname || !examyear || !semester || !note) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const check = await knex('exam')
+            .insert({ examname, examyear, semester, note, status: 0 });
+        if (!check) return res.status(400).json({ success: false, msg: 'Tạo kỳ thi thất bại' });
+        return res.status(200).json({
+            success: true,
+            msg: `Tạo kỳ thi thành công`,
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
 });
 
-router.delete('/api/admin/exam/:id',validateAdminAPI, async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
-    const check = await knex('exam')
-      .delete()
-      .where({ id });
-    if (!check) return res.status(400).json({ success: false, msg: 'Xóa kỳ thi thất bại' });
-    return res.status(200).json({
-      success: true,
-      msg: `Xóa kỳ thi thành công`,
-    });
-  } catch (err) {
-    handleAPIError(err, res);
-  }
+router.delete('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const check = await knex('exam')
+            .delete()
+            .where({ id });
+        if (!check) return res.status(400).json({ success: false, msg: 'Xóa kỳ thi thất bại' });
+        return res.status(200).json({
+            success: true,
+            msg: `Xóa kỳ thi thành công`,
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
 });
 
 router.put('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
@@ -51,7 +51,7 @@ router.put('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
         if (!check) return res.status(400).json({ success: false, msg: 'Sửa kỳ thi thất bại' });
         return res.status(200).json({
             success: true,
-            msg: `Sửa ca thi thành công`,
+            msg: `Sửa kỳ thi thành công`,
         });
     } catch (err) {
         handleAPIError(err, res);

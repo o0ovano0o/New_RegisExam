@@ -9,10 +9,10 @@ router.get('/api/student/result', validateStudentAPI, async(req, res) => {
     try {
         const { id } = await knex('exam').first('id').where({ status: 1 });
         const examid = id;
-        const { studentid } = req.query;
+        const { user_id } = req.session;
         const listresult = await knex('result')
             .select()
-            .where({ studentid, examid });
+            .where({ studentid: user_id }).andWhere({ examid });
         return res.status(200).json({
             success: true,
             data: listresult,
@@ -28,45 +28,33 @@ router.post('/api/student/result', validateStudentAPI, async(req, res) => {
     try {
         const { id } = await knex('exam').first('id').where({ status: 1 });
         const examid = id;
-        const { studentid } = req.query;
-        const { datarow } = req.body;
-        if (!datarow) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
-        let obj = await datarow.splice(1).map((row, index) => {
-            listcode.push(row[column.findIndex((item) => item.toLowerCase() == 'studentcode')]);
-            return {
-                studentcode: row[column.findIndex((item) => item.toLowerCase() == 'studentcode')],
-                fullname: row[column.findIndex((item) => item.toLowerCase() == 'fullname')],
-                datebirth: row[column.findIndex((item) => item.toLowerCase() == 'datebirth')],
-                gender: row[column.findIndex((item) => item.toLowerCase() == 'gender')],
-                hometown: row[column.findIndex((item) => item.toLowerCase() == 'hometown')],
-                class: row[column.findIndex((item) => item.toLowerCase() == 'class')],
-                password: sha1(row[column.findIndex((item) => item.toLowerCase() == 'studentcode')]),
-            }
-        });
-        console.log(listcode);
-        await knex('student').delete().whereIn('studentcode', listcode);
-        const check = await knex('student')
-            .insert(obj);
-        if (!check) return res.status(400).json({ success: false, msg: 'Nhập sinh viên thất bại' });
+        const { user_id } = req.session;
+        const { classesid, subjectid } = req.body;
+        const check = await knex('result').select().where({ subjectid }).andWhere({ studentid: user_id }).andWhere({ classesid }).andWhere({ examid });
+        console.log(check);
+        if (check.length > 0) return res.status(400).json({ success: false, msg: 'Đăng ký trùng' });
+        const result = await knex('result').insert({ subjectid, studentid: user_id, classesid, examid });
+        if (!result) return res.status(400).json({ success: false, msg: 'Đăng ký ca thi thất bại' });
         return res.status(200).json({
             success: true,
-            msg: `Nhập sinh viên thành công`,
-            check
+            msg: `Đăng ký ca thi thành công`,
         });
     } catch (err) {
         handleAPIError(err, res);
     }
 });
 
-router.get('/api/admin/subjects', validateStudentAPI, async(req, res) => {
+router.delete('/api/student/result/:id', validateStudentAPI, async(req, res) => {
     try {
-        const { subjectcode } = req.query;
-        const listsubject = await knex('subject')
-            .select()
-            .where({ subjectcode });
+        const { id } = req.params;
+        if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const check = await knex('result')
+            .delete()
+            .where({ id });
+        if (!check) return res.status(400).json({ success: false, msg: 'Xóa ca thi thất bại' });
         return res.status(200).json({
             success: true,
-            data: listsubject,
+            msg: `Xóa ca thi thành công`,
         });
     } catch (err) {
         handleAPIError(err, res);
