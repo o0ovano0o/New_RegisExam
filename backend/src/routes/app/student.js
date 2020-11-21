@@ -44,10 +44,10 @@ router.post('/api/admin/student',validateAdminAPI , async (req, res) => {
     let obj = { studentcode, fullname, datebirth, gender, hometown, class: classes, password: sha1(studentcode), };
     const check = await knex('student')
       .insert(obj);
-    if (!check) return res.status(400).json({ success: false, msg: 'Tạo kỳ thi thất bại' });
+    if (!check) return res.status(400).json({ success: false, msg: 'Tạo tài khoản thất bại' });
     return res.status(200).json({
       success: true,
-      msg: `Tạo ca thi thành công`,
+      msg: `Tạo tài khoản thành công`,
       check
     });
   } catch (err) {
@@ -55,7 +55,7 @@ router.post('/api/admin/student',validateAdminAPI , async (req, res) => {
   }
 });
 
-router.put('/api/student/studentid',validateStudentAPI , async (req, res) => {
+router.put('/api/student/:studentid',validateStudentAPI , async (req, res) => {
   try {
     const { studentid }= req.params;
     const { fullname, datebirth, gender, hometown, classes   } = req.body;
@@ -98,5 +98,18 @@ router.get('/api/admin/student', validateAdminAPI, async(req, res) => {
     } catch (err) {
         handleAPIError(err, res);
     }
+});
+
+router.get('/api/admin/student/getme', validateAdminAPI, async(req, res) => {
+  try {
+      const { user_id } = req.session;
+      const student = await knex('student').where( 'id', user_id);
+      return res.status(200).json({
+          success: true,
+          data: student,
+      });
+  } catch (err) {
+      handleAPIError(err, res);
+  }
 });
 module.exports = router;
