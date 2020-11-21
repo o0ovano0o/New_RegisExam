@@ -7,52 +7,16 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="">
-                        <a href="admin "><i class="menu-icon fa fa-laptop"></i>Trang Chủ </a>
+                        <a href="/student/home"><i class="menu-icon fa fa-laptop"></i>Trang Chủ </a>
                     </li>
                     <li class="">
                         <a class="collapse-item  "
-                            href="tao-ki-thi"> <i class="menu-icon fa fa-table"></i>Kì Thi</a>
+                            href="/student/exam-registration"> <i class="menu-icon fa fa-th-large"></i>Đăng ký môn thi</a>
                     </li>
-                    <li class="menu-title">Kỳ thi hiện tại</li><!-- /.menu-title -->
-
                     <li class="">
                         <a class="collapse-item "
-                            href="danh-sach-mon"> <i class="menu-icon fa fa-book"></i>Danh sách môn thi</a>
-                    </li>
-                    <li class="menu-item-has-children dropdown ">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false"> <i class="menu-icon fa fa-plus-square"></i>Nhập Liệu</a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-plus-square"></i>
-                                <a class="collapse-item "
-                                    href="them-sv-du-dieu-kien-thi">SV được thi</a></li>
-                            <li><i class="fa fa-plus-square"></i>
-                                <a class="collapse-item  "
-                                    href="them-sv-cam-thi">SV cấm thi</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-title">Quản lý tài khoản</li><!-- /.menu-title -->
-                    <li class="">
-                        <a class="collapse-item "
-                            href="dssv"> <i class="menu-icon fa fa-users"></i>Sinh Viên</a>
-                    </li>
-                    <li class=" ">
-                        <a class="collapse-item  "
-                            href="them-danh-sach-sinh-vien"> <i class="menu-icon fa fa-plus-square"></i>Nhập liệu sinh viên</a>
-                    </li>
-                    <!-- <li><a class="collapse-item <?php if ($_GET['controller'] == 'AddUserStudent') {echo 'active';} ?> "
-                                    href="them-danh-sach-sinh-vien"><i class="fa fa-plus-square"></i> Nhập liệu</a></li>
-                    <li> -->
-                    <li class="collapse-item  ">
-                        <a class="collapse-item  "
-                            href="user-admin"> <i class="menu-icon fa fa-gears"></i>Tài Khoản Admin</a>
-                    </li>
-
-                    <li class="menu-title">In</li><!-- /.menu-title -->
-                    <li class="collapse-item  ">
-                        <a class="collapse-item  "
-                            href="in-danh-sach-thi"> <i class="menu-icon fa fa-print"></i>In Danh Sách Phòng Thi</a>
-                    </li>
+                            href="/student/print-exam-registration"> <i class="menu-icon fa fa-print"></i>In danh sách thi</a>
+                    </li>                   
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -64,7 +28,7 @@
         <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="admin"><img src="./assets/images/logo.png" alt="Logo"></a>
+                    <a class="navbar-brand" href="/student/home"><img src="./assets/images/logo.png" alt="Logo"></a>
                     <a class="navbar-brand hidden" href="./"><img src="./assets/images/logo2.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
@@ -81,7 +45,9 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="index.php?area=Admin&controller=Logout"><i class="fa fa-power-off"></i>Đăng xuất</a>
+                            <a class="nav-link" href="/student/profile"><i class="fa fa-user"></i>Hồ sơ sinh viên</a>
+
+                            <a class="nav-link" href="index.php?controller=Logout" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-power-off"></i>Đăng xuất</a>
                         </div>
                     </div>
 

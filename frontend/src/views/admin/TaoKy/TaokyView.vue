@@ -136,7 +136,5 @@
   .bground {
    background-image: url("https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb") !important
   }
-  .modal{
-      display: block
-  }
+
 </style>
