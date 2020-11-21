@@ -91,19 +91,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <?php $i=1; ?>
-                                        <?php foreach ($data as $item) : ?> -->
                                         <tr id="<?php echo $item->id; ?>">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <!-- <td><?php echo $i;?></td>
-                                            <td><?php echo $item->name ?></td>
-                                            <td><?php echo $item->user ?></td> -->
+                                            <td>1</td>
+                                            <td>Nguyễn Thị Vân Anh</td>
+                                            <td>vvan</td>
                                             <td><a class="btn btn-danger" role="button" href="index.php?area=Admin&controller=UserAdmin&action=deleteUserAdmin&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
                                         </tr>
-                                        <!-- <?php $i++; ?>
-                                        <?php endforeach; ?> -->
+                                        <tr id="<?php echo $item->id; ?>">
+                                            <td>2</td>
+                                            <td>Nguyễn Thị Vân Anh</td>
+                                            <td>vvan</td>
+                                            <td><a class="btn btn-danger" role="button" href="index.php?area=Admin&controller=UserAdmin&action=deleteUserAdmin&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

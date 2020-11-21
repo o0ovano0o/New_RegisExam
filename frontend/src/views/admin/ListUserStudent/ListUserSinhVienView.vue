@@ -59,15 +59,32 @@
                                     <tbody>
                                         <!-- <?php $i=1; ?>
                                         <?php foreach ($data as $item) : ?> -->
-                                        <tr id="<?php echo $item->id; ?>">
-                                            <!-- <td><?php echo $i;?></td>
-                                            <td><?php echo $item->StudentID ?></td>
-                                            <td><?php echo $item->StudentName ?></td>
-                                            <td><?php echo $item->DateOfBirth ?></td>
-                                            <td><?php echo $item->Gender ?></td>
-                                            <td><?php echo $item->HomeTown ?></td>
-                                            <td><?php echo $item->Class ?></td> -->
-                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <tr id="<?php echo $item->id; ?>">                                            
+                                            <td>1</td>
+                                            <td>17020568</td>
+                                            <td>Đỗ Minh Anh </td>
+                                            <td>09/02/1999</td>
+                                            <td>Nữ</td>
+                                            <td>Thái Bình</td>
+                                            <td>K62-CK</td>
+                                        </tr>
+                                        <tr id="<?php echo $item->id; ?>">                                            
+                                            <td>2</td>
+                                            <td>17020568</td>
+                                            <td>Đỗ Minh Anh </td>
+                                            <td>09/02/1999</td>
+                                            <td>Nữ</td>
+                                            <td>Thái Bình</td>
+                                            <td>K62-CK</td>
+                                        </tr>
+                                        <tr id="<?php echo $item->id; ?>">                                            
+                                            <td>3</td>
+                                            <td>17020568</td>
+                                            <td>Đỗ Minh Anh </td>
+                                            <td>09/02/1999</td>
+                                            <td>Nữ</td>
+                                            <td>Thái Bình</td>
+                                            <td>K62-CK</td>
                                         </tr>
                                         <!-- <?php $i++; ?>
                                         <?php endforeach; ?> -->

@@ -86,6 +86,57 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="flip" style="width: 388px;">
+            <div class="front bground" style="opacity:0.4;">
+                <h1 class="text-shadow">Học kỳ I - 2019</h1>
+            </div>
+            <div class="back">
+                <h2>Học kỳ I - 2020</h2>
+                <p>Năm I</p>
+                <p style="margin-left:5px;">Active</p>
+                <a class="btn btn-success"  role="button"  href="">Xem chi tiết</a>
+                <a class="btn btn-danger"  style="margin-left:5px;" role="button" href="" >Xóa</a>
+                <a class="btn btn-success"  style="margin-left:5px" role="button" href="">Chọn kỳ hiện tại</a>
+            </div>
+        </div>
+        <div class="flip" style="width: 388px;">
+            <div class="front bground" style="opacity:0.4;">
+                <h1 class="text-shadow">Học kỳ II - 2019</h1>
+            </div>
+            <div class="back">
+                <h2>Học kỳ I - 2020</h2>
+                <p>Năm I</p>
+                <p style="margin-left:5px;">Active</p>
+                <a class="btn btn-success"  role="button"  href="">Xem chi tiết</a>
+                <a class="btn btn-danger"  style="margin-left:5px" role="button" href="" >Xóa</a>
+                <a class="btn btn-success"  style="margin-left:5px" role="button" href="">Chọn kỳ hiện tại</a>
+            </div>
+        </div>
+        <div class="flip" style="width: 388px;">
+            <div class="front bground" style="opacity:0.4;">
+                <h1 class="text-shadow">Học kỳ I - 2020</h1>
+            </div>
+            <div class="back">
+                <h2>Học kỳ I - 2020</h2>
+                <p>Năm I</p>
+                <p style="margin-left:5px;">Active</p>
+                <a class="btn btn-success"  role="button"  href="">Xem chi tiết</a>
+                <a class="btn btn-danger"  style="margin-left:5px" role="button" href="" >Xóa</a>
+                <a class="btn btn-success"  style="margin-left:5px" role="button" href="">Chọn kỳ hiện tại</a>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 </template>
+<style lang="scss" scoped>
+  .bground {
+   background-image: url("https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?w=1260&h=750&dpr=2&auto=compress&cs=tinysrgb") !important
+  }
+  .modal{
+      display: block
+  }
+</style>
