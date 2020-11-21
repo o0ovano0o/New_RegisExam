@@ -17,12 +17,16 @@
 
                     <li class="">
                         <a class="collapse-item "
-                            href="danh-sach-mon"> <i class="menu-icon fa fa-book"></i>Danh sách môn thi</a>
+                            href="/admin/listSubject"> <i class="menu-icon fa fa-book"></i>Danh sách môn thi</a>
                     </li>
                     <li class="menu-item-has-children dropdown ">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false"> <i class="menu-icon fa fa-plus-square"></i>Nhập Liệu</a>
-                        <ul class="sub-menu children dropdown-menu">
+                        <a href="#" class="dropdw dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                            <i class="menu-icon fa fa-plus-square na">
+                            </i>
+                            Nhập Liệu
+                        </a>
+                        
+                        <ul class="sub-menu children dropdown-mn">
                             <li><i class="fa fa-plus-square"></i>
                                 <a class="collapse-item "
                                     href="/admin/addEligibleStudent">SV được thi</a></li>
@@ -40,9 +44,6 @@
                         <a class="collapse-item  "
                             href="/admin/addUserStudent"> <i class="menu-icon fa fa-plus-square"></i>Nhập liệu sinh viên</a>
                     </li>
-                    <!-- <li><a class="collapse-item <?php if ($_GET['controller'] == 'AddUserStudent') {echo 'active';} ?> "
-                                    href="them-danh-sach-sinh-vien"><i class="fa fa-plus-square"></i> Nhập liệu</a></li>
-                    <li> -->
                     <li class="collapse-item  ">
                         <a class="collapse-item  "
                             href="/admin/listUserAdmin"> <i class="menu-icon fa fa-gears"></i>Tài Khoản Admin</a>
@@ -54,6 +55,7 @@
                             href="/admin/printListExam"> <i class="menu-icon fa fa-print"></i>In Danh Sách Phòng Thi</a>
                     </li>
                 </ul>
+                
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
@@ -112,9 +114,14 @@
 </div>
 </template>
 <script>
-export default {
+    
+    export default {
+        
+        
+        
 
-}
+        
+    }
 </script>
 <style lang="scss" scoped>
 
@@ -128,6 +135,7 @@ export default {
     @import url("./assets/css/lib/datatable/dataTables.bootstrap.min.css");
     @import url("./assets/css/style.css");
 
+
     @import url("https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css");
     @import url("https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css");
 
@@ -136,6 +144,12 @@ export default {
 
     @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
 
+    .dropdown-mn{
+        display: show;
+    }
+    .na:hover .dropdown-mn {
+        display: none;
+    }
     .content {
         min-height: calc(100vh - 231px);
     }

@@ -626,13 +626,15 @@ aside.left-panel {
         line-height: 26px;
         padding: 10px 0;
         position: relative;
+        display: flex !important;
+        align-items: center !important;
         width: 100%; }
         .navbar .navbar-nav li > a:hover, .navbar .navbar-nav li > a:hover .menu-icon {
           color: #03a9f3; }
         .navbar .navbar-nav li > a .menu-icon {
           color: #607d8b;
           float: left;
-          margin-top: 8px;
+          margin-top: unset !important;
           width: 55px;
           text-align: left;
           z-index: 9; }

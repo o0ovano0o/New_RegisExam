@@ -2,7 +2,7 @@
 
 <div id="backtotop">
     <!-- Left Paneal -->
-    <aside id="left-panel" class="left-panel">
+    <aside id="left-panel" class="left-panel text-left">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -64,8 +64,8 @@
         <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="admin"><img src="images/logo.png" alt="Logo"></a>
-                    <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+                    <a class="navbar-brand" href="admin"><img src="./assets/images/logo.png" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="./"><img src="./assets/images/logo2.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"
                                 style="font-weight: bold; font-size: 18px;">Xin chào:
                                 </span>
-                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+                            <img class="user-avatar rounded-circle" src="./assets/images/admin.jpg" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -96,7 +96,7 @@
 
         </div>
         <!-- Footer -->
-        <footer class="site-footer">
+        <footer class="site-footer text-left">
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-10">
@@ -136,6 +136,10 @@ export default {
 
     @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
 
+    a{
+        text-decoration: none !important;
+    }
+
   .content {
         min-height: calc(100vh - 231px);
     }
@@ -145,6 +149,7 @@ export default {
     }
     li .active {
         color: #e9e9e9;
+        align-items: center;
     }
     input {
         border: 1px solid transparent;
