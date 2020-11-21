@@ -1,7 +1,7 @@
 <template>
 <div class="content">
     <div class="animated fadeIn " style="padding-top:0px;">
-        <section class="intro-section">
+        <section class="intro-section text-center">
             <div class="container">
                 <div class="row">
                     <div class="col-md-1 col-lg-2">

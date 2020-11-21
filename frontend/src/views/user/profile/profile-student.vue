@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-1 col-lg-2"></div>
                 <div class="col-md-10 col-lg-8">
-                    <div class="intro">
+                    <div class="intro text-center">
                         <div class="profile-img"><a href="04-elements.html"><img src="./assets/images/profile-1-250x250.jpg" alt=""></a></div>
                         <h4><b><a href="ho-so-sinh-vien">Thông tin cá nhân</a></b></h4>
 

@@ -220,7 +220,7 @@ export default new vueRouter({
             children:[
               {
                 path:'',
-                name:"admin_profile_detail",
+                name:"student_profile_detail",
                 component: require("@/views/user/profile/profile-student").default
               }
             ]
@@ -238,25 +238,25 @@ export default new vueRouter({
             ]
           },
           {
-            path: "/student/exam-registration",
-            name: "student_exam_registration",
+            path: "/student/regist-exam",
+            name: "student_registExam",
             component: require("@/views/user/layout").default,
             children:[
               {
                 path:'',
-                name:"student_exam_registration_detail",
-                component: require("@/views/user/examRegistration").default
+                name:"student_registExam_detail",
+                component: require("@/views/user/registExam").default
               }
             ]
           },
           {
             path: "/student/print-exam-registration",
-            name: "student_print_exam_registration",
+            name: "student_printExamRegistration",
             component: require("@/views/user/layout").default,
             children:[
               {
                 path:'',
-                name:"student_print_exam_registration_detail",
+                name:"student_printExamRegistration_detail",
                 component: require("@/views/user/printExamRegistration").default
               }
             ]
@@ -269,7 +269,7 @@ export default new vueRouter({
               {
                 path:'',
                 name:"student_repass_detail",
-                component: require("@/views/user/rePass").default
+                component: require("@/views/user/repass").default
               }
             ]
           }
