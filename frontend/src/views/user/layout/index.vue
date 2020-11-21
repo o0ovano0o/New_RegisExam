@@ -11,7 +11,7 @@
                     </li>
                     <li class="">
                         <a class="collapse-item  "
-                            href="/student/exam-registration"> <i class="menu-icon fa fa-th-large"></i>Đăng ký môn thi</a>
+                            href="/student/regist-exam"> <i class="menu-icon fa fa-th-large"></i>Đăng ký môn thi</a>
                     </li>
                     <li class="">
                         <a class="collapse-item "
