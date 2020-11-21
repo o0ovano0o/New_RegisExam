@@ -2,7 +2,7 @@ const router = require('express').Router();
 const sha1 = require('sha1');
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI,validateStudentAPI } = require('../../middlewares/validateAPIAuthentication');
 
 router.post('/api/admin/listsubject/import/:status',validateAdminAPI , async (req, res) => {
   try {
@@ -107,6 +107,20 @@ router.get('/api/admin/listsubject/:subjectid',validateAdminAPI , async (req, re
   try {
     const { subjectid } = req.params;
     const list = await knex('listsubject').join('subject', 'subjectid','subject.id').join('student','studentid','student.id').select('*').where({subjectid});
+    return res.status(200).json({
+      success: true,
+      list
+    });
+  } catch (err) {
+    handleAPIError(err, res);
+  }
+});
+
+// những môn mà sinh viên học
+router.get('/api/student/listsubject/:studentid',validateStudentAPI , async (req, res) => {
+  try {
+    const { studentid } = req.params;
+    const list = await knex('listsubject').join('subject', 'subjectid','subject.id').join('student','studentid','student.id').select('*').where({studentid});
     return res.status(200).json({
       success: true,
       list
