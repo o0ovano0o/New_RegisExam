@@ -35,8 +35,8 @@
             </div>
             <div class="top-right">
                 <div class="header-menu">
-                    <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                    <div class="user-area dropdown float-right usedrop">
+                        <a href="#" class="dropdown-toggle active usedrop" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"
                                 style="font-weight: bold; font-size: 18px;">Xin chào:
@@ -44,10 +44,10 @@
                             <img class="user-avatar rounded-circle" src="./assets/images/admin.jpg" alt="User Avatar">
                         </a>
 
-                        <div class="user-menu dropdown-menu">
+                        <div class="user-menu dropdown-menu useout">
                             <a class="nav-link" href="/student/profile"><i class="fa fa-user"></i>Hồ sơ sinh viên</a>
 
-                            <a class="nav-link" href="index.php?controller=Logout" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-power-off"></i>Đăng xuất</a>
+                            <a class="nav-link" href="/student/login" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-power-off"></i>Đăng xuất</a>
                         </div>
                     </div>
 
@@ -105,8 +105,13 @@ export default {
     a{
         text-decoration: none !important;
     }
-
-  .content {
+    .usedrop:hover + .useout{
+        display: block !important;
+    }
+    .useout:hover{
+        display: block !important;
+    }
+    .content {
         min-height: calc(100vh - 231px);
     }
     .autocomplete {
