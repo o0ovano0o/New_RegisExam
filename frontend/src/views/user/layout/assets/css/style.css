@@ -697,7 +697,8 @@ aside.left-panel {
       .navbar .navbar-nav li > a {
         background: none !important;
         color: #607d8b;
-        display: inline-block;
+        display: flex;
+        align-items: center;
         font-size: 14px;
         line-height: 26px;
         padding: 10px 0;
@@ -708,9 +709,9 @@ aside.left-panel {
         .navbar .navbar-nav li > a .menu-icon {
           color: #607d8b;
           float: left;
-          margin-top: 8px;
           width: 55px;
           text-align: left;
+          margin-top: unset;
           z-index: 9; }
         .navbar .navbar-nav li > a .menu-title-text {
           font-size: 14px; }

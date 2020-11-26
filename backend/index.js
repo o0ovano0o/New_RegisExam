@@ -70,7 +70,9 @@ const APP_APIS = [
     'student',
     'admin',
     'classes',
-    'subject'
+    'subject',
+    'print',
+    'result'
 ];
 
 /* eslint-disable global-require */
