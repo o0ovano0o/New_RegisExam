@@ -128,161 +128,164 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!----->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <strong class="card-title">Danh sách ca thi </strong>
-                    </div>
-                    <div class="card-body">
-                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã học phần</th>
-                                    <th>Tên học phần</th>
-                                    <th>Ngày thi</th>
-                                    <th>Phòng thi</th>
-                                    <th>Giờ bắt đầu</th>
-                                    <th>Giờ kết thúc</th>
-                                    <th>Số lượng sinh viên</th>
-                                    <th>Mã ca thi</th>
-                                    <th>Đã đăng ký</th>
-                                    <th>Mã kì thi</th>
-                                    <th>Sửa</th>
-                                    <th>Xóa</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- <?php $j=1; ?>
-                                <?php foreach ($dataCathi as $item) : ?> -->
-                                <tr >
-                                    <!-- <td><?php echo $j;?></td>
-                                    <td><?php echo $item->SubjectID ?></td>
-                                    <td><?php echo $item->SubjectName ?></td>
-                                    <td><?php echo $item->Date ?></td>
-                                    <td><?php echo $item->Room ?></td>
-                                    <td><?php echo $item->Start ?></td>
-                                    <td><?php echo $item->End ?></td>
-                                    <td><?php echo $item->Amount ?></td>
-                                    <td><?php echo $item->IDClasses ?></td>
-                                    <td><?php echo $item->DaDangKy ?></td>
-                                    <td><?php echo $item->IDKiThi ?></td> -->
-                                    <td></td><td></td><td></td><td></td><td></td><td></td>
-                                    <td></td><td></td><td></td><td></td><td></td>
-                                    <td>
-                                        <button type="button" class="btn btn-warning mb-1" data-toggle="modal" data-target="">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
-                                    </td>
-                                    <td><a  class="btn btn-danger" role="button" href="index.php?area=Admin&controller=TaoCa&action=delete&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
-                                </tr>
-                                <div class="modal fade" id="mediumModal<?php echo $item->id; ?>" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel<?php echo $item->id; ?>" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="mediumModalLabel<?php echo $item->id; ?>" style="text-align: center"><strong>Sửa Ca Thi Mới</strong></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form method="post" action="<?php echo $formUpdateCathi ?>">
-                                                <input name="id" value="<?php echo $item->id;?>" hidden/>
-                                                    <div class="row form-group" >
-                                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Mã
-                                                                    Học Phần</strong></label></div>
-                                                        <div class="col-12 col-md-9"><input type="text" id="mahocphan"  value="<?php echo $item->SubjectID ?>" name="mahocphan"
-                                                                placeholder="Mã Học Phần" class="form-control"><small
-                                                                class="form-text text-muted"></small></div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col col-md-3"><label for="text-input"
-                                                                class=" form-control-label"><strong>Học Phần</strong></label></div>
-                                                        <div class="col-12 col-md-9">
-                                                            <input type="text" id="hocphan" value="<?php echo $item->SubjectName ?>" name="hocphan" placeholder="Học Phần" class="form-control"><small class="form-text text-muted"></small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col col-md-3"><label for="text-input"
-                                                                class=" form-control-label"><strong>Ngày Thi</strong></label></div>
-                                                        <div class='col-12 col-md-9'>
-                                                            <div class="form-group">
-                                                                <div id="filterDate2">
-                                                                    <div class="input-group date" data-date-format="dd/mm/yyyy">
-                                                                        <input type="date" id="date" value="<?php echo $item->Date ?>" name="ngaythi" class="form-control" placeholder="dd/mm/yyyy">
-                                                                        <div class="input-group-addon">
-                                                                            <span class="fa fa-calendar"></span>
-                                                                        </div>
-                                                                    </div>
 
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Danh sách ca thi </strong>
+                        </div>
+                        <div class="card-body">
+                            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã học phần</th>
+                                        <th>Tên học phần</th>
+                                        <th>Ngày thi</th>
+                                        <th>Phòng thi</th>
+                                        <th>Giờ bắt đầu</th>
+                                        <th>Giờ kết thúc</th>
+                                        <th>Số lượng sinh viên</th>
+                                        <th>Mã ca thi</th>
+                                        <th>Đã đăng ký</th>
+                                        <th>Mã kì thi</th>
+                                        <th>Sửa</th>
+                                        <th>Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <?php $j=1; ?>
+                                    <?php foreach ($dataCathi as $item) : ?> -->
+                                    <tr >
+                                        <!-- <td><?php echo $j;?></td>
+                                        <td><?php echo $item->SubjectID ?></td>
+                                        <td><?php echo $item->SubjectName ?></td>
+                                        <td><?php echo $item->Date ?></td>
+                                        <td><?php echo $item->Room ?></td>
+                                        <td><?php echo $item->Start ?></td>
+                                        <td><?php echo $item->End ?></td>
+                                        <td><?php echo $item->Amount ?></td>
+                                        <td><?php echo $item->IDClasses ?></td>
+                                        <td><?php echo $item->DaDangKy ?></td>
+                                        <td><?php echo $item->IDKiThi ?></td> -->
+                                        <td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning mb-1" data-toggle="modal" data-target="">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
+                                        </td>
+                                        <td><a  class="btn btn-danger" role="button" href="index.php?area=Admin&controller=TaoCa&action=delete&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+                                    </tr>
+                                    <div class="modal fade" id="mediumModal<?php echo $item->id; ?>" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel<?php echo $item->id; ?>" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="mediumModalLabel<?php echo $item->id; ?>" style="text-align: center"><strong>Sửa Ca Thi Mới</strong></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="post" action="<?php echo $formUpdateCathi ?>">
+                                                    <input name="id" value="<?php echo $item->id;?>" hidden/>
+                                                        <div class="row form-group" >
+                                                            <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Mã
+                                                                        Học Phần</strong></label></div>
+                                                            <div class="col-12 col-md-9"><input type="text" id="mahocphan"  value="<?php echo $item->SubjectID ?>" name="mahocphan"
+                                                                    placeholder="Mã Học Phần" class="form-control"><small
+                                                                    class="form-text text-muted"></small></div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col col-md-3"><label for="text-input"
+                                                                    class=" form-control-label"><strong>Học Phần</strong></label></div>
+                                                            <div class="col-12 col-md-9">
+                                                                <input type="text" id="hocphan" value="<?php echo $item->SubjectName ?>" name="hocphan" placeholder="Học Phần" class="form-control"><small class="form-text text-muted"></small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col col-md-3"><label for="text-input"
+                                                                    class=" form-control-label"><strong>Ngày Thi</strong></label></div>
+                                                            <div class='col-12 col-md-9'>
+                                                                <div class="form-group">
+                                                                    <div id="filterDate2">
+                                                                        <div class="input-group date" data-date-format="dd/mm/yyyy">
+                                                                            <input type="date" id="date" value="<?php echo $item->Date ?>" name="ngaythi" class="form-control" placeholder="dd/mm/yyyy">
+                                                                            <div class="input-group-addon">
+                                                                                <span class="fa fa-calendar"></span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row form-group" >
-                                                        <div class="col col-md-3"><label for="text-input"
-                                                                class=" form-control-label"><strong>Phòng Thi</strong></label></div>
-                                                        <div class="col-12 col-md-9"><input value="<?php echo $item->Room ?>" type="text" id="phongmay" name="phongthi"
-                                                                placeholder="Phòng Thi" class="form-control"><small
-                                                                class="form-text text-muted"></small></div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Số
-                                                                    lượng SV</strong></label></div>
-                                                        <div class="col-12 col-md-9"><input type="text" value="<?php echo $item->Amount ?>" id="soluong" name="soluong"
-                                                                placeholder="Số lượng SV" class="form-control"><small
-                                                                class="form-text text-muted"></small></div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col col-md-3"><label for="select" class=" form-control-label"><strong>Ca
-                                                                    Thi</strong></label></div>
-                                                        <div class="col-12 col-md-9">
-                                                            <select name="cathi" id="cathi" class="form-control">
-                                                                <!-- <option <?php  if($item->IDClasses==0) echo "selected"; else echo ""; ?> value="0">Chọn ca thi</option>
-                                                                <option <?php  if($item->IDClasses==1) echo "selected";  else echo ""; ?> value="1">Ca Thi 1</option>
-                                                                <option <?php  if($item->IDClasses==2) echo "selected";  else echo ""; ?> value="2">Ca Thi 2</option>
-                                                                <option <?php  if($item->IDClasses==3) echo "selected";  else echo ""; ?> value="3">Ca Thi 3</option>
-                                                                <option <?php  if($item->IDClasses==4) echo "selected";  else echo ""; ?> value="4">Ca Thi 4</option> -->
-                                                            </select>
+                                                        <div class="row form-group" >
+                                                            <div class="col col-md-3"><label for="text-input"
+                                                                    class=" form-control-label"><strong>Phòng Thi</strong></label></div>
+                                                            <div class="col-12 col-md-9"><input value="<?php echo $item->Room ?>" type="text" id="phongmay" name="phongthi"
+                                                                    placeholder="Phòng Thi" class="form-control"><small
+                                                                    class="form-text text-muted"></small></div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row form-group">
-
-                                                        <div class="col col-md-2"><label for="text-input"
-                                                                class=" form-control-label"><strong>Giờ Bắt Đầu</strong></label></div>
-                                                        <div class='col-12 col-md-4'>
-                                                            <input type="text" value="<?php echo $item->Start ?>" id="hstart" name="giobatdau"
-                                                                placeholder="" class="form-control" readonly><small
-                                                                class="form-text text-muted"></small>
+                                                        <div class="row form-group">
+                                                            <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Số
+                                                                        lượng SV</strong></label></div>
+                                                            <div class="col-12 col-md-9"><input type="text" value="<?php echo $item->Amount ?>" id="soluong" name="soluong"
+                                                                    placeholder="Số lượng SV" class="form-control"><small
+                                                                    class="form-text text-muted"></small></div>
                                                         </div>
-
-
-                                                        <div class="col col-md-2"><label for="text-input"
-                                                                class=" form-control-label"><strong>Giờ Kết Thúc</strong></label></div>
-                                                        <div class='col-12 col-md-4'>
-                                                            <input type="text" value="<?php echo $item->End ?>" id="hstop" name="gioketthuc"
-                                                                placeholder="" class="form-control" readonly><small
-                                                                class="form-text text-muted"></small>
+                                                        <div class="row form-group">
+                                                            <div class="col col-md-3"><label for="select" class=" form-control-label"><strong>Ca
+                                                                        Thi</strong></label></div>
+                                                            <div class="col-12 col-md-9">
+                                                                <select name="cathi" id="cathi" class="form-control">
+                                                                    <!-- <option <?php  if($item->IDClasses==0) echo "selected"; else echo ""; ?> value="0">Chọn ca thi</option>
+                                                                    <option <?php  if($item->IDClasses==1) echo "selected";  else echo ""; ?> value="1">Ca Thi 1</option>
+                                                                    <option <?php  if($item->IDClasses==2) echo "selected";  else echo ""; ?> value="2">Ca Thi 2</option>
+                                                                    <option <?php  if($item->IDClasses==3) echo "selected";  else echo ""; ?> value="3">Ca Thi 3</option>
+                                                                    <option <?php  if($item->IDClasses==4) echo "selected";  else echo ""; ?> value="4">Ca Thi 4</option> -->
+                                                                </select>
+                                                            </div>
                                                         </div>
+                                                        <div class="row form-group">
 
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                        <button type="submit" class="btn btn-primary">Xác nhận</button>
-                                                    </div>
-                                                </form>
+                                                            <div class="col col-md-2"><label for="text-input"
+                                                                    class=" form-control-label"><strong>Giờ Bắt Đầu</strong></label></div>
+                                                            <div class='col-12 col-md-4'>
+                                                                <input type="text" value="<?php echo $item->Start ?>" id="hstart" name="giobatdau"
+                                                                    placeholder="" class="form-control" readonly><small
+                                                                    class="form-text text-muted"></small>
+                                                            </div>
+
+
+                                                            <div class="col col-md-2"><label for="text-input"
+                                                                    class=" form-control-label"><strong>Giờ Kết Thúc</strong></label></div>
+                                                            <div class='col-12 col-md-4'>
+                                                                <input type="text" value="<?php echo $item->End ?>" id="hstop" name="gioketthuc"
+                                                                    placeholder="" class="form-control" readonly><small
+                                                                    class="form-text text-muted"></small>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                                                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div></div>
+
         </div>
+        <!----->
+
     </div>
 </template>

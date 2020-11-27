@@ -20,12 +20,12 @@
                             href="/admin/listSubject"> <i class="menu-icon fa fa-book"></i>Danh sách môn thi</a>
                     </li>
                     <li class="menu-item-has-children dropdown ">
-                        <a href="#" class="dropdw dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                        <a href="#" class="dropdw dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-plus-square na">
                             </i>
                             Nhập Liệu
                         </a>
-                        
+
                         <ul class="mn sub-menu children ">
                             <li><i class="fa fa-plus-square"></i>
                                 <a class="collapse-item "
@@ -55,7 +55,7 @@
                             href="/admin/printListExam"> <i class="menu-icon fa fa-print"></i>In Danh Sách Phòng Thi</a>
                     </li>
                 </ul>
-                
+
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
@@ -114,16 +114,16 @@
 </div>
 </template>
 <script>
-    
-    export default {
-        
-        
-        
 
-        
+    export default {
+
+
+
+
+
     }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 
     @import url("https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css");
     @import url("https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css");
@@ -156,13 +156,13 @@
         width: 200px;
         display: none;
     }
-    ul li ul li { 
-        display: block; 
+    ul li ul li {
+        display: block;
     }
-    ul li ul li a { 
+    ul li ul li a {
         display:block !important;
-    } 
-    
+    }
+
     .usedrop:hover + .useout{
         display: block !important;
     }
@@ -170,7 +170,7 @@
         display: block !important;
     }
     .content {
-        min-height: calc(100vh - 231px);
+        min-height: calc(100vh - 215px);
     }
     .autocomplete {
         position: relative;
