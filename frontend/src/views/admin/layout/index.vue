@@ -26,7 +26,7 @@
                             Nhập Liệu
                         </a>
 
-                        <ul class="sub-menu children dropdown-mn">
+                        <ul class="mn sub-menu children ">
                             <li><i class="fa fa-plus-square"></i>
                                 <a class="collapse-item "
                                     href="/admin/addEligibleStudent">SV được thi</a></li>
@@ -74,7 +74,7 @@
             <div class="top-right">
                 <div class="header-menu">
                     <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                        <a href="#" class="dropdown-toggle active usedrop" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"
                                 style="font-weight: bold; font-size: 18px;">Xin chào :
@@ -82,8 +82,8 @@
                             <img class="user-avatar rounded-circle" src="./images/admin.jpg" alt="User Avatar">
                         </a>
 
-                        <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="index.php?area=Admin&controller=Logout"><i class="fa fa-power-off"></i>Đăng xuất</a>
+                        <div class="user-menu dropdown-menu useout">
+                            <a class="nav-link" href="/admin/login"><i class="fa fa-power-off"></i>Đăng xuất</a>
                         </div>
                     </div>
 
@@ -144,11 +144,30 @@
 
     @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
 
-    .dropdown-mn{
-        display: show;
+    ul li {
+        display: inline-block;
     }
-    .na:hover .dropdown-mn {
+
+    ul li:hover ul {
+        display: block;
+    }
+    ul li ul {
+        // position: absolute;
+        width: 200px;
         display: none;
+    }
+    ul li ul li {
+        display: block;
+    }
+    ul li ul li a {
+        display:block !important;
+    }
+
+    .usedrop:hover + .useout{
+        display: block !important;
+    }
+    .useout:hover{
+        display: block !important;
     }
     .content {
         min-height: calc(100vh - 215px);
