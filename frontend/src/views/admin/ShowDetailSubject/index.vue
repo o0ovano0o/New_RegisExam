@@ -94,7 +94,7 @@ export default {
         async updateStatus(item){
             try {
                 let status = item.status == 1 ? 0 : 1;
-                const res = await API.addSubjectStudent({
+                await API.addSubjectStudent({
                     studentcode:item.studentcode,
                     subjectcode: item.subjectcode,
                     subjectname:item.subjecname
