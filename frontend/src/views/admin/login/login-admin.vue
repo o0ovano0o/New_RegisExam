@@ -11,13 +11,10 @@
                     <div class="signin-form">
                         <h2 class="form-title">Login For Admin</h2>
                         <div class="form-group">
-                            <!-- <?php if (isset($error)) : ?>
-                            <div class="alert alert-danger"><?php echo $error; ?></div>
-                            <?php endif; ?> -->
                         </div>
                         <div class="form-group">
                             <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" id="exampleInputEmail" v-model="user.adminCode" placeholder="Admin ID" name="mssv" required style="background-color: #f1f5f7;" />
+                            <input type="text" id="exampleInputEmail" v-model="user.username" placeholder="Admin ID" name="mssv" required style="background-color: #f1f5f7;" />
                         </div>
                         <div class="form-group">
                             <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
@@ -43,7 +40,7 @@
         data() {
             return {
                 user:{
-                    adminCode:'',
+                    username:'',
                     password:''
                 }
             }
@@ -51,8 +48,26 @@
 
         methods: {
             async submit(){
-                const res = await LoginAPI.logInUser(this.user);
-                console.log(res);
+                try {
+                    const res = await LoginAPI.logInAdmin(this.user);
+                    if(res.data.success){
+
+                        this.$router.push('/admin/home');
+                        this.$toasted.show('Đăng nhập thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+                    }
+                } catch (error) {
+                    this.$toasted.show('Đăng nhập thất bại', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+                }
             }
         },
 

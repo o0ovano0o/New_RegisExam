@@ -4,6 +4,12 @@ export default {
   logInUser(user) {
     return Api().post("/api/student/login", user);
   },
+  logInAdmin(user) {
+    return Api().post("/api/admin/login", user);
+  },
+  getHome(){
+    return Api().get("/api/admin/home");
+  }
   // registerUser(user) {
   //   return Api().post("/customer/register", user);
   // },

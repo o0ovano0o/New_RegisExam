@@ -7,11 +7,16 @@ const { validateAdminAPI, validateStudentAPI } = require('../../middlewares/vali
 router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
     try {
         const { datarow } = req.body;
+        if(datarow.length > 100){
+          return res.status(400).json({ success: false, msg: 'Dữ liệu quá lớn' });
+        }
         if (!datarow) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
         const column = datarow[0];
         let listcode = [];
         let obj = await datarow.splice(1).map((row, index) => {
             listcode.push(row[column.findIndex((item) => item.toLowerCase() == 'studentcode')]);
+            const studentcode = row[column.findIndex((item) => item.toLowerCase() == 'studentcode')];
+            let password = sha1(studentcode);
             return {
                 studentcode: row[column.findIndex((item) => item.toLowerCase() == 'studentcode')],
                 fullname: row[column.findIndex((item) => item.toLowerCase() == 'fullname')],
@@ -19,7 +24,7 @@ router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
                 gender: row[column.findIndex((item) => item.toLowerCase() == 'gender')],
                 hometown: row[column.findIndex((item) => item.toLowerCase() == 'hometown')],
                 class: row[column.findIndex((item) => item.toLowerCase() == 'class')],
-                password: sha1(row[column.findIndex((item) => item.toLowerCase() == 'studentcode')]),
+                password,
             }
         });
         console.log(listcode);

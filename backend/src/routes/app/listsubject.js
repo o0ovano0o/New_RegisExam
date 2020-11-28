@@ -10,7 +10,6 @@ router.post('/api/admin/listsubject/import/:status',validateAdminAPI , async (re
     const { datarow } = req.body;
     const {id } = await knex('exam').first('id').where({status: 1});
     const examid=id;
-    console.log(examid);
     if (!datarow ) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
     const column = datarow[0];
     let codelist = [];

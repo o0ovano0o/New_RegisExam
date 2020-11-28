@@ -2,7 +2,7 @@
 <div class="content">
     <div class="animated fadeIn " style="padding-top:0px;">
         <section class="intro-section text-center">
-            <div class="container">
+            <div class="container" style="padding:15px;">
                 <div class="row">
                     <div class="col-md-1 col-lg-2">
 
@@ -21,7 +21,7 @@
                                         <!--    <?php if (isset($_SESSION["name_sv"])) {echo $_SESSION["name_sv"];} ?> -->
                                         </div>
                                     </div>
-                                            
+
                                     <div class="form-group row">
                                         <div class="col-lg-6 text-right">Mã sinh viên</div>
                                         <!-- <label class="col-lg-6 text-center form-control-label">Mã sinh viên</label> -->
@@ -71,7 +71,7 @@
         <section class="btn-section section">
             <div class="container">
 
-                <div class="row">
+                <div class="row" style="margin-top:15px;">
                     <div class="col-sm-12">
                         <div class="heading ">
                             <div class="btn btn-bg-yellow" style="width:65px;height:1px;"></div>
@@ -81,7 +81,7 @@
                     </div>
                 </div><!-- col-sm-4 -->
             </div><!-- row -->
-            <div class="nav justify-content-center">
+            <div class="nav justify-content-center" style="margin-top:15px;">
 
                 <div class="card card-outline-secondary" style="width:450px;">
                     <div class="card-header" style="background-color: #FFA804;">
@@ -131,9 +131,6 @@
 </div><!-- container -->
 
 </template>
+<style scoped>
 
-<script>
-</script>
-
-<style>
 </style>

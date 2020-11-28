@@ -33,38 +33,33 @@
                         <strong class="card-title">Nhập danh sách sinh viên bị cấm thi</strong>
                     </div>
                     <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data" action="index.php?area=Admin&controller=AddNotEligibleStudent&action=add">
+
                             <div class="custom-file">
                                 <input name="file" type="file" class="custom-file-input" id="validatedCustomFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file excel</label>
                                 <div class="invalid-feedback">Tệp không hợp lệ</div>
                             </div>
-                            <input onclick="modal();" style="margin-top:10px;" type="submit" name="btnGui" value="Nhập danh sách" class="btn btn-primary">
-                            <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="lds-hourglass"></div>
-                                </div>
-                            </div>
-                        </form>
+                             <button style="margin-top:10px;" @click="getData()" name="btnGui" class="btn btn-primary">Nhập danh sách
+                            </button>
+
                     </div>
                 </div>
             </div>
             <!-- .animated -->
-            <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#mediumModal">
+            <button type="button" class="btn btn-secondary mb-1" @click="openDialog">
                     <i class="fa fa-plus-square"></i> Thêm sinh viên cấm thi
                 </button>
-            <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-                    aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
+
+                <div class="modal-dialog modal-lg" v-if="opendialog" role="document">
+                    <div class="modal-content" style="padding:15px;">
                         <div class="modal-header">
                             <h5 class="modal-title" id="mediumModalLabel" style="text-align: center"><strong>Thêm sinh viên</strong></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" @click="closeDialog" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="index.php?area=Admin&controller=AddNotEligibleStudent&action=addOne">
+                            <form method="post">
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Mã sinh viên</strong></label></div>
@@ -118,14 +113,142 @@
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                                    <button type="button" class="btn btn-secondary" @click="closeDialog" data-dismiss="modal">Hủy bỏ</button>
                                     <button type="submit" class="btn btn-primary">Xác nhận</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
+
         </div>
     </div>
 </template>
+<script>
+import readXlsxFile from 'read-excel-file';
+import API from '@/services/modules/import.services.js';
+export default {
+    data() {
+        return {
+            opendialog:false,
+        }
+    },
+    methods:{
+        openDialog(){
+            this.opendialog = true;
+        },
+        closeDialog() {
+            this.opendialog = false;
+        },
+         getData(){
+      var input = document.getElementById('validatedCustomFile');
+      readXlsxFile(input.files[0]).then(async (rows) => {
+        rows = await rows.map(element =>
+            element.map(item=>{
+              if(typeof item.getMonth == 'function' || typeof item.getMonth == 'function'){
+               return item.toISOString()
+               .split('T')[0].split('-').reverse().join('-');
+              }
+              return item;
+              })
+
+          );
+        console.log(rows);
+        try {
+            const res = await API.importStudentSubject(rows, 0);
+            if(res.data.success){
+                this.$toasted.show('Nhập liệu thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+            }
+        } catch (error) {
+            this.$toasted.show('Nhập liệu thất bại', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+        }
+      });
+    }
+    }
+}
+</script>
+<style lang="scss" scoped>
+
+.modal-dialog {
+    position: absolute;
+    top: 90px;
+    z-index: 1;
+    width: 600px;
+    left: calc(50% - 204px);
+}
+@mixin fade-in {
+  -webkit-animation-name: fade-in;
+  animation-name: fade-in;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+@keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+$dialog-background: hsl(0, 0%, 96%);
+$dialog-border: hsl(0, 0%, 94%);
+$dialog-divisor: hsl(0, 0%, 78%);
+$dialog-fade: hsla(100, 100%, 0%, 30%);
+
+.dialog {
+  .dialog-content {
+    background-color: $dialog-background;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column !important;
+    left: 50%;
+    margin: 10vh auto;
+    padding: 20px 20px;
+    padding-right: 45px;
+    position: fixed;
+    transform: translate(-50%, 50%);
+    width: 50%;
+    z-index: 999;
+
+    .dialog-close {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+    }
+  }
+
+  .dialog-fade {
+    background-color: $dialog-fade;
+    content: "";
+    display: none;
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 998;
+  }
+
+  &.is-active {
+    .dialog-content,
+    .dialog-fade {
+      @include fade-in();
+      display: flex !important;
+    }
+  }
+}
+
+</style>

@@ -27,16 +27,15 @@
         <div class="content">
             <div class="animated fadeIn">
                 <!-- Thêm ca thi -->
-                <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#mediumModal">
+                <button type="button" class="btn btn-secondary mb-1" @click="openDialog">
                     <i class="fa fa-plus-square"></i> Tạo Ca Thi Mới
                 </button>
-                <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
+
+                    <div class="modal-dialog modal-lg" v-if="opendialog" role="document">
+                        <div class="modal-content" style="padding:15px">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="mediumModalLabel" style="text-align: center"><strong>Tạo Ca Thi Mới</strong></h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" @click="closeDialog" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -120,17 +119,17 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                                        <button type="button" class="btn btn-secondary"  @click="closeDialog"  data-dismiss="modal">Hủy bỏ</button>
                                         <button type="submit" class="btn btn-primary">Xác nhận</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
-            <div class="row">
+
+            <div class="row" style="margin-top:15px;" >
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
@@ -173,110 +172,14 @@
                                         <td></td><td></td><td></td><td></td><td></td><td></td>
                                         <td></td><td></td><td></td><td></td><td></td>
                                         <td>
-                                            <button type="button" class="btn btn-warning mb-1" data-toggle="modal" data-target="">
+                                            <button type="button" class="btn btn-warning mb-1" @click="openDialog">
                                             <i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
                                         </td>
                                         <td><a  class="btn btn-danger" role="button" href="index.php?area=Admin&controller=TaoCa&action=delete&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
                                     </tr>
-                                    <div class="modal fade" id="mediumModal<?php echo $item->id; ?>" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel<?php echo $item->id; ?>" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="mediumModalLabel<?php echo $item->id; ?>" style="text-align: center"><strong>Sửa Ca Thi Mới</strong></h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form method="post" action="<?php echo $formUpdateCathi ?>">
-                                                    <input name="id" value="<?php echo $item->id;?>" hidden/>
-                                                        <div class="row form-group" >
-                                                            <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Mã
-                                                                        Học Phần</strong></label></div>
-                                                            <div class="col-12 col-md-9"><input type="text" id="mahocphan"  value="<?php echo $item->SubjectID ?>" name="mahocphan"
-                                                                    placeholder="Mã Học Phần" class="form-control"><small
-                                                                    class="form-text text-muted"></small></div>
-                                                        </div>
-                                                        <div class="row form-group">
-                                                            <div class="col col-md-3"><label for="text-input"
-                                                                    class=" form-control-label"><strong>Học Phần</strong></label></div>
-                                                            <div class="col-12 col-md-9">
-                                                                <input type="text" id="hocphan" value="<?php echo $item->SubjectName ?>" name="hocphan" placeholder="Học Phần" class="form-control"><small class="form-text text-muted"></small>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row form-group">
-                                                            <div class="col col-md-3"><label for="text-input"
-                                                                    class=" form-control-label"><strong>Ngày Thi</strong></label></div>
-                                                            <div class='col-12 col-md-9'>
-                                                                <div class="form-group">
-                                                                    <div id="filterDate2">
-                                                                        <div class="input-group date" data-date-format="dd/mm/yyyy">
-                                                                            <input type="date" id="date" value="<?php echo $item->Date ?>" name="ngaythi" class="form-control" placeholder="dd/mm/yyyy">
-                                                                            <div class="input-group-addon">
-                                                                                <span class="fa fa-calendar"></span>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row form-group" >
-                                                            <div class="col col-md-3"><label for="text-input"
-                                                                    class=" form-control-label"><strong>Phòng Thi</strong></label></div>
-                                                            <div class="col-12 col-md-9"><input value="<?php echo $item->Room ?>" type="text" id="phongmay" name="phongthi"
-                                                                    placeholder="Phòng Thi" class="form-control"><small
-                                                                    class="form-text text-muted"></small></div>
-                                                        </div>
-                                                        <div class="row form-group">
-                                                            <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Số
-                                                                        lượng SV</strong></label></div>
-                                                            <div class="col-12 col-md-9"><input type="text" value="<?php echo $item->Amount ?>" id="soluong" name="soluong"
-                                                                    placeholder="Số lượng SV" class="form-control"><small
-                                                                    class="form-text text-muted"></small></div>
-                                                        </div>
-                                                        <div class="row form-group">
-                                                            <div class="col col-md-3"><label for="select" class=" form-control-label"><strong>Ca
-                                                                        Thi</strong></label></div>
-                                                            <div class="col-12 col-md-9">
-                                                                <select name="cathi" id="cathi" class="form-control">
-                                                                    <!-- <option <?php  if($item->IDClasses==0) echo "selected"; else echo ""; ?> value="0">Chọn ca thi</option>
-                                                                    <option <?php  if($item->IDClasses==1) echo "selected";  else echo ""; ?> value="1">Ca Thi 1</option>
-                                                                    <option <?php  if($item->IDClasses==2) echo "selected";  else echo ""; ?> value="2">Ca Thi 2</option>
-                                                                    <option <?php  if($item->IDClasses==3) echo "selected";  else echo ""; ?> value="3">Ca Thi 3</option>
-                                                                    <option <?php  if($item->IDClasses==4) echo "selected";  else echo ""; ?> value="4">Ca Thi 4</option> -->
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row form-group">
-
-                                                            <div class="col col-md-2"><label for="text-input"
-                                                                    class=" form-control-label"><strong>Giờ Bắt Đầu</strong></label></div>
-                                                            <div class='col-12 col-md-4'>
-                                                                <input type="text" value="<?php echo $item->Start ?>" id="hstart" name="giobatdau"
-                                                                    placeholder="" class="form-control" readonly><small
-                                                                    class="form-text text-muted"></small>
-                                                            </div>
 
 
-                                                            <div class="col col-md-2"><label for="text-input"
-                                                                    class=" form-control-label"><strong>Giờ Kết Thúc</strong></label></div>
-                                                            <div class='col-12 col-md-4'>
-                                                                <input type="text" value="<?php echo $item->End ?>" id="hstop" name="gioketthuc"
-                                                                    placeholder="" class="form-control" readonly><small
-                                                                    class="form-text text-muted"></small>
-                                                            </div>
 
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                                            <button type="submit" class="btn btn-primary">Xác nhận</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </tbody>
                             </table>
                         </div>
@@ -289,3 +192,95 @@
 
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            opendialog:false,
+        }
+    },
+    methods:{
+        openDialog(){
+            this.opendialog = true;
+        },
+        closeDialog() {
+            this.opendialog = false;
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+
+.modal-dialog {
+    position: absolute;
+    top: 70px;
+    z-index: 1;
+    width: 600px;
+    left: calc(50% - 204px);
+}
+@mixin fade-in {
+  -webkit-animation-name: fade-in;
+  animation-name: fade-in;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+@keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+$dialog-background: hsl(0, 0%, 96%);
+$dialog-border: hsl(0, 0%, 94%);
+$dialog-divisor: hsl(0, 0%, 78%);
+$dialog-fade: hsla(100, 100%, 0%, 30%);
+
+.dialog {
+  .dialog-content {
+    background-color: $dialog-background;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column !important;
+    left: 50%;
+    margin: 10vh auto;
+    padding: 20px 20px;
+    padding-right: 45px;
+    position: fixed;
+    transform: translate(-50%, 50%);
+    width: 50%;
+    z-index: 999;
+
+    .dialog-close {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+    }
+  }
+
+  .dialog-fade {
+    background-color: $dialog-fade;
+    content: "";
+    display: none;
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 998;
+  }
+
+  &.is-active {
+    .dialog-content,
+    .dialog-fade {
+      @include fade-in();
+      display: flex !important;
+    }
+  }
+}
+
+</style>
