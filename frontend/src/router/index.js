@@ -115,13 +115,11 @@ let router = new vueRouter({
             path: "/admin/showdetailsubject/:id",
             name: "showdetailsubject",
             component: require("@/views/admin/layout").default,
-            children: [
-              {
+            children: [{
                 path: '',
                 name: "admin_showWeb0_detail",
                 component: require("@/views/admin/ShowDetailSubject/index.vue").default
-              },
-          ]
+            }, ]
         },
 
 
@@ -170,62 +168,52 @@ let router = new vueRouter({
             path: "/student/profile",
             name: "student_profile",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_profile_detail",
+            children: [{
+                path: '',
+                name: "student_profile_detail",
                 component: require("@/views/user/profile/profile-student").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/home",
             name: "student_home",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_home_detail",
+            children: [{
+                path: '',
+                name: "student_home_detail",
                 component: require("@/views/user/home").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/regist-exam",
             name: "student_registExam",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_registExam_detail",
+            children: [{
+                path: '',
+                name: "student_registExam_detail",
                 component: require("@/views/user/registExam").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/print-exam-registration",
             name: "student_printExamRegistration",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_printExamRegistration_detail",
+            children: [{
+                path: '',
+                name: "student_printExamRegistration_detail",
                 component: require("@/views/user/printExamRegistration").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/repass",
             name: "student_repass",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_repass_detail",
-                component: require("@/views/user/rePass").default
-              }
-            ]
-          }
+            children: [{
+                path: '',
+                name: "student_repass_detail",
+                component: require("@/views/user/repass").default
+            }]
+        }
         // {
         //   path: "/catalog",
         //   name: "catalog",
@@ -247,11 +235,11 @@ let router = new vueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if(!to.name){
+    if (!to.name) {
         next('student/home');
-    }else{
+    } else {
         next();
     }
-  })
+})
 
 export default router;

@@ -57,37 +57,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <?php $i=1; ?>
-                                        <?php foreach ($data as $item) : ?> -->
-                                        <tr id="<?php echo $item->id; ?>">                                            
-                                            <td>1</td>
-                                            <td>17020568</td>
-                                            <td>Đỗ Minh Anh </td>
-                                            <td>09/02/1999</td>
-                                            <td>Nữ</td>
-                                            <td>Thái Bình</td>
-                                            <td>K62-CK</td>
-                                        </tr>
-                                        <tr id="<?php echo $item->id; ?>">                                            
-                                            <td>2</td>
-                                            <td>17020568</td>
-                                            <td>Đỗ Minh Anh </td>
-                                            <td>09/02/1999</td>
-                                            <td>Nữ</td>
-                                            <td>Thái Bình</td>
-                                            <td>K62-CK</td>
-                                        </tr>
-                                        <tr id="<?php echo $item->id; ?>">                                            
-                                            <td>3</td>
-                                            <td>17020568</td>
-                                            <td>Đỗ Minh Anh </td>
-                                            <td>09/02/1999</td>
-                                            <td>Nữ</td>
-                                            <td>Thái Bình</td>
-                                            <td>K62-CK</td>
-                                        </tr>
-                                        <!-- <?php $i++; ?>
-                                        <?php endforeach; ?> -->
+                                        <tr v-for="(item, index) in liststudent" :key="index">                                            
+                                            <td>{{index + 1}}</td>
+                                            <td>{{item.studentcode}}</td>
+                                            <td>{{item.fullname}} </td>
+                                            <td>{{item.datebirth}}</td>
+                                            <td>{{item.gender}}</td>
+                                            <td>{{item.hometown}}</td>
+                                            <td>{{item.class}}</td>
+                                        </tr>                                      
                                     </tbody>
                                 </table>
                             </div>
@@ -99,3 +77,35 @@
         <div class="clearfix"></div>
     </div>
 </template>
+
+<script>
+import API from "@/services/modules/account.services.js";
+// import layout from '@/views/layout/index'
+export default {
+  data() {
+      return {
+            liststudent:null,
+      }
+  },
+  methods:{
+        async getListStudent(){
+            try {
+                const res = await API.getListStudent();
+                this.liststudent = res.data.data;
+            } catch (error) {
+                   this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+       }
+  },
+  async created() {
+      console.log(123);
+         await this.getListStudent();
+  },
+
+}
+</script>

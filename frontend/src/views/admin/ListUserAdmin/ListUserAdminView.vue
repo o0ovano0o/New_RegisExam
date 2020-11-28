@@ -89,18 +89,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr id="<?php echo $item->id; ?>">
-                                            <td>1</td>
-                                            <td>Nguyễn Thị Vân Anh</td>
-                                            <td>vvan</td>
+                                        <tr v-for="(item, index) in listadmin" :key="index">
+                                            <td>{{index+1}}</td>
+                                            <td>{{item.fullname}}</td>
+                                            <td>{{item.username}}</td>
                                             <td><a class="btn btn-danger" role="button" href="index.php?area=Admin&controller=UserAdmin&action=deleteUserAdmin&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
                                         </tr>
-                                        <tr id="<?php echo $item->id; ?>">
-                                            <td>2</td>
-                                            <td>Nguyễn Thị Vân Anh</td>
-                                            <td>vvan</td>
-                                            <td><a class="btn btn-danger" role="button" href="index.php?area=Admin&controller=UserAdmin&action=deleteUserAdmin&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -112,21 +107,41 @@
     </div>
 </template>
 <script>
-export default {
-    data() {
-        return {
-            opendialog:false,
-        }
-    },
-    methods:{
-        openDialog(){
-            this.opendialog = true;
+    import API from "@/services/modules/account.services.js";
+    export default {
+        data() {
+            return {
+                opendialog:false,
+                listadmin:null,
+            }          
         },
-        closeDialog() {
-            this.opendialog = false;
+        
+        methods:{
+            async getListAdmin(){
+                try {
+                    const res = await API.getListAdmin();
+                    this.listadmin = res.data.data;
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+            openDialog(){
+                this.opendialog = true;
+            },
+            closeDialog() {
+                this.opendialog = false;
+            }
+        },
+        async created() {
+            console.log(123);
+                await this.getListAdmin();
         }
     }
-}
 </script>
 <style lang="scss" scoped>
 
