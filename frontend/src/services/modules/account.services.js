@@ -45,5 +45,11 @@ export default {
     },
     getListPrint(data) {
         return Api().post("/api/admin/print_room", data);
+    }, 
+    getProfileStudent(){
+        return Api().get(`/api/admin/student/getme`);
+    },
+    repass(data){
+        return Api.put("/api/student/password", data);
     }
 };
