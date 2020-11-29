@@ -38,34 +38,30 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <form method="post" action="<?php echo $formAction; ?>">
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Họ và Tên</strong></label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="name" name="name"
-                                                placeholder="Họ và Tên" class="form-control"><small
-                                                class="form-text text-muted"></small></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>User Name</strong></label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="user" name="user"
-                                                placeholder="User Name" class="form-control"><small
-                                                class="form-text text-muted"></small></div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input"
-                                                class=" form-control-label"><strong>Password</strong></label></div>
-                                        <div class="col-12 col-md-9"><input type="password" id="password" name="password"
-                                                placeholder="Password" class="form-control"><small
-                                                class="form-text text-muted"></small></div>
-                                    </div>
-
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeDialog">Hủy bỏ</button>
-                                        <button type="submit" class="btn btn-primary">Xác nhận</button>
-                                    </div>
-                                </form>
+                            <div class="modal-body">                            
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Họ và Tên</strong></label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="name" name="name" v-model="admin.fullname"
+                                            placeholder="Họ và Tên" class="form-control"><small
+                                            class="form-text text-muted"></small></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>User Name</strong></label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="user" name="user" v-model="admin.username"
+                                            placeholder="User Name" class="form-control"><small
+                                            class="form-text text-muted"></small></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="text-input"
+                                            class=" form-control-label"><strong>Password</strong></label></div>
+                                    <div class="col-12 col-md-9"><input type="password" id="password" name="password" v-model="admin.password"
+                                            placeholder="Password" class="form-control"><small
+                                            class="form-text text-muted"></small></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeDialog">Hủy bỏ</button>
+                                    <button type="submit" class="btn btn-primary" @click="submit">Xác nhận</button>
+                                </div>                               
                             </div>
                         </div>
                     </div>
@@ -93,7 +89,7 @@
                                             <td>{{index+1}}</td>
                                             <td>{{item.fullname}}</td>
                                             <td>{{item.username}}</td>
-                                            <td><a class="btn btn-danger" role="button" href="index.php?area=Admin&controller=UserAdmin&action=deleteUserAdmin&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+                                            <td><a class="btn btn-danger" role="button" @click="deleteAdmin(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
                                         </tr>
                                         
                                     </tbody>
@@ -113,6 +109,11 @@
             return {
                 opendialog:false,
                 listadmin:null,
+                admin:{
+                    username:'',
+                    password:'',
+                    fullname:''
+                }
             }          
         },
         
@@ -121,6 +122,48 @@
                 try {
                     const res = await API.getListAdmin();
                     this.listadmin = res.data.data;
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+            async submit(){
+                try {
+                    const res = await API.importAdmin(this.admin);
+                    if(res.data.success){
+                        await this.getListAdmin();
+                        this.closeDialog();
+                        this.$toasted.show('Thêm mới thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+                    }
+                } catch (error) {
+                    await this.getListAdmin();
+                    this.$toasted.show('Thêm mới thất bại', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+                }
+            },
+            async deleteAdmin(item){
+                try {
+                    await API.deleteAdmin(item.id);
+                    await this.getListAdmin();
+                    this.$toasted.show('Xóa thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
                 } catch (error) {
                     this.$toasted.show('Đã có lỗi xảy ra', {
                             theme: "toasted-primary",

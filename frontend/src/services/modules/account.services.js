@@ -31,6 +31,12 @@ export default {
     deleteSemester(id, item) {
         return Api().delete(`/api/admin/classes/${id}/${item}`);
     },
+    importAdmin(data) {
+        return Api().post("/api/admin/register", data);
+    },
+    deleteAdmin(id) {
+        return Api().delete(`/api/admin/admin/${id}`);
+    },
     // registerUser(user) {
     //   return Api().post("/customer/register", user);
     // },
