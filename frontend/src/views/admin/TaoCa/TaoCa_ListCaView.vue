@@ -15,7 +15,7 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li><a href="/admin/home">Trang Chủ</a></li>
-                                    <li><a href="#">Kì Thi</a></li>
+                                    <li><a href="/admin/exam">Kì Thi</a></li>
                                     <li class="active">Ca Thi</li>
                                 </ol>
                             </div>
@@ -155,31 +155,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <?php $j=1; ?>
-                                    <?php foreach ($dataCathi as $item) : ?> -->
-                                    <tr >
-                                        <!-- <td><?php echo $j;?></td>
-                                        <td><?php echo $item->SubjectID ?></td>
-                                        <td><?php echo $item->SubjectName ?></td>
-                                        <td><?php echo $item->Date ?></td>
-                                        <td><?php echo $item->Room ?></td>
-                                        <td><?php echo $item->Start ?></td>
-                                        <td><?php echo $item->End ?></td>
-                                        <td><?php echo $item->Amount ?></td>
-                                        <td><?php echo $item->IDClasses ?></td>
-                                        <td><?php echo $item->DaDangKy ?></td>
-                                        <td><?php echo $item->IDKiThi ?></td> -->
-                                        <td></td><td></td><td></td><td></td><td></td><td></td>
-                                        <td></td><td></td><td></td><td></td><td></td>
+                                    <tr v-for="(item, index) in listsemester" :key="index">
+                                        <td>{{index +1}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{item.date}}</td>
+                                        <td>{{item.room}}</td>
+                                        <td>{{item.start}}</td>
+                                        <td>{{item.end}}</td>
+                                        <td>{{item.amount}}</td>
+                                        <td>{{item.examid}}</td>
+                                        <td>{{item.status}}</td>
+                                        <td></td>                                    
                                         <td>
                                             <button type="button" class="btn btn-warning mb-1" @click="openDialog">
                                             <i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
                                         </td>
-                                        <td><a  class="btn btn-danger" role="button" href="index.php?area=Admin&controller=TaoCa&action=delete&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+                                        <td><a  class="btn btn-danger" role="button" href="" @click="deleteSemester(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
                                     </tr>
-
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -193,20 +186,62 @@
     </div>
 </template>
 <script>
+import API from "@/services/modules/account.services.js";
 export default {
     data() {
         return {
+            id: null,
             opendialog:false,
+            listsemester:null,
+            semester:{
+
+            }
         }
     },
     methods:{
+        async getListSemester(){
+            try {
+                const res = await API.getListSemester(this.id);
+                this.listsemester = res.data.data;
+            } catch (error) {
+                   this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+       },
+       async deleteSemester(item){
+            try {
+                await API.deleteSemester(this.id,item.id);
+                await this.getListSemester();
+                this.$toasted.show('Xóa thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+            } catch (error) {
+                this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+        },
         openDialog(){
             this.opendialog = true;
         },
         closeDialog() {
             this.opendialog = false;
         }
-    }
+    },
+    async created() {
+        this.id = this.$route.params.id;
+        await this.getListSemester();
+    },
 }
 </script>
 <style lang="scss" scoped>

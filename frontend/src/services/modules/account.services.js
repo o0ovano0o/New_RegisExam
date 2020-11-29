@@ -18,7 +18,19 @@ export default {
     },
     getListExam() {
         return Api().get("/api/admin/exams");
-    }
+    },
+    importExam(data) {
+        return Api().post("/api/admin/exam", data);
+    },
+    deleteExam(id) {
+        return Api().delete(`/api/admin/exam/${id}`);
+    },
+    getListSemester(id) {
+        return Api().get(`/api/admin/classess/${id}`);
+    },
+    deleteSemester(id, item) {
+        return Api().delete(`/api/admin/classes/${id}/${item}`);
+    },
     // registerUser(user) {
     //   return Api().post("/customer/register", user);
     // },
