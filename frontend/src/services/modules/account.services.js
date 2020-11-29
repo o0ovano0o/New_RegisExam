@@ -36,7 +36,8 @@ export default {
     },
     deleteAdmin(id) {
         return Api().delete(`/api/admin/admin/${id}`);
-    },
+    }
+
     // registerUser(user) {
     //   return Api().post("/customer/register", user);
     // },

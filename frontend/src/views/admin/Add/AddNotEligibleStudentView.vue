@@ -59,12 +59,11 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post">
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Mã sinh viên</strong></label></div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" id="hocphan" name="msv" placeholder="Mã sinh viên" class="form-control" required><small class="form-text text-muted"></small>
+                                        <input type="text" id="hocphan" name="msv" placeholder="Mã sinh viên" class="form-control" v-model="student.studentcode" required><small class="form-text text-muted"></small>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -102,21 +101,20 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Mã môn học</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectCode"
+                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectCode" v-model="student.subjectcode"
                                             placeholder="Mã môn học" class="form-control" required><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Tên môn học</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectName"
+                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectName" v-model="student.subjectname"
                                             placeholder="Tên môn học" class="form-control" required><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" @click="closeDialog" data-dismiss="modal">Hủy bỏ</button>
-                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                    <button type="submit" class="btn btn-primary" @click="submit">Xác nhận</button>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -131,9 +129,35 @@ export default {
     data() {
         return {
             opendialog:false,
+            student:{
+                studentcode:"",
+                subjectcode:"",
+                subjectname:""
+            }
         }
     },
     methods:{
+        async submit(){
+            try {
+                const res = await API.importNotEligibleStudent(this.student);
+                if(res.data.success){                    
+                    this.closeDialog();
+                    this.$toasted.show('Thêm mới thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+                }
+            } catch (error) {
+                this.$toasted.show('Thêm mới thất bại', {
+                    theme: "toasted-primary",
+                    position: "top-right",
+                    duration : 5000,
+                    type: 'error'
+                });
+            }
+        },
         openDialog(){
             this.opendialog = true;
         },
