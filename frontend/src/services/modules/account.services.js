@@ -25,6 +25,9 @@ export default {
     deleteExam(id) {
         return Api().delete(`/api/admin/exam/${id}`);
     },
+    deleteStudent(id) {
+        return Api().delete(`/api/admin/student/${id}`);
+    },
     getListSemester(id) {
         return Api().get(`/api/admin/classess/${id}`);
     },

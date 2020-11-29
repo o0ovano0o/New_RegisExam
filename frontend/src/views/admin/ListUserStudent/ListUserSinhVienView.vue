@@ -53,6 +53,7 @@
                                             <th>Giới tính</th>
                                             <th>Quê quán</th>
                                             <th>Lớp khóa học</th>
+                                            <th>Xóa tài khoản</th>
                                             <!-- <th>Mật khẩu</th> -->
                                         </tr>
                                     </thead>
@@ -65,6 +66,8 @@
                                             <td>{{item.gender}}</td>
                                             <td>{{item.hometown}}</td>
                                             <td>{{item.class}}</td>
+                                            <td><a class="btn btn-danger"   role="button"  @click="deleteStudent(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+
                                         </tr>                                      
                                     </tbody>
                                 </table>
@@ -100,7 +103,26 @@ export default {
                         type: 'error'
                     });
             }
-       }
+       },
+       async deleteStudent(item){
+            try {
+                await API.deleteStudent(item.id);
+                await this.getdata();
+                this.$toasted.show('Xóa thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+            } catch (error) {
+                this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+        }
   },
   async created() {
       console.log(123);
