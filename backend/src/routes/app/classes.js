@@ -61,6 +61,7 @@ router.get('/api/admin/classess/:examid', validateAdminAPI, async(req, res) => {
         const { examid } = req.params;
         const listclasses = await knex('classes')
             .join('exam', 'examid', '=', 'exam.id')
+            .join('subject','subject.id','subjectid')
             .select();
         return res.status(200).json({
             success: true,

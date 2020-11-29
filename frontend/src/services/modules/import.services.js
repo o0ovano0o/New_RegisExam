@@ -18,5 +18,11 @@ export default {
   },
   addSubjectStudent(data, status) {
     return Api().post(`/api/admin/listsubject/${status}`,data );
+  },
+  getClassInExam(id){
+    return Api().get(`/api/admin/classess/${id}`);
+  },
+  updateStatusListSubject(id, status){
+    return Api().put(`/api/admin/listsubject/${id}/${status}`);
   }
 };

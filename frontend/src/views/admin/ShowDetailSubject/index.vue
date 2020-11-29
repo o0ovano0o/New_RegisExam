@@ -94,11 +94,7 @@ export default {
         async updateStatus(item){
             try {
                 let status = item.status == 1 ? 0 : 1;
-                await API.addSubjectStudent({
-                    studentcode:item.studentcode,
-                    subjectcode: item.subjectcode,
-                    subjectname:item.subjecname
-                },status);
+                await API.updateStatusListSubject(item.id,status);
                  this.$toasted.show('Cập nhật thành công', {
                         theme: "toasted-primary",
                         position: "top-right",

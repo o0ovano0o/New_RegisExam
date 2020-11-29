@@ -149,29 +149,25 @@
                                         <th>Số lượng sinh viên</th>
                                         <th>Mã ca thi</th>
                                         <th>Đã đăng ký</th>
-                                        <th>Mã kì thi</th>
+
                                         <th>Sửa</th>
                                         <th>Xóa</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <!-- <?php $j=1; ?>
-                                    <?php foreach ($dataCathi as $item) : ?> -->
-                                    <tr >
-                                        <!-- <td><?php echo $j;?></td>
-                                        <td><?php echo $item->SubjectID ?></td>
-                                        <td><?php echo $item->SubjectName ?></td>
-                                        <td><?php echo $item->Date ?></td>
-                                        <td><?php echo $item->Room ?></td>
-                                        <td><?php echo $item->Start ?></td>
-                                        <td><?php echo $item->End ?></td>
-                                        <td><?php echo $item->Amount ?></td>
-                                        <td><?php echo $item->IDClasses ?></td>
-                                        <td><?php echo $item->DaDangKy ?></td>
-                                        <td><?php echo $item->IDKiThi ?></td> -->
-                                        <td></td><td></td><td></td><td></td><td></td><td></td>
-                                        <td></td><td></td><td></td><td></td><td></td>
-                                        <td>
+                                <tbody v-if="list!=null" >
+
+                                    <tr v-for="(item,index) in list" :key="index">
+                                        <td>{{index +1 }}</td>
+                                        <td>{{item.subjectcode}}</td>
+                                        <td>{{item.subjecname}}</td>
+                                        <td>{{item.date}}</td>
+                                        <td>{{item.room}}</td>
+                                        <td>{{item.start}}-</td>
+                                        <td>{{item.end}}</td>
+                                        <td>{{item.amount}}</td>
+                                        <td>{{item.typeclasses}}</td>
+                                        <td>{{item.studentregis}}</td>
+                                       <td>
                                             <button type="button" class="btn btn-warning mb-1" @click="openDialog">
                                             <i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
                                         </td>
@@ -193,10 +189,13 @@
     </div>
 </template>
 <script>
+import API from "@/services/modules/import.services.js";
 export default {
     data() {
         return {
             opendialog:false,
+            id: this.$route.params.id,
+            list: null,
         }
     },
     methods:{
@@ -205,8 +204,24 @@ export default {
         },
         closeDialog() {
             this.opendialog = false;
+        },
+        async getClass(){
+            try {
+                const res = await API.getClassInExam(this.id);
+                this.list = res.data.data;
+            } catch (error) {
+                  this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
         }
-    }
+    },
+    async created() {
+        await this.getClass();
+    },
 }
 </script>
 <style lang="scss" scoped>

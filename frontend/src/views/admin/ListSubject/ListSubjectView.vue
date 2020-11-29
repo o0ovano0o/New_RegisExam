@@ -89,7 +89,7 @@ export default {
         },
         async deleteSubject(item){
             try {
-                 await API.deleteSubject(item.id);
+                await API.deleteSubject(item.id);
                 await this.getdata();
                 this.$toasted.show('Xóa thành công', {
                         theme: "toasted-primary",

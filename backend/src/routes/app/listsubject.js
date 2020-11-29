@@ -78,11 +78,16 @@ router.post('/api/admin/listsubject/:status',validateAdminAPI , async (req, res)
     if (!studentcode || !subjectcode || !subjectname ) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
     const idd = await knex('student').first('id').where('studentcode', studentcode);
     const studentid = idd.id;
-    await knex('subject').delete().whereIn(['examid','subjectcode'], [[examid, subjectcode]]);
-    const [subjectid] = await knex('subject').insert({ examid,
-      subjecname: subjectname,
-      subjectcode}).returning('id');
-    console.log(studentid, subjectid)
+    let ids = await knex('subject').first('id').where('subjectcode', subjectcode).andWhere({examid });
+    console.log(ids);
+    if(!ids.id) {
+      const [subjectid] = await knex('subject').insert({ examid,
+        subjecname: subjectname,
+        subjectcode}).returning('id');
+        ids= { id:subjectid};
+    }
+    const subjectid = ids.id;
+    console.log(studentid, subjectid, examid);
     await knex('listsubject').delete().whereIn(['studentid','subjectid','examid'], [[studentid, subjectid, examid]]);
     const check = await knex('listsubject').insert({
       subjectid,
@@ -101,11 +106,35 @@ router.post('/api/admin/listsubject/:status',validateAdminAPI , async (req, res)
   }
 });
 
+router.put('/api/admin/listsubject/:listsubjectid/:status',validateAdminAPI , async (req, res) => {
+  try {
+    const { status, listsubjectid } = req.params;
+    if (!listsubjectid) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+    const check = await knex('listsubject').update({status}).where({ id: listsubjectid});
+    if (!check) return res.status(400).json({ success: false, msg: 'Cập nhập dữ liệu thất bại' });
+    return res.status(200).json({
+      success: true,
+      msg: `Cập nhập dữ liệu thành công`,
+      check: check.rowCount
+    });
+  } catch (err) {
+    handleAPIError(err, res);
+  }
+});
 
 router.get('/api/admin/listsubject/:subjectid',validateAdminAPI , async (req, res) => {
   try {
     const { subjectid } = req.params;
-    const list = await knex('listsubject').join('subject', 'subjectid','subject.id').join('student','studentid','student.id').select('*').where({subjectid});
+    const list = await knex('listsubject').join('subject', 'subjectid','subject.id').join('student','studentid','student.id').select('listsubject.id as id',
+
+     'listsubject.subjectid as subjectid',
+     'listsubject.studentid as studentid',
+     'subject.subjecname as subjecname',
+      'listsubject.status as status',
+     'subject.subjectcode as subjectcode',
+     'student.fullname as fullname',
+     'student.datebirth as datebirth',
+     'student.class as class').where({subjectid});
     return res.status(200).json({
       success: true,
       list
