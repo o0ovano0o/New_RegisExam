@@ -46,4 +46,7 @@ importEligibleStudent(data) {
 importNotEligibleStudent(data) {
   return Api().post("/api/admin/listsubject/0", data);
 },
+getStudentBycode(studentcode) {
+  return Api().post("/api/admin/student/query", {studentcode});
+},
 };

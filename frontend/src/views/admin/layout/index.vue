@@ -6,20 +6,20 @@
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="">
+                    <li :class="name=='admin_home_detail' ? 'active': ''">
                         <a href="/admin/home"><i class="menu-icon fa fa-laptop"></i>Trang Chủ </a>
                     </li>
-                    <li class="">
+                    <li :class="name=='admin_exam_detail'|| name=='admin_semester_detail' ? 'active': ''">
                         <a class="collapse-item  "
                             href="/admin/exam"> <i class="menu-icon fa fa-table"></i>Kì Thi</a>
                     </li>
                     <li class="menu-title">Kỳ thi hiện tại</li><!-- /.menu-title -->
 
-                    <li class="">
+                    <li :class="name=='admin_listSubject_detail'|| name=='admin_showWeb0_detail' ? 'active': ''">
                         <a class="collapse-item "
                             href="/admin/listSubject"> <i class="menu-icon fa fa-book"></i>Danh sách môn thi</a>
                     </li>
-                    <li class="menu-item-has-children dropdown ">
+                    <li :class="name=='admin_addEligibleStudent_detail' || name=='admin_addNotEligibleStudent_detail' ? 'active menu-item-has-children dropdown': 'menu-item-has-children dropdown'">
                         <a href="#" class="dropdw dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-plus-square na">
                             </i>
@@ -27,30 +27,30 @@
                         </a>
 
                         <ul class="mn sub-menu children ">
-                            <li><i class="fa fa-plus-square"></i>
+                            <li :class="name=='admin_addEligibleStudent_detail' ? 'active': ''"><i class="fa fa-plus-square"></i>
                                 <a class="collapse-item "
                                     href="/admin/addEligibleStudent">SV được thi</a></li>
-                            <li><i class="fa fa-plus-square"></i>
+                            <li :class="name=='admin_addNotEligibleStudent_detail' ? 'active': ''"><i class="fa fa-plus-square"></i>
                                 <a class="collapse-item  "
                                     href="/admin/addNotEligibleStudent">SV cấm thi</a></li>
                         </ul>
                     </li>
                     <li class="menu-title">Quản lý tài khoản</li><!-- /.menu-title -->
-                    <li class="">
+                    <li :class="name=='admin_listUserStudent_detail' ? 'active': ''">
                         <a class="collapse-item "
                             href="/admin/listUserStudent"> <i class="menu-icon fa fa-users"></i>Sinh Viên</a>
                     </li>
-                    <li class=" ">
-                        <a class="collapse-item  "
+                    <li :class="name=='admin_showAi1_detail' ? 'active': ''">
+                        <a class="collapse-item "
                             href="/admin/addUserStudent"> <i class="menu-icon fa fa-plus-square"></i>Nhập liệu sinh viên</a>
                     </li>
-                    <li class="collapse-item  ">
+                    <li :class="name=='admin_listUserAdmin_detail' ? 'active': ''">
                         <a class="collapse-item  "
                             href="/admin/listUserAdmin"> <i class="menu-icon fa fa-gears"></i>Tài Khoản Admin</a>
                     </li>
 
                     <li class="menu-title">In</li><!-- /.menu-title -->
-                    <li class="collapse-item  ">
+                    <li :class="name=='admin_printListExam_detail' ? 'active': ''">
                         <a class="collapse-item  "
                             href="/admin/printListExam"> <i class="menu-icon fa fa-print"></i>In Danh Sách Phòng Thi</a>
                     </li>
@@ -117,7 +117,11 @@
 
     export default {
 
-
+        computed: {
+            name:function() {
+                return this.$route.name;
+            }
+        },
 
 
 

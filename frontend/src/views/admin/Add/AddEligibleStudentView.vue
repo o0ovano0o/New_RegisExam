@@ -34,7 +34,7 @@
                     <div class="card-body">
 
                             <div class="custom-file">
-                                <input name="file" type="file" class="custom-file-input" id="validatedCustomFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                                <input name="file" type="file" class="custom-file-input" v-if="!opendialog" id="validatedCustomFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file excel</label>
                                 <div class="invalid-feedback">Tệp không hợp lệ</div>
                             </div>
@@ -69,33 +69,15 @@
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Tên sinh viên</strong></label></div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" id="hocphan" name="fullname" placeholder="Họ và tên sinh viên" class="form-control" required><small class="form-text text-muted"></small>
+                                        <input type="text" id="hocphan" v-model="info.fullname" name="fullname" placeholder="Họ và tên sinh viên" class="form-control" disabled><small class="form-text text-muted"></small>
                                     </div>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3"><label for="text-input"
-                                            class=" form-control-label"><strong>Ngày sinh</strong></label></div>
-                                    <div class='col-12 col-md-9'>
-                                        <div class="form-group">
-                                            <div id="filterDate2">
 
-                                                <!-- Datepicker as text field -->
-                                                <div class="input-group date" data-date-format="dd/mm/yyyy">
-                                                    <input type="date" id="date" name="date" class="form-control" placeholder="dd/mm/yyyy">
-                                                    <div class="input-group-addon">
-                                                        <span class="fa fa-calendar"></span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row form-group" >
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Lớp học</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="phongmay" name="classes"
-                                            placeholder="Lớp học" class="form-control" required><small
+                                    <div class="col-12 col-md-9"><input  v-model="info.class"  type="text" id="phongmay" name="classes"
+                                            placeholder="Lớp học" class="form-control" disabled><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="row form-group">
@@ -107,7 +89,7 @@
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Tên môn học</strong></label></div>
                                     <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectName" v-model="student.subjectname"
-                                            placeholder="Tên môn học" class="form-control" required><small
+                                            placeholder="Tên môn học" class="form-control" ><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="modal-footer">
@@ -133,14 +115,48 @@ export default {
                 studentcode:"",
                 subjectcode:"",
                 subjectname:""
+            },
+            info:{
+               fullname:"",
+               datebirth:"",
+               class:"",
+
             }
         }
     },
+    watch: {
+        "student.studentcode":async function(val){
+
+            if(val);
+                await this.getStudent(val);
+        },
+              "student.subjectcode":async function(val){
+
+            if(val);
+                await this.getSuject(val);
+        }
+    },
     methods:{
+        async getStudent(val){
+            const res = await API.getStudentBycode(val);
+
+            if(res.data.success) {
+                this.info.fullname = res.data.data[0].fullname;
+                this.info.datebirth = res.data.data[0].datebirth;
+                this.info.class = res.data.data[0].class;
+                // this.info.subjectname = res.data.data[0].subjectname;
+            }
+        },
+        async getSuject(val){
+            const res = await API.getSubjectBysubjectcode(val);
+            if(res.data.success) {
+                this.student.subjectname = res.data.data[0].subjecname;
+            }
+        },
         async submit(){
             try {
                 const res = await API.importEligibleStudent(this.student);
-                if(res.data.success){                    
+                if(res.data.success){
                     this.closeDialog();
                     this.$toasted.show('Thêm mới thành công', {
                         theme: "toasted-primary",
@@ -163,6 +179,17 @@ export default {
         },
         closeDialog() {
             this.opendialog = false;
+                     this.student={
+                studentcode:"",
+                subjectcode:"",
+                subjectname:""
+            },
+            this.info={
+               fullname:"",
+               datebirth:"",
+               class:"",
+               subjectname:""
+            }
         },
             getData(){
       var input = document.getElementById('validatedCustomFile');
@@ -202,10 +229,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.content {
+    z-index: 2;
+}
 .modal-dialog {
     position: absolute;
     top: 90px;
+    z-index: 200;
     z-index: 1;
     width: 600px;
     left: calc(50% - 204px);
