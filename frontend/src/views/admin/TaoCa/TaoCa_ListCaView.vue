@@ -190,7 +190,6 @@ import API from "@/services/modules/import.services.js";
 export default {
     data() {
         return {
-            id: null,
             opendialog:false,
             id: this.$route.params.id,
             list: null,
