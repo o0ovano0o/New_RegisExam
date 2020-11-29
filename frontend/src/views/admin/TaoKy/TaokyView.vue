@@ -97,11 +97,11 @@
                 <h2>{{item.examname}}</h2>
                 <span>{{item.examyear}}</span>
                 <p style="margin-left:5px;">{{item.note}}</p>
-                <a class="btn btn-success"  role="button"  @click="()=>{this.$router.push('/admin/semester')}">Xem chi tiết</a>
+                <a class="btn btn-success"  role="button"  @click="redirect(item)">Xem chi tiết</a>
                 <a class="btn btn-danger"  style="margin-left:5px; margin-top:5px;" role="button" href="" >Xóa</a>
                 <a class="btn btn-success"  style="margin-left:5px; margin-top:5px;" role="button" href="">Chọn kỳ hiện tại</a>
             </div>
-        </div>       
+        </div>
     </div>
 
 
@@ -118,6 +118,9 @@ export default {
         }
     },
     methods:{
+        redirect(item){
+            this.$router.push(`/admin/semester/${item.id}`);
+        },
         async getListExam(){
             try {
                 const res = await API.getListExam();

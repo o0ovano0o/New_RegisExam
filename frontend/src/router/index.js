@@ -70,7 +70,7 @@ let router = new vueRouter({
             }]
         },
         {
-            path: "/admin/semester",
+            path: "/admin/semester/:id",
             name: "admin_semester",
             component: require("@/views/admin/layout").default,
             children: [{
