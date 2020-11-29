@@ -94,12 +94,13 @@
                 <h1 class="text-shadow">{{item.semester}}</h1>
             </div>
             <div class="back">
+                <p v-if="item.status==1">Kỳ hiện tại</p>
                 <h2>{{item.examname}}</h2>
                 <span>{{item.examyear}}</span>
                 <p style="margin-left:5px;">{{item.note}}</p>
                 <a class="btn btn-success"  role="button"  @click="redirect(item)">Xem chi tiết</a>
                 <a class="btn btn-danger"  style="margin-left:5px; " role="button" href="" @click="deleteExam(item)">Xóa</a>
-                <a class="btn btn-success"  style="margin-left:5px; " role="button" href="">Chọn kỳ hiện tại</a>
+                <a class="btn btn-success"  style="margin-left:5px; " v-if="item.status!=1" role="button" @click="activeExam(item)">Chọn kỳ hiện tại</a>
             </div>
         </div>
     </div>
@@ -125,6 +126,47 @@ export default {
         }
     },
     methods:{
+        async deleteExam(item){
+            try {
+                await API.deleteExam(item.id);
+                await this.getListExam();
+                  this.$toasted.show('Xóa kỳ thi thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+            } catch (error) {
+                this.$toasted.show('Xóa kỳ thi thất bại', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+        },
+        async activeExam(item){
+            const data = Object.assign({}, item);
+            delete data.id;
+            data.status = 1;
+            try {
+                await API.updateExam(item.id, data);
+                await this.getListExam();
+                  this.$toasted.show('Cập nhật thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+            } catch (error) {
+                  this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+        },
         redirect(item){
             this.$router.push(`/admin/semester/${item.id}`);
         },
@@ -164,25 +206,7 @@ export default {
                 });
             }
         },
-        async deleteExam(item){
-            try {
-                await API.deleteExam(item.id);
-                await this.getListExam();
-                this.$toasted.show('Xóa thành công', {
-                        theme: "toasted-primary",
-                        position: "top-right",
-                        duration : 5000,
-                        type: 'success'
-                    });
-            } catch (error) {
-                this.$toasted.show('Đã có lỗi xảy ra', {
-                        theme: "toasted-primary",
-                        position: "top-right",
-                        duration : 5000,
-                        type: 'error'
-                    });
-            }
-        },
+
         openDialog(){
             this.opendialog = true;
         },

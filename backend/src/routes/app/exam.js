@@ -60,7 +60,7 @@ router.put('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
 
 router.get('/api/admin/exams', validateAdminAPI, async(req, res) => {
     try {
-        const listexam = await knex('exam').select();
+        const listexam = await knex('exam').select().orderBy('id', "desc");
         return res.status(200).json({
             success: true,
             data: listexam,

@@ -37,6 +37,9 @@ export default {
     deleteAdmin(id) {
         return Api().delete(`/api/admin/admin/${id}`);
     },
+    updateExam(id, data){
+        return Api().put(`/api/admin/exam/${id}`, data);
+    },
     // registerUser(user) {
     //   return Api().post("/customer/register", user);
     // },

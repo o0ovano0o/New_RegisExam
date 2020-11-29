@@ -40,9 +40,10 @@ router.get('/api/admin/subjects', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.get('/api/admin/subjects', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/subjects/query', validateAdminAPI, async(req, res) => {
     try {
-        const { subjectcode } = req.query;
+        const { subjectcode } = req.body;
+
         const listsubject = await knex('subject')
             .select()
             .where({ subjectcode });

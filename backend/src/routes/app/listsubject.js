@@ -77,10 +77,11 @@ router.post('/api/admin/listsubject/:status',validateAdminAPI , async (req, res)
     const examid=id;
     if (!studentcode || !subjectcode || !subjectname ) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
     const idd = await knex('student').first('id').where('studentcode', studentcode);
+    console.log(idd);
     const studentid = idd.id;
     let ids = await knex('subject').first('id').where('subjectcode', subjectcode).andWhere({examid });
     console.log(ids);
-    if(!ids.id) {
+    if(!ids) {
       const [subjectid] = await knex('subject').insert({ examid,
         subjecname: subjectname,
         subjectcode}).returning('id');

@@ -25,5 +25,19 @@ export default {
   updateStatusListSubject(id, status){
     return Api().put(`/api/admin/listsubject/${id}/${status}`);
   },
-
+  getSubjectBysubjectcode(subjectcode) {
+    return Api().post(`/api/admin/subjects/query`, { subjectcode });
+  },
+  postClass(examid,data){
+    return Api().post(`/api/admin/classes/${examid}`,data);
+  },
+  deleteClass(id){
+    return Api().delete(`/api/admin/classes/${id}`);
+  },
+  updateClass(id, data){
+    return Api().put(`/api/admin/classes/${id}`, data);
+  },
+  getListSemester(id) {
+    return Api().get(`/api/admin/classess/${id}`);
+},
 };

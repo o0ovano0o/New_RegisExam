@@ -27,25 +27,25 @@
         <div class="content">
             <div class="animated fadeIn">
                 <!-- Thêm ca thi -->
-                <button type="button" class="btn btn-secondary mb-1" @click="openDialog">
-                    <i class="fa fa-plus-square"></i> Tạo Ca Thi Mới
+                <button type="button" class="btn btn-secondary mb-1" @click="addData()">
+                    <i class="fa fa-plus-square"></i> Tạo ca thi mới
                 </button>
 
                     <div class="modal-dialog modal-lg" v-if="opendialog" role="document">
                         <div class="modal-content" style="padding:15px">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="mediumModalLabel" style="text-align: center"><strong>Tạo Ca Thi Mới</strong></h5>
+                                <h5 class="modal-title" id="mediumModalLabel" style="text-align: center"><strong>{{dialog.title}}</strong></h5>
                                 <button type="button" @click="closeDialog" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" action="<?php echo $formActionCathi ?>">
+
                                     <!-- <div class="row form-group" class="autocomplete"> -->
                                     <div class="row form-group" >
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Mã
                                                     Học Phần</strong></label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="mahocphan" name="mahocphan"
+                                        <div class="col-12 col-md-9"><input type="text" id="mahocphan" v-model="classobj.subjectcode" name="mahocphan"
                                                 placeholder="Mã Học Phần" class="form-control"><small
                                                 class="form-text text-muted"></small></div>
                                     </div>
@@ -53,7 +53,8 @@
                                         <div class="col col-md-3"><label for="text-input"
                                                 class=" form-control-label"><strong>Học Phần</strong></label></div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="hocphan" name="hocphan" placeholder="Học Phần" class="form-control"><small class="form-text text-muted"></small>
+                                            <input type="text" id="hocphan" v-model="classobj.subjectname"  name="hocphan" placeholder="Học Phần" class="form-control" disabled><small class="form-text text-muted"></small>
+
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -64,7 +65,7 @@
                                                 <div id="filterDate2">
                                                     <!-- Datepicker as text field -->
                                                     <div class="input-group date" data-date-format="dd/mm/yyyy">
-                                                        <input type="date" id="date" name="date" class="form-control" placeholder="dd/mm/yyyy">
+                                                        <input type="date" id="date"  v-model="classobj.date"   name="date" class="form-control" placeholder="dd/mm/yyyy">
                                                         <div class="input-group-addon">
                                                             <span class="fa fa-calendar"></span>
                                                         </div>
@@ -77,14 +78,14 @@
                                     <div class="row form-group" >  <!--class="autocomplete"-->
                                         <div class="col col-md-3"><label for="text-input"
                                                 class=" form-control-label"><strong>Phòng Thi</strong></label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="phongmay" name="phongmay"
+                                        <div class="col-12 col-md-9"><input  v-model="classobj.room"   type="text" id="phongmay" name="phongmay"
                                                 placeholder="Phòng Thi" class="form-control"><small
                                                 class="form-text text-muted"></small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Số
                                                     lượng SV</strong></label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="soluong" name="soluong"
+                                        <div class="col-12 col-md-9"><input type="number" min=1 v-model="classobj.amount"  id="soluong" name="soluong"
                                                 placeholder="Số lượng SV" class="form-control"><small
                                                 class="form-text text-muted"></small></div>
                                     </div>
@@ -92,7 +93,7 @@
                                         <div class="col col-md-3"><label for="select" class=" form-control-label"><strong>Ca
                                                     Thi</strong></label></div>
                                         <div class="col-12 col-md-9">
-                                            <select name="cathi" id="cathi" class="form-control">
+                                            <select name="cathi" v-model="classobj.typeclasses" id="cathi" class="form-control">
                                                 <option value="0">Chọn ca thi</option>
                                                 <option value="1">Ca Thi 1</option>
                                                 <option value="2">Ca Thi 2</option>
@@ -105,7 +106,7 @@
                                         <div class="col col-md-2"><label for="text-input"
                                                 class=" form-control-label"><strong>Giờ Bắt Đầu</strong></label></div>
                                         <div class='col-12 col-md-4'>
-                                            <input type="text" id="hstart" name="hstart"
+                                            <input type="text"  v-model="classobj.start"  id="hstart" name="hstart"
                                                 placeholder="" class="form-control" readonly><small
                                                 class="form-text text-muted"></small>
                                         </div>
@@ -113,16 +114,16 @@
                                         <div class="col col-md-2"><label for="text-input"
                                                 class=" form-control-label"><strong>Giờ Kết Thúc</strong></label></div>
                                         <div class='col-12 col-md-4'>
-                                            <input type="text" id="hstop" name="hstop"
+                                            <input type="text"  v-model="classobj.end"  id="hstop" name="hstop"
                                                 placeholder="" class="form-control" readonly><small
                                                 class="form-text text-muted"></small>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"  @click="closeDialog"  data-dismiss="modal">Hủy bỏ</button>
-                                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                        <button type="submit" class="btn btn-primary" @click="submitDialog">Xác nhận</button>
                                     </div>
-                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -162,16 +163,16 @@
                                         <td>{{item.subjecname}}</td>
                                         <td>{{item.date}}</td>
                                         <td>{{item.room}}</td>
-                                        <td>{{item.start}}-</td>
+                                        <td>{{item.start}}</td>
                                         <td>{{item.end}}</td>
                                         <td>{{item.amount}}</td>
                                         <td>{{item.typeclasses}}</td>
                                         <td>{{item.studentregis}}</td>
                                        <td>
-                                            <button type="button" class="btn btn-warning mb-1" @click="openDialog">
+                                            <button type="button" class="btn btn-warning mb-1" @click="mapdata(item)">
                                             <i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
                                         </td>
-                                        <td><a  class="btn btn-danger" role="button" href="" @click="deleteSemester(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+                                        <td><a  class="btn btn-danger" role="button" href="" @click="deleteclass(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -190,37 +191,104 @@ import API from "@/services/modules/import.services.js";
 export default {
     data() {
         return {
+            dialog:{
+                title:'TẠO CA THI MỚI',
+                isAdd:true,
+                id:null
+            },
             opendialog:false,
             id: this.$route.params.id,
             list: null,
+            subjectname:null,
+            classobj:{
+                subjectcode:null,
+                subjectname:null,
+                date:null,
+                room:null,
+                amount:null,
+                typeclasses:null,
+                start:null,
+                end:null,
+            }
         }
     },
-    methods:{
-        async getListSemester(){
-            try {
-                const res = await API.getListSemester(this.id);
-                this.listsemester = res.data.data;
-            } catch (error) {
-                   this.$toasted.show('Đã có lỗi xảy ra', {
-                        theme: "toasted-primary",
-                        position: "top-right",
-                        duration : 5000,
-                        type: 'error'
-                    });
+    watch: {
+        "classobj.subjectcode":async function(val) {
+            if(val)
+            await this.getSubject(val);
+        },
+        "classobj.typeclasses": async function(val) {
+            if(val=="1"){
+                this.classobj.start = 7;
+                this.classobj.end = 9;
             }
-       },
-       async deleteSemester(item){
-            try {
-                await API.deleteSemester(this.id,item.id);
-                await this.getListSemester();
-                this.$toasted.show('Xóa thành công', {
-                        theme: "toasted-primary",
-                        position: "top-right",
-                        duration : 5000,
-                        type: 'success'
-                    });
+            if(val=="2"){
+                this.classobj.start = 9;
+                this.classobj.end = 11;
+            }
+            if(val=="3"){
+                this.classobj.start = 1;
+                this.classobj.end = 3;
+            }
+            if(val=="4"){
+                this.classobj.start = 3;
+                this.classobj.end = 5;
+            }
+        },
+    },
+    methods:{
+        mapdata(item){
+            this.classobj={
+                 subjectcode:item.subjectcode,
+                subjectname:item.subjecname,
+                date:item.date,
+                room:item.room,
+                amount:item.amount,
+                typeclasses:item.typeclasses,
+                start:item.start,
+                end:item.end,
+            };
+            this.dialog.id = item.id;
+            this.dialog.isAdd= false;
+            this.dialog.title='SỬA CA THI';
+            this.openDialog();
+        },
+        async submitDialog(){
+            if(this.dialog.isAdd){
+                await this.postExam();
+            }
+            else {
+                await this.putExam();
+            }
+        },
+        async putExam(){
+             try {
+                const postobj = Object.assign({}, this.classobj);
+                postobj.typeclasses = parseInt(postobj.typeclasses);
+                await API.updateClass(this.dialog.id, postobj);
+                this.closeDialog();
+                await this.getClass();
             } catch (error) {
-                this.$toasted.show('Đã có lỗi xảy ra', {
+                console.log(error);
+            }
+        },
+        addData(){
+            this.dialog.title="TẠO CA THI MỚI";
+            this.dialog.isAdd = true;
+            this.openDialog();
+        },
+        async deleteclass(item){
+            try {
+                await API.deleteClass(item.id);
+                this.$toasted.show('Đã xóa thành công', {
+                    theme: "toasted-primary",
+                    position: "top-right",
+                    duration : 5000,
+                    type: 'success'
+                });
+               await this.getClass();
+            } catch (error) {
+                 this.$toasted.show('Đã xóa thất bại', {
                         theme: "toasted-primary",
                         position: "top-right",
                         duration : 5000,
@@ -228,11 +296,57 @@ export default {
                     });
             }
         },
+        async postExam(){
+            try {
+                const postobj = Object.assign({}, this.classobj);
+                postobj.typeclasses = parseInt(postobj.typeclasses);
+                await API.postClass(this.id, postobj);
+                this.closeDialog();
+                 this.$toasted.show('Đã tạo thành công', {
+                     theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+                await this.getClass();
+            } catch (error) {
+                 this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+        },
+        async getSubject(subjectcode){
+            try {
+                const res = await API.getSubjectBysubjectcode(subjectcode);
+                if(res.data.data)
+                this.classobj.subjectname = res.data.data[0].subjecname;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async getListSemester(){
+            const res = await API.getClassInExam(this.id);
+            this.list = res.data.data;
+       },
+
         openDialog(){
             this.opendialog = true;
         },
         closeDialog() {
             this.opendialog = false;
+            this.classobj = {
+                subjectcode:null,
+                subjectname:null,
+                date:null,
+                room:null,
+                amount:null,
+                typeclasses:null,
+                start:null,
+                end:null,
+            }
         },
         async getClass(){
             try {
