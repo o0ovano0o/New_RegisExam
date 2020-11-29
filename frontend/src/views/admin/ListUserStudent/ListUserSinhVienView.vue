@@ -53,12 +53,12 @@
                                             <th>Giới tính</th>
                                             <th>Quê quán</th>
                                             <th>Lớp khóa học</th>
-                                            <th>Xóa tài khoản</th>
+                                            <th>Khóa tài khoản</th>
                                             <!-- <th>Mật khẩu</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(item, index) in liststudent" :key="index">                                            
+                                        <tr v-for="(item, index) in liststudent" :key="index">
                                             <td>{{index + 1}}</td>
                                             <td>{{item.studentcode}}</td>
                                             <td>{{item.fullname}} </td>
@@ -66,9 +66,9 @@
                                             <td>{{item.gender}}</td>
                                             <td>{{item.hometown}}</td>
                                             <td>{{item.class}}</td>
-                                            <td><a class="btn btn-danger"   role="button"  @click="deleteStudent(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+                                            <td><a class="btn btn-danger"   role="button"  @click="deleteStudent(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Khóa</a></td>
 
-                                        </tr>                                      
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -107,7 +107,7 @@ export default {
        async deleteStudent(item){
             try {
                 await API.deleteStudent(item.id);
-                await this.getdata();
+                await this.getListStudent();
                 this.$toasted.show('Xóa thành công', {
                         theme: "toasted-primary",
                         position: "top-right",
