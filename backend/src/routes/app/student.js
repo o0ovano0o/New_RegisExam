@@ -7,8 +7,8 @@ const { validateAdminAPI, validateStudentAPI } = require('../../middlewares/vali
 router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
     try {
         const { datarow } = req.body;
-        if(datarow.length > 100){
-          return res.status(400).json({ success: false, msg: 'Dữ liệu quá lớn' });
+        if (datarow.length > 100) {
+            return res.status(400).json({ success: false, msg: 'Dữ liệu quá lớn' });
         }
         if (!datarow) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
         const column = datarow[0];
@@ -42,41 +42,41 @@ router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.post('/api/admin/student',validateAdminAPI , async (req, res) => {
-  try {
-    const { studentcode, fullname, datebirth, gender, hometown, classes   } = req.body;
-    if (!studentcode || !fullname || !datebirth || !gender || !hometown || !classes) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
-    let obj = { studentcode, fullname, datebirth, gender, hometown, class: classes, password: sha1(studentcode), };
-    const check = await knex('student')
-      .insert(obj);
-    if (!check) return res.status(400).json({ success: false, msg: 'Tạo tài khoản thất bại' });
-    return res.status(200).json({
-      success: true,
-      msg: `Tạo tài khoản thành công`,
-      check
-    });
-  } catch (err) {
-    handleAPIError(err, res);
-  }
+router.post('/api/admin/student', validateAdminAPI, async(req, res) => {
+    try {
+        const { studentcode, fullname, datebirth, gender, hometown, classes } = req.body;
+        if (!studentcode || !fullname || !datebirth || !gender || !hometown || !classes) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        let obj = { studentcode, fullname, datebirth, gender, hometown, class: classes, password: sha1(studentcode), };
+        const check = await knex('student')
+            .insert(obj);
+        if (!check) return res.status(400).json({ success: false, msg: 'Tạo tài khoản thất bại' });
+        return res.status(200).json({
+            success: true,
+            msg: `Tạo tài khoản thành công`,
+            check
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
 });
 
-router.put('/api/student/:studentid',validateStudentAPI , async (req, res) => {
-  try {
-    const { studentid }= req.params;
-    const { fullname, datebirth, gender, hometown, classes   } = req.body;
-    if ( !fullname || !datebirth || !gender || !hometown || !classes) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
-    let obj = {  fullname, datebirth, gender, hometown, class: classes, password: sha1(studentcode), };
-    const check = await knex('student')
-      .updadte(obj).where({ id: studentid });
-    if (!check) return res.status(400).json({ success: false, msg: 'Cập nhập thông tin thất bại' });
-    return res.status(200).json({
-      success: true,
-      msg: `Cập nhật thông tin thành công`,
-      check
-    });
-  } catch (err) {
-    handleAPIError(err, res);
-  }
+router.put('/api/student/:studentid', validateStudentAPI, async(req, res) => {
+    try {
+        const { studentid } = req.params;
+        const { fullname, datebirth, gender, hometown, classes } = req.body;
+        if (!fullname || !datebirth || !gender || !hometown || !classes) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        let obj = { fullname, datebirth, gender, hometown, class: classes, password: sha1(studentcode), };
+        const check = await knex('student')
+            .updadte(obj).where({ id: studentid });
+        if (!check) return res.status(400).json({ success: false, msg: 'Cập nhập thông tin thất bại' });
+        return res.status(200).json({
+            success: true,
+            msg: `Cập nhật thông tin thành công`,
+            check
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
 });
 
 
@@ -106,15 +106,33 @@ router.get('/api/admin/student', validateAdminAPI, async(req, res) => {
 });
 
 router.get('/api/admin/student/getme', validateAdminAPI, async(req, res) => {
-  try {
-      const { user_id } = req.session;
-      const student = await knex('student').where( 'id', user_id);
-      return res.status(200).json({
-          success: true,
-          data: student,
-      });
-  } catch (err) {
-      handleAPIError(err, res);
-  }
+    try {
+        const { user_id } = req.session;
+        const student = await knex('student').where('id', user_id);
+        return res.status(200).json({
+            success: true,
+            data: student,
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
 });
+
+router.delete('/api/admin/student/:id', validateAdminAPI, async(req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const check = await knex('student')
+            .delete()
+            .where({ id });
+        if (!check) return res.status(400).json({ success: false, msg: 'Xóa người dùng thất bại' });
+        return res.status(200).json({
+            success: true,
+            msg: `Xóa người dùng thành công`,
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
+});
+
 module.exports = router;

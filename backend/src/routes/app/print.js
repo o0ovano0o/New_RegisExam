@@ -3,18 +3,18 @@ const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
 const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
 
-router.get('/api/admin/print_room',validateAdminAPI , async (req, res) => {
-  try {
-    const { subjectcode, typeclasses } = req.body;
-    if (!subjectcode || !typeclasses) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
-    const list = await knex('result').join('classes','classes.id','classesid').join('subject','subject.id', 'result.subjectid').join('student','student.id','result.studentid').select().where({ subjectcode }).andWhere({typeclasses});
-    return res.status(200).json({
-      success: true,
-     data: list,
-    });
-  } catch (err) {
-    handleAPIError(err, res);
-  }
+router.post('/api/admin/print_room', validateAdminAPI, async(req, res) => {
+    try {
+        const { subjectcode, typeclasses } = req.body;
+        if (!subjectcode || !typeclasses) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const list = await knex('result').join('classes', 'classes.id', 'classesid').join('subject', 'subject.id', 'result.subjectid').join('student', 'student.id', 'result.studentid').select().where({ subjectcode }).andWhere({ typeclasses });
+        return res.status(200).json({
+            success: true,
+            data: list,
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
 });
 
 // router.delete('/api/admin/exam/:id',validateAdminAPI, async (req, res) => {

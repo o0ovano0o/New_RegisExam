@@ -40,4 +40,10 @@ export default {
   getListSemester(id) {
     return Api().get(`/api/admin/classess/${id}`);
 },
+importEligibleStudent(data) {
+  return Api().post("/api/admin/listsubject/1", data);
+},
+importNotEligibleStudent(data) {
+  return Api().post("/api/admin/listsubject/0", data);
+},
 };

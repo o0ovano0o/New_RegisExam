@@ -15,7 +15,7 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li><a href="/admin/home">Trang chủ</a></li>
-                                    <li><a href="#">Môn Thi</a></li>
+                                    <li><a href="/admin/listSubject">Môn Thi</a></li>
                                     <li><a href="#">{{list[0].subjecname}}</a></li>
                                     <li class="active">{{list[0].subjectcode}}</li>
                                 </ol>
