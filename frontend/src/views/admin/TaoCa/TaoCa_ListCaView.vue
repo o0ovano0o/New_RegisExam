@@ -15,7 +15,7 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li><a href="/admin/home">Trang Chủ</a></li>
-                                    <li><a href="#">Kì Thi</a></li>
+                                    <li><a href="/admin/exam">Kì Thi</a></li>
                                     <li class="active">Ca Thi</li>
                                 </ol>
                             </div>
@@ -171,11 +171,8 @@
                                             <button type="button" class="btn btn-warning mb-1" @click="openDialog">
                                             <i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
                                         </td>
-                                        <td><a  class="btn btn-danger" role="button" href="index.php?area=Admin&controller=TaoCa&action=delete&id=<?php echo $item->id; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
+                                        <td><a  class="btn btn-danger" role="button" href="" @click="deleteSemester(item)"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></td>
                                     </tr>
-
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -193,12 +190,45 @@ import API from "@/services/modules/import.services.js";
 export default {
     data() {
         return {
+            id: null,
             opendialog:false,
             id: this.$route.params.id,
             list: null,
         }
     },
     methods:{
+        async getListSemester(){
+            try {
+                const res = await API.getListSemester(this.id);
+                this.listsemester = res.data.data;
+            } catch (error) {
+                   this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+       },
+       async deleteSemester(item){
+            try {
+                await API.deleteSemester(this.id,item.id);
+                await this.getListSemester();
+                this.$toasted.show('Xóa thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+            } catch (error) {
+                this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+        },
         openDialog(){
             this.opendialog = true;
         },

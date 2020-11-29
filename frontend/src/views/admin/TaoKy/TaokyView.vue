@@ -36,18 +36,18 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post">
+                            <!-- <form method="post"> -->
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Tên Kì Thi</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="tenkithi" name="tenkithi"
+                                    <div class="col-12 col-md-9"><input type="text" id="tenkithi" name="tenkithi" v-model="exam.examname"
                                             placeholder="Tên Kì Thi" class="form-control"><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Năm Tổ Chức</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="namtochuc" name="namtochuc"
+                                    <div class="col-12 col-md-9"><input type="text" id="namtochuc" name="namtochuc" v-model="exam.examyear"
                                             placeholder="yyyy" class="form-control"><small
                                             class="form-text text-muted"></small>
                                     </div>
@@ -56,7 +56,7 @@
                                     <div class="col col-md-3"><label for="select" class=" form-control-label"><strong>Học
                                                 Kì</strong></label></div>
                                     <div class="col-12 col-md-9">
-                                        <select name="hocki" id="hocki" class="form-control">
+                                        <select name="hocki" id="hocki" class="form-control" v-model="exam.semester">
                                             <option value="0">Chọn học kì</option>
                                             <option value="Học kì I">Học kì I</option>
                                             <option value="Học kì II">Học kì II</option>
@@ -67,15 +67,15 @@
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Ghi Chú</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="ghichu" name="ghichu"
+                                    <div class="col-12 col-md-9"><input type="text" id="ghichu" name="ghichu" v-model="exam.note"
                                             placeholder="Ghi Chú" class="form-control"><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeDialog">Hủy bỏ</button>
-                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                    <button type="submit" class="btn btn-primary" @click="submit">Xác nhận</button>
                                 </div>
-                            </form>
+                            <!-- </form> -->
                         </div>
                     </div>
                 </div>
@@ -88,8 +88,8 @@
             </button>
         </div>
     </div>
-    <div class="row content" >
-        <div class="flip"  style="width: 370px;" v-for="(item, index) in listexam" :key="index">
+    <div class="row content" style="margin-left:-15px; margin-right:-20px; width:1220px" >
+        <div class="flip"  style="width: 380px;" v-for="(item, index) in listexam" :key="index">
             <div class="front bground" style="opacity:0.4;">
                 <h1 class="text-shadow">{{item.semester}}</h1>
             </div>
@@ -98,8 +98,8 @@
                 <span>{{item.examyear}}</span>
                 <p style="margin-left:5px;">{{item.note}}</p>
                 <a class="btn btn-success"  role="button"  @click="redirect(item)">Xem chi tiết</a>
-                <a class="btn btn-danger"  style="margin-left:5px; margin-top:5px;" role="button" href="" >Xóa</a>
-                <a class="btn btn-success"  style="margin-left:5px; margin-top:5px;" role="button" href="">Chọn kỳ hiện tại</a>
+                <a class="btn btn-danger"  style="margin-left:5px; " role="button" href="" @click="deleteExam(item)">Xóa</a>
+                <a class="btn btn-success"  style="margin-left:5px; " role="button" href="">Chọn kỳ hiện tại</a>
             </div>
         </div>
     </div>
@@ -110,11 +110,18 @@
 </template>
 <script>
 import API from "@/services/modules/account.services.js";
+
 export default {
     data() {
         return {
             opendialog:false,
             listexam:null,
+            exam:{
+                examname:'',
+                examyear:'',
+                semester:'',
+                note:''
+            }
         }
     },
     methods:{
@@ -134,6 +141,48 @@ export default {
                     });
             }
        },
+       async submit(){
+            try {
+                const res = await API.importExam(this.exam);
+                if(res.data.success){
+                    await this.getListExam();
+                    this.closeDialog();
+                    this.$toasted.show('Thêm mới thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+                }
+            } catch (error) {
+                await this.getListExam();
+                this.$toasted.show('Thêm mới thất bại', {
+                    theme: "toasted-primary",
+                    position: "top-right",
+                    duration : 5000,
+                    type: 'error'
+                });
+            }
+        },
+        async deleteExam(item){
+            try {
+                await API.deleteExam(item.id);
+                await this.getListExam();
+                this.$toasted.show('Xóa thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+            } catch (error) {
+                this.$toasted.show('Đã có lỗi xảy ra', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+            }
+        },
         openDialog(){
             this.opendialog = true;
         },
@@ -141,6 +190,8 @@ export default {
             this.opendialog = false;
         }
     },
+    watch: {
+        },
     async created() {
       console.log(123);
          await this.getListExam();

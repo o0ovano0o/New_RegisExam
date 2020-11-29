@@ -24,5 +24,6 @@ export default {
   },
   updateStatusListSubject(id, status){
     return Api().put(`/api/admin/listsubject/${id}/${status}`);
-  }
+  },
+
 };
