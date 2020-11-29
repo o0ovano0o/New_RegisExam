@@ -39,8 +39,10 @@ export default {
     },
     deleteAdmin(id) {
         return Api().delete(`/api/admin/admin/${id}`);
+    },
+    getListPrint(data) {
+        return Api().post("/api/admin/print_room", data);
     }
-
     // registerUser(user) {
     //   return Api().post("/customer/register", user);
     // },
