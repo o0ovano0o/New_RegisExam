@@ -90,9 +90,10 @@ router.get('/api/admin/classess/:examid', validateAdminAPI, async(req, res) => {
 });
 
 
-router.get('/api/student/home/:studentid', validateStudentAPI, async(req, res) => {
+router.get('/api/student/home', validateStudentAPI, async(req, res) => {
     try {
-        const { studentid } = req.params;
+        const { user_id } = req.session;
+        const studentid = user_id
         const listsubject = await knex('listsubject').join('subject', 'subjectid', 'subject.id').join('student', 'studentid', 'student.id').select().where({ studentid });
 
       const allow = listsubject.filter(item => item.status = 1);
