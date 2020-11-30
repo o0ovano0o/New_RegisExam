@@ -33,12 +33,12 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">Nhập mã học phần</div>
                                 </div>
-                                <input id="mahocphan" class="form-control" type="text" name="mahocphan"
+                                <input id="mahocphan" class="form-control" type="text" name="mahocphan" v-model="item.subjectcode"
                                     placeholder="Mã học phần" required>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select name="cathi" id="cathi" class="custom-select">
+                            <select name="cathi" id="cathi" class="custom-select" v-model="item.typeclasses">
                                 <option value="" selected>Chọn ca thi</option>
                                 <option value="1">Ca 1</option>
                                 <option value="2">Ca 2</option>
@@ -47,7 +47,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-primary" type="submit" id="button1">Xác nhận</button>
+                            <button class="btn btn-primary" type="submit" id="button1" @click="getListPrint">Xác nhận</button>
                         </div>
                     </div>
                     <br>
@@ -97,11 +97,6 @@
                                 DANH SÁCH THI</h1>
                             <p
                                 style="text-align: center; font-weight: bold; margin: 0; padding: 0; font-size: 14pt; color: black;">
-                                <!-- <?php date_default_timezone_set('Asia/Bangkok');
-                        $comm_d = date("d");
-                        $comm_m = date("m");
-                        $comm_y = date("Y"); ?>
-                                Ngày <?php echo $comm_d; ?> tháng <?php echo $comm_m; ?> năm <?php echo $comm_y; ?> -->
                             </p>
                             <table
                                 style="width: 100%; border: none; border-collapse: collapse; margin-top: 30px; color: black;">
@@ -120,8 +115,8 @@
                                         <th style="width: 100px; border: 1px solid;">Chữ ký</th>
                                         <th style="width: 100px; border: 1px solid;">Ghi chú</th>
                                     </tr>
-                                    <tr style="text-align: center;">
-                                        <th style="width: 50px; border: 1px solid;">1</th>
+                                    <tr style="text-align: center;" v-for="(item, index) in listprint" :key="index">
+                                        <th style="width: 50px; border: 1px solid;">Ơ</th>
                                         <th style="width: 200px; border: 1px solid;">Do Van A</th>
                                         <th style="width: 150px; border: 1px solid;">17020568</th>
                                         <th style="width: 150px; border: 1px solid;">2/9/1999</th>
@@ -168,3 +163,42 @@
         </div>
     </div>
 </template>
+
+<script>
+    import API from "@/services/modules/account.services.js";
+    export default {
+        data() {
+            return {            
+                listprint:null,    
+                item:{
+                    typeclasses:1,
+                    subjectcode:""
+                }           
+            }          
+        },
+        
+        methods:{           
+            async getListPrint(){
+                try {
+                    const res = await API.getListPrint(this.item);
+                    if(res.data.success){
+                        this.$toasted.show('Tìm kiếm thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+                        this.listprint = res.data.data;
+                    }
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            }                   
+        }
+    }
+</script>

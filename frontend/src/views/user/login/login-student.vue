@@ -45,38 +45,50 @@
 </div>
 </template>
 <script>
-import LoginAPI from "@/services/modules/account.services.js";
-export default {
-
-    data() {
-        return {
-            user:{
-                studentcode:'',
-                password:''
+    import LoginAPI from "@/services/modules/account.services.js";
+    export default {
+        data() {
+            return {
+                user:{
+                    studentcode:'',
+                    password:''
+                }
             }
-        }
-    },
-    methods: {
-        async submit(){
-            const res = await LoginAPI.logInUser(this.user);
+        },
 
-            console.log(res);
-            // await this.$toasted.show(res.msg, {
-            //     theme: "toasted-primary",
-            //     position: "top-right",
-            //     duration : 5000,
-            //     type: "success"
-            // });
-        //    this.$router.push("homeadmin");
-        }
-    },
-    watch: {
-    },
-    created() {
+        methods: {
+            async submit(){
+                try {
+                    const res = await LoginAPI.logInUser(this.user);                   
+                    if(res.data.success){
+                        this.$router.push('/student/home');
+                        this.$toasted.show('Đăng nhập thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+                    }
+                } catch (error) {
+                    this.$toasted.show('Đăng nhập thất bại', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+                }
+            }
+        },
 
-    },
-}
+        watch: {
+        },
+
+        created() {
+            
+        },
+    }
 </script>
+
 <style lang="scss" scoped>
 @import url('./css/style.css');
 @import url('./fonts/material-icon/css/material-design-iconic-font.min.css');

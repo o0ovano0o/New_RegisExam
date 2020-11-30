@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="breadcrumbs">      
+    <div class="breadcrumbs">
       <div class="breadcrumbs-inner">
           <div class="row m-0">
               <div class="col-sm-4">
@@ -33,7 +33,7 @@
                           <div class="card-left pt-1 float-left">
                               <h3 class="mb-0 fw-r">
                                   <!-- <span class="currency float-left mr-1">$</span> -->
-                                  <span class="count">12</span>
+                                  <span class="count">{{exam}}</span>
                               </h3>
                               <p class="text-light mt-1 m-0">Kì Thi</p>
                           </div><!-- /.card-left -->
@@ -49,7 +49,7 @@
                       <div class="card-body">
                           <div class="card-left pt-1 float-left">
                               <h3 class="mb-0 fw-r">
-                                  <span class="count">500</span>
+                                  <span class="count">{{student}}</span>
                               </h3>
                               <p class="text-light mt-1 m-0">Sinh viên</p>
                           </div><!-- /.card-left -->
@@ -65,7 +65,7 @@
                       <div class="card-body">
                           <div class="card-left pt-1 float-left">
                               <h3 class="mb-0 fw-r">
-                                  <span class="count">20</span>
+                                  <span class="count">{{admin}}</span>
                               </h3>
                               <p class="text-light mt-1 m-0">Admin</p>
                           </div><!-- /.card-left -->
@@ -80,7 +80,7 @@
                       <div class="card-body">
                           <div class="card-left pt-1 float-left">
                               <h3 class="mb-0 fw-r">
-                                  <span class="count">30</span><span>  /  </span> <span class="count">100</span>
+                                  <span class="count">{{listsubject}}</span><span>  /  </span> <span class="count">{{nonlistsubject}}</span>
                               </h3>
                               <p class="text-light mt-1 m-0">Cấm Thi / Được Thi</p>
                           </div><!-- /.card-left -->
@@ -91,9 +91,9 @@
                   </div>
               </div>
           </div>
-          <hr class="hr-normal">         
+          <hr class="hr-normal">
           <div class="row" style="margin-top: 20px;">
-            
+
           </div>
 
       </div>
@@ -102,11 +102,35 @@
   </div>
 </template>
 <script>
+import API from "@/services/modules/account.services.js";
 // import layout from '@/views/layout/index'
 export default {
-  components:{
-
-  }
+  data() {
+      return {
+            nonlistsubject:0,
+      listsubject:null,
+      admin:null,
+      student:null,
+      exam:null
+      }
+  },
+  methods:{
+      async getDetailHome(){
+          let res = await API.getHome();
+        res = res.data;
+          if(res.success) {
+              this.nonlistsubject = res.nonlistsubject;
+              this.listsubject = res.listsubject;
+              this.admin = res.admin;
+              this.exam = res.exam;
+              this.student = res.student;
+          }
+      }
+  },
+  async created() {
+      console.log(123);
+         await this.getDetailHome();
+  },
 
 }
 </script>

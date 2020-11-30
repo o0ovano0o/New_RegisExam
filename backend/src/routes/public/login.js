@@ -6,6 +6,7 @@ const handleAPIError = require('../../common/handleAPIError');
 router.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log(req.body)
     if (!username || !password) return res.status(400).json({ success: false, msg: 'Tài khoản hoặc mật khẩu thiếu' });
     const user = await knex('admin')
       .first('id', 'username', 'password', 'fullname')

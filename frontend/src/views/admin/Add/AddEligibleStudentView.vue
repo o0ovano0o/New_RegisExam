@@ -32,99 +32,277 @@
                         <strong class="card-title">Nhập danh sách sinh viên đủ điều kiện thi</strong>
                     </div>
                     <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data" action="index.php?area=Admin&controller=AddEligibleStudent&action=add">
+
                             <div class="custom-file">
-                                <input name="file" type="file" class="custom-file-input" id="validatedCustomFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                                <input name="file" type="file" class="custom-file-input" v-if="!opendialog" id="validatedCustomFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file excel</label>
                                 <div class="invalid-feedback">Tệp không hợp lệ</div>
                             </div>
-                            <input onclick="modal();" style="margin-top:10px;" type="submit" name="btnGui" value="Nhập danh sách" class="btn btn-primary">
-                            <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="lds-hourglass"></div>
-                                </div>
-                            </div>
-                        </form>
+                            <button style="margin-top:10px;" @click="getData()" name="btnGui" class="btn btn-primary">Nhập danh sách
+                            </button>
+
                     </div>
                 </div>
             </div>
             <!-- .animated -->
-            <button type="button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#mediumModal">
+            <button type="button" class="btn btn-secondary mb-1" @click="openDialog">
                     <i class="fa fa-plus-square"></i> Thêm sinh viên
                 </button>
-            <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
-                    aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
+
+                <div class="modal-dialog modal-lg" v-if="opendialog" role="document">
+                    <div class="modal-content" style="padding:15px;">
                         <div class="modal-header">
                             <h5 class="modal-title" id="mediumModalLabel" style="text-align: center"><strong>Thêm sinh viên được thi</strong></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" @click="closeDialog" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="index.php?area=Admin&controller=AddEligibleStudent&action=addOne">
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Mã sinh viên</strong></label></div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" id="hocphan" name="msv" placeholder="Mã sinh viên" class="form-control" required><small class="form-text text-muted"></small>
+                                        <input type="text" id="hocphan" name="msv" placeholder="Mã sinh viên" class="form-control" v-model="student.studentcode" required><small class="form-text text-muted"></small>
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Tên sinh viên</strong></label></div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" id="hocphan" name="fullname" placeholder="Họ và tên sinh viên" class="form-control" required><small class="form-text text-muted"></small>
+                                        <input type="text" id="hocphan" v-model="info.fullname" name="fullname" placeholder="Họ và tên sinh viên" class="form-control" disabled><small class="form-text text-muted"></small>
                                     </div>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3"><label for="text-input"
-                                            class=" form-control-label"><strong>Ngày sinh</strong></label></div>
-                                    <div class='col-12 col-md-9'>
-                                        <div class="form-group">
-                                            <div id="filterDate2">
 
-                                                <!-- Datepicker as text field -->
-                                                <div class="input-group date" data-date-format="dd/mm/yyyy">
-                                                    <input type="date" id="date" name="date" class="form-control" placeholder="dd/mm/yyyy">
-                                                    <div class="input-group-addon">
-                                                        <span class="fa fa-calendar"></span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row form-group" >
                                     <div class="col col-md-3"><label for="text-input"
                                             class=" form-control-label"><strong>Lớp học</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="phongmay" name="classes"
-                                            placeholder="Lớp học" class="form-control" required><small
+                                    <div class="col-12 col-md-9"><input  v-model="info.class"  type="text" id="phongmay" name="classes"
+                                            placeholder="Lớp học" class="form-control" disabled><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Mã môn học</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectCode"
+                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectCode" v-model="student.subjectcode"
                                             placeholder="Mã môn học" class="form-control" required><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label"><strong>Tên môn học</strong></label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectName"
-                                            placeholder="Tên môn học" class="form-control" required><small
+                                    <div class="col-12 col-md-9"><input type="text" id="soluong" name="SubjectName" v-model="student.subjectname"
+                                            placeholder="Tên môn học" class="form-control" ><small
                                             class="form-text text-muted"></small></div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                    <button type="button" class="btn btn-secondary"  @click="closeDialog" data-dismiss="modal">Hủy bỏ</button>
+                                    <button type="submit" class="btn btn-primary" @click="submit">Xác nhận</button>
                                 </div>
-                            </form>
+
                         </div>
                     </div>
                 </div>
-            </div>
+
         </div>
     </div>
 </template>
+<script>
+import readXlsxFile from 'read-excel-file';
+import API from '@/services/modules/import.services.js';
+export default {
+    data() {
+        return {
+            opendialog:false,
+            student:{
+                studentcode:"",
+                subjectcode:"",
+                subjectname:""
+            },
+            info:{
+               fullname:"",
+               datebirth:"",
+               class:"",
+
+            }
+        }
+    },
+    watch: {
+        "student.studentcode":async function(val){
+
+            if(val);
+                await this.getStudent(val);
+        },
+              "student.subjectcode":async function(val){
+
+            if(val);
+                await this.getSuject(val);
+        }
+    },
+    methods:{
+        async getStudent(val){
+            const res = await API.getStudentBycode(val);
+
+            if(res.data.success) {
+                this.info.fullname = res.data.data[0].fullname;
+                this.info.datebirth = res.data.data[0].datebirth;
+                this.info.class = res.data.data[0].class;
+                // this.info.subjectname = res.data.data[0].subjectname;
+            }
+        },
+        async getSuject(val){
+            const res = await API.getSubjectBysubjectcode(val);
+            if(res.data.success) {
+                this.student.subjectname = res.data.data[0].subjecname;
+            }
+        },
+        async submit(){
+            try {
+                const res = await API.importEligibleStudent(this.student);
+                if(res.data.success){
+                    this.closeDialog();
+                    this.$toasted.show('Thêm mới thành công', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'success'
+                    });
+                }
+            } catch (error) {
+                this.$toasted.show('Thêm mới thất bại', {
+                    theme: "toasted-primary",
+                    position: "top-right",
+                    duration : 5000,
+                    type: 'error'
+                });
+            }
+        },
+        openDialog(){
+            this.opendialog = true;
+        },
+        closeDialog() {
+            this.opendialog = false;
+                     this.student={
+                studentcode:"",
+                subjectcode:"",
+                subjectname:""
+            },
+            this.info={
+               fullname:"",
+               datebirth:"",
+               class:"",
+               subjectname:""
+            }
+        },
+            getData(){
+      var input = document.getElementById('validatedCustomFile');
+      readXlsxFile(input.files[0]).then(async (rows) => {
+        rows = await rows.map(element =>
+            element.map(item=>{
+              if(typeof item.getMonth == 'function' || typeof item.getMonth == 'function'){
+               return item.toISOString()
+               .split('T')[0].split('-').reverse().join('-');
+              }
+              return item;
+              })
+
+          );
+        console.log(rows);
+        try {
+            const res = await API.importStudentSubject(rows, 1);
+            if(res.data.success){
+                this.$toasted.show('Nhập liệu thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+            }
+        } catch (error) {
+            this.$toasted.show('Nhập liệu thất bại', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+        }
+      });
+    }
+    }
+}
+</script>
+<style lang="scss" scoped>
+.content {
+    z-index: 2;
+}
+.modal-dialog {
+    position: absolute;
+    top: 90px;
+    z-index: 200;
+    z-index: 1;
+    width: 600px;
+    left: calc(50% - 204px);
+}
+@mixin fade-in {
+  -webkit-animation-name: fade-in;
+  animation-name: fade-in;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+@keyframes fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+$dialog-background: hsl(0, 0%, 96%);
+$dialog-border: hsl(0, 0%, 94%);
+$dialog-divisor: hsl(0, 0%, 78%);
+$dialog-fade: hsla(100, 100%, 0%, 30%);
+
+.dialog {
+  .dialog-content {
+    background-color: $dialog-background;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column !important;
+    left: 50%;
+    margin: 10vh auto;
+    padding: 20px 20px;
+    padding-right: 45px;
+    position: fixed;
+    transform: translate(-50%, 50%);
+    width: 50%;
+    z-index: 999;
+
+    .dialog-close {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+    }
+  }
+
+  .dialog-fade {
+    background-color: $dialog-fade;
+    content: "";
+    display: none;
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 998;
+  }
+
+  &.is-active {
+    .dialog-content,
+    .dialog-fade {
+      @include fade-in();
+      display: flex !important;
+    }
+  }
+}
+
+</style>

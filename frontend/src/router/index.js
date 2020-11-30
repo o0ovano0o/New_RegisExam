@@ -3,7 +3,7 @@ import vueRouter from 'vue-router'
 
 Vue.use(vueRouter)
 
-export default new vueRouter({
+let router = new vueRouter({
 
     mode: "history",
     routes: [
@@ -70,7 +70,7 @@ export default new vueRouter({
             }]
         },
         {
-            path: "/admin/semester",
+            path: "/admin/semester/:id",
             name: "admin_semester",
             component: require("@/views/admin/layout").default,
             children: [{
@@ -112,66 +112,17 @@ export default new vueRouter({
         },
 
         {
-            path: "/admin/showWeb0",
-            name: "admin_showWeb0",
+            path: "/admin/showdetailsubject/:id",
+            name: "showdetailsubject",
             component: require("@/views/admin/layout").default,
             children: [{
                 path: '',
                 name: "admin_showWeb0_detail",
-                component: require("@/views/admin/ShowWeb/ShowWeb0View").default
-            }]
+                component: require("@/views/admin/ShowDetailSubject/index.vue").default
+            }, ]
         },
 
-        {
-            path: "/admin/showWeb1",
-            name: "admin_showWeb1",
-            component: require("@/views/admin/layout").default,
-            children: [{
-                path: '',
-                name: "admin_showWeb1_detail",
-                component: require("@/views/admin/ShowWeb/ShowWeb1View").default
-            }]
-        },
-        {
-            path: "/admin/showHqt0",
-            name: "admin_showHqt0",
-            component: require("@/views/admin/layout").default,
-            children: [{
-                path: '',
-                name: "admin_showHqt0_detail",
-                component: require("@/views/admin/ShowHqt/ShowHqt0View").default
-            }]
-        },
-        {
-            path: "/admin/showHqt1",
-            name: "admin_showHqt1",
-            component: require("@/views/admin/layout").default,
-            children: [{
-                path: '',
-                name: "admin_showHqt1_detail",
-                component: require("@/views/admin/ShowHqt/ShowHqt1View").default
-            }]
-        },
-        {
-            path: "/admin/showAi0",
-            name: "admin_showAi0",
-            component: require("@/views/admin/layout").default,
-            children: [{
-                path: '',
-                name: "admin_showAi0_detail",
-                component: require("@/views/admin/ShowAi/ShowAi0View").default
-            }]
-        },
-        {
-            path: "/admin/showAi1",
-            name: "admin_showAi1",
-            component: require("@/views/admin/layout").default,
-            children: [{
-                path: '',
-                name: "admin_showAi1_detail",
-                component: require("@/views/admin/ShowAi/ShowAi1View").default
-            }]
-        },
+
         {
             path: "/admin/addUserStudent",
             name: "admin_adduserstudent",
@@ -217,51 +168,43 @@ export default new vueRouter({
             path: "/student/profile",
             name: "student_profile",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_profile_detail",
+            children: [{
+                path: '',
+                name: "student_profile_detail",
                 component: require("@/views/user/profile/profile-student").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/home",
             name: "student_home",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_home_detail",
+            children: [{
+                path: '',
+                name: "student_home_detail",
                 component: require("@/views/user/home").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/regist-exam",
             name: "student_registExam",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_registExam_detail",
+            children: [{
+                path: '',
+                name: "student_registExam_detail",
                 component: require("@/views/user/registExam").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/print-exam-registration",
             name: "student_printExamRegistration",
             component: require("@/views/user/layout").default,
-            children:[
-              {
-                path:'',
-                name:"student_printExamRegistration_detail",
+            children: [{
+                path: '',
+                name: "student_printExamRegistration_detail",
                 component: require("@/views/user/printExamRegistration").default
-              }
-            ]
-          },
-          {
+            }]
+        },
+        {
             path: "/student/repass",
             name: "student_repass",
             component: require("@/views/user/layout").default,
@@ -292,3 +235,13 @@ export default new vueRouter({
         // }
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    if (!to.name) {
+        next('student/home');
+    } else {
+        next();
+    }
+})
+
+export default router;

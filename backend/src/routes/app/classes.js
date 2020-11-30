@@ -6,8 +6,19 @@ const { validateAdminAPI, validateStudentAPI } = require('../../middlewares/vali
 router.post('/api/admin/classes/:examid', validateAdminAPI, async(req, res) => {
     try {
         const { examid } = req.params;
-        const { subjectid, date, room, start, end, amount, typeclasses } = req.body;
-        if (!examid || !subjectid || !date || !room || !start || !end || !amount || !typeclasses) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const { subjectcode,subjectname, date, room, start, end, amount, typeclasses } = req.body;
+        if (!examid || !subjectcode || !date || !room || !start || !end || !amount || !typeclasses) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const checkexit = await knex('classes').where({ date, room, start, end });
+        console.log(checkexit);
+        if(checkexit.length > 0) {
+            return res.status(501).json({ success:false, msg:'Đã có ca thi trùng'});
+        }
+        let [ids] = await knex('subject').select('id').where({ subjectcode }).andWhere({ examid });
+        if(!ids) {
+            let id = await knex('subject').insert({ examid, subjectcode, subjecname:subjectname});
+            ids={id};
+        }
+        const subjectid = ids.id;
         const check = await knex('classes')
             .insert({ subjectid, date, room, start, end, amount, typeclasses, studentregis: 0, examid });
         if (!check) return res.status(400).json({ success: false, msg: 'Tạo ca thi thất bại' });
@@ -20,10 +31,11 @@ router.post('/api/admin/classes/:examid', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.delete('/api/admin/classes/:examid/:id', validateAdminAPI, async(req, res) => {
+router.delete('/api/admin/classes/:id', validateAdminAPI, async(req, res) => {
     try {
-        const { examid, id } = req.params;
-        if (!examid || !id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const { id } = req.params;
+        if ( !id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+
         const check = await knex('classes')
             .delete()
             .where({ id });
@@ -37,13 +49,18 @@ router.delete('/api/admin/classes/:examid/:id', validateAdminAPI, async(req, res
     }
 });
 
-router.put('/api/admin/classes/:examid/:id', validateAdminAPI, async(req, res) => {
+router.put('/api/admin/classes/:id', validateAdminAPI, async(req, res) => {
     try {
-        const { examid, id } = req.params;
-        const { subjectid, date, room, start, end, amount, typeclasses } = req.body;
-        if (!examid || !subjectid || !date || !room || !start || !end || !amount || !typeclasses) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const { id } = req.params;
+        const { date, room, start, end, amount, typeclasses } = req.body;
+        if (  !date || !room || !start || !end || !amount || !typeclasses) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
+        const checkexit = await knex('classes').where({ date, room, start, end });
+        console.log(checkexit);
+        if(checkexit.length > 1) {
+            return res.status(501).json({ success:false, msg:'Đã có ca thi trùng'});
+        }
         const check = await knex('classes')
-            .update({ subjectid, date, room, start, end, amount, typeclasses })
+            .update({ date, room, start, end, amount, typeclasses })
             .where({ id });
         if (!check) return res.status(400).json({ success: false, msg: 'Sửa ca thi thất bại' });
         return res.status(200).json({
@@ -61,7 +78,8 @@ router.get('/api/admin/classess/:examid', validateAdminAPI, async(req, res) => {
         const { examid } = req.params;
         const listclasses = await knex('classes')
             .join('exam', 'examid', '=', 'exam.id')
-            .select();
+            .join('subject','subject.id','subjectid')
+            .select('exam.*','subject.*','classes.*');
         return res.status(200).json({
             success: true,
             data: listclasses,

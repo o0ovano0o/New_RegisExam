@@ -35,12 +35,12 @@
             </div>
             <div class="top-right">
                 <div class="header-menu">
-                    <div class="user-area dropdown float-right usedrop">
+                    <div class="user-area dropdown float-right usedrop" >
                         <a href="#" class="dropdown-toggle active usedrop" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                                style="font-weight: bold; font-size: 18px;">Xin chào:
-                                </span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small" v-for="(item, index) in userProfile" :key="index"
+                                style="font-weight: bold; font-size: 18px;">Xin chào: {{item.fullname}}
+                            </span>
                             <img class="user-avatar rounded-circle" src="./assets/images/admin.jpg" alt="User Avatar">
                         </a>
 
@@ -78,10 +78,47 @@
 </div>
 </template>
 <script>
-export default {
+    import API from "@/services/modules/account.services.js";
+    export default {
+        data() {
+            return {
+                userProfile:null
+            }
+        },
 
-}
+        methods: {
+            
+            async getProfileStudent(){
+                try {                  
+                    const res = await API.getProfileStudent();
+                    this.userProfile = res.data.data;
+                    this.$toasted.show(this.userProfile.fullname, {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+        },
+
+        watch: {
+        },
+
+        async created() {
+            await this.getProfileStudent();
+            
+        },
+    }
 </script>
+
 <style lang="scss" scoped>
 
 @import url("https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css");

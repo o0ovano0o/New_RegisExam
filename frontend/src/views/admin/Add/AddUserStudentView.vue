@@ -33,19 +33,15 @@
                         <strong class="card-title">Nhập danh sách sinh viên được cấp tài khoản</strong>
                     </div>
                     <div class="card-body">
-                        <form method="POST" enctype="multipart/form-data" action="index.php?area=Admin&controller=AddUserStudent&action=add">
+
                             <div class="custom-file">
                                 <input name="file" type="file" class="custom-file-input" id="validatedCustomFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file excel</label>
                                 <div class="invalid-feedback">Tệp không hợp lệ</div>
                             </div>
-                            <input onclick="modal();" style="margin-top:10px;" type="submit" name="btnGui" value="Nhập danh sách" class="btn btn-primary">
-                            <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="lds-hourglass"></div>
-                                </div>
-                            </div>
-                        </form>
+                            <button style="margin-top:10px;" @click="getData()" name="btnGui" class="btn btn-primary">Nhập danh sách
+                            </button>
+
                     </div>
                 </div>
             </div>
@@ -53,22 +49,45 @@
         </div>
     </div>
 </template>
-
-
 <script>
-    $('#validatedCustomFile').on('change', function() {
-        //get the file name
-        var fileName = $(this).val();
-        //replace the "Choose a file" label
-        $(this).next('.custom-file-label').html(fileName);
-    })
-</script>
-<script>
-    function modal() {
-        $('.modal').modal('show');
-        setTimeout(function() {
-            console.log('hejsan');
-            $('.modal').modal('hide');
-        }, 2000);
+import readXlsxFile from 'read-excel-file';
+import API from '@/services/modules/import.services.js';
+export default {
+  methods:{
+    getData(){
+      var input = document.getElementById('validatedCustomFile');
+      readXlsxFile(input.files[0]).then(async (rows) => {
+        rows = await rows.map(element =>
+            element.map(item=>{
+              if(typeof item.getMonth == 'function' || typeof item.getMonth == 'function'){
+               return item.toISOString()
+               .split('T')[0].split('-').reverse().join('-');
+              }
+              return item;
+              })
+
+          );
+        console.log(rows);
+        try {
+            const res = await API.importStudent(rows);
+            if(res.data.success){
+                this.$toasted.show('Nhập liệu thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+            }
+        } catch (error) {
+            this.$toasted.show('Nhập liệu thất bại', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+        }
+      });
     }
+  }
+}
 </script>
