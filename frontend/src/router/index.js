@@ -269,7 +269,7 @@ export default new vueRouter({
               {
                 path:'',
                 name:"student_repass_detail",
-                component: require("@/views/user/repass").default
+                component: require("@/views/user/rePass").default
               }
             ]
           }

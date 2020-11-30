@@ -1,22 +1,11 @@
-FROM node:latest as build-stage
+# build stage
+FROM node:13-alpine as build-stage
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
 COPY . .
-EXPOSE 80
-CMD [ "npm", "run serve" ]
+RUN npm install
+RUN npm run build
 
-
-# # build stage
-# FROM node:lts-alpine as build-stage
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm install
-# COPY . .
-# RUN npm run build
-
-# # production stage
-# FROM nginx:stable-alpine as production-stage
-# COPY --from=build-stage /app/dist /usr/share/nginx/html
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
+# production stage
+FROM nginx:1.17-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]

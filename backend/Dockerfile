@@ -1,22 +1,10 @@
 FROM node:8  
 WORKDIR /app  
-COPY package*.json /app  
-RUN npm install  
-COPY . /app 
-CMD node index.js
+COPY package*.json ./
 
-# FROM node:latest as build-stage
-# # Create app directory
-# WORKDIR /app
+RUN npm install
 
-# # Install NPM
-# COPY package*.json /app
-# RUN npm install
+COPY . .
 
-# # Bundle app source
-# COPY . /app
-
-
-# EXPOSE 6969
-
-# CMD ["npm","start"]
+EXPOSE 3000
+CMD [ "npm", "start" ]
