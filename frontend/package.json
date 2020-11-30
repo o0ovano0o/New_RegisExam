@@ -1,5 +1,5 @@
 {
-  "name": "Exam Register",
+  "name": "New-register",
   "version": "0.1.0",
   "private": true,
   "main": "./src/main.js",
