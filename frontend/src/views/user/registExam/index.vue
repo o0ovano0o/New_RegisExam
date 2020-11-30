@@ -133,66 +133,7 @@
 </template>
 
 <script>
-// $('#save').click(function() {
-//     var id = $('#ddReferences').find('input[type="checkbox"]:checked').val();
-//     //alert($('#dataTable1').find('input[type="checkbox"]:checked').val());
-//     var hocphan = $('#' + id).children('td[data-target=hocphan]').text();
-//     var mahocphan = $('#' + id).children('td[data-target=mahocphan]').text();
-//     var ngaythi = $('#' + id).children('td[data-target=ngaythi]').text();
-//     var giobatdau = $('#' + id).children('td[data-target=giobatdau]').text();
-//     var gioketthuc = $('#' + id).children('td[data-target=gioketthuc]').text();
-//     var phongthi = $('#' + id).children('td[data-target=phongthi]').text();
-//     var soluong = $('#' + id).children('td[data-target=soluong]').text();
-//     var cathi = $('#' + id).children('td[data-target=cathi]').text();
-//     //alert(cathi);
-//     $.ajax({
-//         url: 'addmonthi',
-//         method: 'post',
-//         data: {
-//             hocphan: hocphan,
-//             mahocphan: mahocphan,
-//             ngaythi: ngaythi,
-//             giobatdau: giobatdau,
-//             gioketthuc: gioketthuc,
-//             phongthi: phongthi,
-//             cathi: cathi,
-//             id_ca: id,
-//         },
-//         success: function(response) {
 
-//         }
-//     });
-
-//     $.ajax({
-//         url: 'update-soluong',
-//         method: 'post',
-//         data: {
-//             id: id
-//         },
-//         success: function(data) {
-//             location.reload();
-
-//         }
-//     });
-// });
-// $(document).on('click', 'a[data-role=delete]', function() {
-//     var id = this.id;
-//     var id_ca = $(this).data('id');
-//     if (confirm('Bạn muốn xóa ca thi này!')) {
-//         $.ajax({
-//             url: 'xoa-cathi',
-//             method: 'post',
-//             data: {
-//                 id: id,
-//                 id_ca: id_ca,
-//             },
-//             success: function(data) {
-//                 location.reload();
-//             }
-//         });
-//     }
-
-// });
 </script>
 
 <style>

@@ -42,6 +42,27 @@ router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
     }
 });
 
+router.put('/api/student/password', validateStudentAPI, async(req, res) => {
+    try {
+        const { user_id } = req.session;
+        const { newpass, oldpass } = req.body;
+        if (newpass.length < 8) {
+            return res.status(400).json({ msg: "Mật khẩu không đúng yêu cầu", success: false });
+        }
+        const [student] = await knex('student')
+            .where({ id: user_id });
+        if (!student || student.password !== sha1(oldpass)) {
+            return res.status(401).json({ msg: "Bạn không có quyền đổi mật khẩu", success: false });
+        }
+        await knex('student').update({ password: sha1(newpass) }).where({ id: user_id });
+        return res.status(200).json({
+            success: true,
+            msg: 'Cập nhật tài khoản thành công'
+        });
+    } catch (err) {
+        handleAPIError(err, res);
+    }
+});
 router.post('/api/admin/student', validateAdminAPI, async(req, res) => {
     try {
         const { studentcode, fullname, datebirth, gender, hometown, classes } = req.body;
@@ -87,7 +108,7 @@ router.post('/api/admin/student/query', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.get('/api/admin/student/getme', validateAdminAPI, async(req, res) => {
+router.get('/api/admin/student/getme', validateStudentAPI, async(req, res) => {
     try {
         const { user_id } = req.session;
         const student = await knex('student').where('id', user_id);

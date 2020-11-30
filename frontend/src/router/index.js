@@ -208,12 +208,14 @@ let router = new vueRouter({
             path: "/student/repass",
             name: "student_repass",
             component: require("@/views/user/layout").default,
-            children: [{
-                path: '',
-                name: "student_repass_detail",
-                component: require("@/views/user/repass").default
-            }]
-        }
+            children:[
+              {
+                path:'',
+                name:"student_repass_detail",
+                component: require("@/views/user/rePass").default
+              }
+            ]
+          }
         // {
         //   path: "/catalog",
         //   name: "catalog",
