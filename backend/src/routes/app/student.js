@@ -63,6 +63,7 @@ router.put('/api/student/password', validateStudentAPI, async(req, res) => {
         handleAPIError(err, res);
     }
 });
+
 router.post('/api/admin/student', validateAdminAPI, async(req, res) => {
     try {
         const { studentcode, fullname, datebirth, gender, hometown, classes } = req.body;
@@ -80,7 +81,6 @@ router.post('/api/admin/student', validateAdminAPI, async(req, res) => {
         handleAPIError(err, res);
     }
 });
-
 
 
 router.get('/api/admin/students', validateAdminAPI, async(req, res) => {

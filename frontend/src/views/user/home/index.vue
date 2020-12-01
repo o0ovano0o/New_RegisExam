@@ -15,7 +15,7 @@
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Số học phần
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"> <!-- <?php echo $data; ?> --></div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalsubject}}</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -33,7 +33,7 @@
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Được thi
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><!-- <?php echo $data1; ?>  --></div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalallow}}</div>
                                 </div>
                                 <div class="col-auto">
 
@@ -52,7 +52,7 @@
                                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Số học phần
                                         cấm
                                         thi</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><!-- <?php echo $data2; ?> --></div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalnotallow}}</div>
                                 </div>
                                 <div class="col-auto">
 
@@ -73,7 +73,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col-auto">
                                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                             <!--   <?php echo ($data1 / $data) * 100; ?> --> %</div>
+                                             {{ratio}} %</div>
                                         </div>
                                         <div class="col">
                                             <div class="progress progress-sm mr-2">
@@ -115,14 +115,12 @@
                                             <th>Học phần</th>
                                         </tr>
                                     </thead>
-                                  <!--
-                                    <?php foreach ($datalist as $item) : ?>
-                                    <tr>
-                                        <td><?php echo $item->SubjectID; ?></td>
-                                        <td><?php echo $item->SubjectName; ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                    -->
+                                    <tbody>
+                                        <tr v-for="(item, index) in allow" :key="index">
+                                            <td>{{item.subjectcode}}</td>
+                                            <td>{{item.subjecname}}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </ul>
                         </div>
@@ -146,14 +144,12 @@
                                             <th>Học phần</th>
                                         </tr>
                                     </thead>
-                                    <!--
-                                    <?php foreach ($datalistno as $item) : ?>
-                                    <tr>
-                                        <td><?php echo $item->SubjectID; ?></td>
-                                        <td><?php echo $item->SubjectName; ?></td>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                    -->
+                                    <tbody>
+                                        <tr v-for="(item, index) in notallow" :key="index">
+                                            <td>{{item.subjectcode}}</td>
+                                            <td>{{item.subjecname}}</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </ul>
                         </div>
@@ -188,8 +184,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -197,12 +191,54 @@
 </div>
 </template>
 <script>
-export default {
-  components:{
+    import API from "@/services/modules/account.services.js";
+    export default {
+        data() {
+            return {
+                classeslist: null,
+                allow: null,
+                notallow: null,
+                totalsubject: 0,
+                totalallow: 0,
+                totalnotallow: 0,
+                ratio: null
+            }
+        },
 
-  }
+        methods: {
+            
+            async getHomeStudent(){
+                try {                
+                    let res = await API.getHomeStudent();
+                    res = res.data;
+                    if(res.success) {
+                        this.classeslist = res.classeslist;
+                        this.allow = res.allow;
+                        this.totalsubject = res.totalsubject;
+                        this.totalallow = res.totalallow;
+                        this.totalnotallow = res.totalnotallow;
+                        this.ratio = res.ratio;
+                    }
+                    console.log(this.classeslist);
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+        },
 
-}
+        watch: {
+        },
+
+        async created() {
+            await this.getHomeStudent();
+            
+        },
+    }
 </script>
 <style lang="scss" scoped>
     @import url("https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css");
