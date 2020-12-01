@@ -101,7 +101,7 @@ router.get('/api/student/home', validateStudentAPI, async(req, res) => {
       const ratio = (allow.length/listsubject.length)*100;
       const {id } = await knex('exam').first('id').where({status: 1});
       const examid=id;
-      const classeslist = await knex('classes').select().whereIn('subjectid', listsubject.map(item=> item.subjectid)).andWhere({ examid });
+      const classeslist = await knex('classes').join('subject', 'subject.id','subjectid').select('subject.*', 'classes.*').whereIn('subjectid', listsubject.map(item=> item.subjectid)).andWhere({ "classes.examid": examid });
       return res.status(200).json({
         success: true,
         classeslist,
