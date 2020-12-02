@@ -11,8 +11,10 @@ router.get('/api/student/result', validateStudentAPI, async(req, res) => {
         const examid = id;
         const { user_id } = req.session;
         const listresult = await knex('result')
-            .select()
-            .where({ studentid: user_id }).andWhere({ examid });
+            .join('subject','subject.id','subjectid')
+            .join('classes','classes.id','classesid')
+            .select('subject.*', 'classes.*','result.*')
+            .where({ studentid: user_id }).andWhere({ "result.examid": examid });
         return res.status(200).json({
             success: true,
             data: listresult,
