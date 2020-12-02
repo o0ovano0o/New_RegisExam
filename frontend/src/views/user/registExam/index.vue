@@ -50,22 +50,18 @@
                                     </tr>
                                 </thead>
                                 <tbody id="ddReferences">
-                                <!--
-                                    <?php foreach ($data as $item) : ?>
-                                        <tr class="fixketqua" id="<?php echo $item['id']; ?>">
-                                            <td style="text-align: center;" id="input"><input type="checkbox" value="<?php echo $item['id']; ?>"></td>
-                                            <td data-target="hocphan"><?php echo $item['SubjectName'] ?></td>
-                                            <td data-target="mahocphan"><?php echo $item['SubjectID'] ?></td>
-                                            <td data-target="ngaythi"><?php echo $item['Date'] ?></td>
-                                            <td data-target="phongthi"><?php echo $item['Room'] ?></td>
-                                            <td data-target="giobatdau"><?php echo $item['Start'] ?></td>
-                                            <td data-target="gioketthuc"><?php echo $item['End'] ?></td>
-                                            <td style="text-align: center;" data-target="soluong"><b><?php echo $item['Amount'] ?></b></td>
-                                            <td style="color: #e53935; text-align: center;" data-target="dadangky"><b><?php echo $item['DaDangKy'] ?></b></td>
-                                            <td style="text-align: center;" data-target="cathi"><?php echo $item['IDClasses'] ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                    -->
+                                    <tr class="fixketqua" v-for="(item, index) in classeslist" :key="index" :id="item.id">
+                                        <td style="text-align: center;"><input type="checkbox" :value="item.id" style="display: block;"></td>
+                                        <td data-target="hocphan">{{item.subjecname}}</td>
+                                        <td data-target="mahocphan">{{item.subjectid}}</td>
+                                        <td data-target="ngaythi">{{item.date}}</td>
+                                        <td data-target="phongthi">{{item.room}}</td>
+                                        <td data-target="giobatdau">{{item.start}}</td>
+                                        <td data-target="gioketthuc">{{item.end}}</td>
+                                        <td style="text-align: center;" data-target="soluong"><b>{{item.amount}}</b></td>
+                                        <td style="color: #e53935; text-align: center;" data-target="dadangky"><b>{{item.studentregis}}</b></td>
+                                        <td style="text-align: center;" data-target="cathi">{{item.examid}}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div> <!-- /.table-stats -->
@@ -94,23 +90,18 @@
                                     </tr>
                                 </thead>
                                 <tbody id="ketqua">
-                                <!--
-                                    <?php $i=1; ?>
-                                    <?php foreach ($datakq as $item1) : ?>
-                                        <tr id="<?php echo $item1['id']; ?>">
-                                            <td><?php echo $i;?></td>
-                                            <td data-target="hocphan"><?php echo $item1['SubjectName'] ?></td>
-                                            <td data-target="mahocphan"><?php echo $item1['SubjectID'] ?></td>
-                                            <td data-target="ngaythi"><?php echo $item1['Date'] ?></td>
-                                            <td data-target="phongthi"><?php echo $item1['Room'] ?></td>
-                                            <td data-target="giobatdau"><?php echo $item1['Start'] ?></td>
-                                            <td data-target="gioketthuc"><?php echo $item1['End'] ?></td>
-                                            <td style="text-align:center;" data-target="cathi"><?php echo $item1['IDClasses'] ?></td>
-                                            <td style="text-align:center;"><a id="<?php echo $item1['id']; ?>" data-role='delete' data-id="<?php echo $item1['id_ca']; ?>" href="" class="btn btn-warning" style="color: red; padding: 1px 5px;">xóa</a></td>
-                                        </tr>
-                                        <?php $i++; ?>
-                                    <?php endforeach; ?>
-                                    -->
+                                    <tr  v-for="(item, index) in listresult" :key="index" :id="item.id">
+                                        <td>{{index + 1}}</td>
+                                        <td data-target="hocphan">{{item.subjecname}}</td>
+                                        <td data-target="mahocphan">{{item.subjectid}}</td>
+                                        <td data-target="ngaythi">{{item.date}}</td>
+                                        <td data-target="phongthi">{{item.room}}</td>
+                                        <td data-target="giobatdau">{{item.start}}</td>
+                                        <td data-target="gioketthuc">{{item.end}}</td>
+                                        <td style="text-align:center;" data-target="cathi">{{item.examid}}</td>
+                                        <td style="text-align:center;"><a :id="item.id" data-role='delete' :data-id="item.examid" href="" class="btn btn-warning" @click="deleteResult(item)" style="color: red; padding: 1px 5px;">xóa</a></td>
+                                        
+                                    </tr>
                                 </tbody>
                             </table>
                         </div> <!-- /.table-stats -->
@@ -133,6 +124,84 @@
 </template>
 
 <script>
+    import API from "@/services/modules/account.services.js";
+    export default {
+        data() {
+            return {
+                classeslist: null,
+                listresult: null,
+                registexam:{
+                    classesid:'',
+                    subjectid:''
+                }
+            }
+        },
+
+        methods: {
+            
+            async getClasslist(){
+                try {                
+                    let res = await API.getHomeStudent();
+                    res = res.data;
+                    if(res.success) {
+                        this.classeslist = res.classeslist;
+                    }
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+
+            async getResultStudent(){
+                try {                
+                    let res = await API.getResultStudent();
+                    res = res.data;
+                    if(res.success) {
+                        this.listresult = res.data;
+                    }
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+
+            async deleteResult(item){
+                try {
+                    await API.deleteResult(item.id);
+                    await this.getResultStudent();
+                    this.$toasted.show('Xóa ca thi thành công', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'success'
+                        });
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            }
+        },
+
+        watch: {
+        },
+
+        async created() {
+            await this.getClasslist();
+            await this.getResultStudent();
+        },
+    }
 
 </script>
 

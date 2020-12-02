@@ -50,6 +50,18 @@ export default {
         return Api().get(`/api/admin/student/getme`);
     },
     repass(data){
-        return Api.put("/api/student/password", data);
+        return Api().put("/api/student/password", data);
+    },
+    getHomeStudent(){
+        return Api().get("/api/student/home");
+    },
+    getResultStudent(){
+        return Api().get("/api/student/result");
+    },
+    registExamStudent(data){
+        return Api().post("/api/student/result", data);
+    },
+    deleteResult(id){
+        return Api().delete(`/api/student/result/${id}`);
     }
 };
