@@ -28,7 +28,7 @@
     <div class="col-md-8" style="margin: auto; background: #fff; border: 1px solid #ccc; border-radius: 4px; padding: 10px;">
         <div style="margin-bottom: 20px; margin-top:0;" class="form-actions form-actions-padding-sm form-actions-padding-md form-actions-padding-lg">
             <div class="d-inline-block">
-                <button name="btm" class="btn btn-success btn-icon-split " onclick="exportHTML();">
+                <button name="btm" class="btn btn-success btn-icon-split " @click="exportHTML">
                     <span class="icon text-white-50">
                         <i class="fas fa-file-word"></i>
                     </span>
@@ -36,7 +36,7 @@
                 </button>
             </div>
             <div class="d-inline-block">
-                <button href="#" class="btn btn-secondary btn-icon-split" onclick="printDiv()">
+                <button href="#" class="btn btn-secondary btn-icon-split" @click="printDiv">
                     <span class="icon text-white-50">
                         <i class="fas fa-print"></i>
                     </span>
@@ -62,34 +62,27 @@
                 </table>
                 <h1 style="text-align: center; text-transform: uppercase; font-weight: bold; font-size: 14pt; margin: 30px 0 0 0; padding: 0; color: black;">PHIẾU BÁO DỰ THI HỌC KÌ I 2019-2020</h1>
                 <p style="text-align: center; font-weight: bold; margin: 0; padding: 0; font-size: 14pt; color: black;">
-                <!--
-                    <?php date_default_timezone_set('Asia/Bangkok');
-                    $comm_d = date("d");
-                    $comm_m = date("m");
-                    $comm_y = date("Y"); ?>
-                    Ngày <?php echo $comm_d; ?> tháng <?php echo $comm_m; ?> năm <?php echo $comm_y; ?>
-                    -->
+
+                    Ngày {{(new Date()).getDate()}} tháng {{(new Date()).getMonth() + 1}} năm {{(new Date()).getFullYear()}}
+                   
                 </p>
                 <table style="width: 100%; border: none; border-collapse: collapse; margin-top: 30px; color: black;">
                     <tbody>
                         <tr>
-                        <!--
                             <td>Họ và tên</td>
-                            <td><b><?php echo $_SESSION['name_sv']; ?></b></td>
+                            <td><b>{{profilestudent.fullname}}</b></td>
                             <td>Ngày sinh</td>
-                            <td><b><?php echo date("d/m/Y", strtotime($_SESSION['ngaysinh'])); ?></b></td>
+                            <td><b>{{getFormatDate(profilestudent.datebirth)}}</b></td>
                             <td>Mã sinh viên</td>
-                            <td><b><?php echo $_SESSION['mssv']; ?></b></td>-->
+                            <td><b>{{profilestudent.studentcode}}</b></td>
                         </tr>
                         <tr>
-                        <!--
                             <td>Chương trình đào tạo</td>
                             <td><b>Công nghệ Thông tin</b></td>
                             <td>Khóa</td>
-                            <td><b><?php echo $_SESSION['lopkhoahoc']; ?></b></td>
+                            <td><b>{{profilestudent.class}}</b></td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
-                        -->
                         </tr>
                     </tbody>
                 </table>
@@ -105,17 +98,13 @@
                             <th style="border: 1px solid #000; text-align: center;">Phòng thi</th>
 
                         </tr>
-                        <!--
-                        <?php $i=1; foreach($ketqua as $item):?>
-                        <tr>
-                            <td style="border: 1px solid #000; text-align: center;"><?php echo $i;?></td>
-                            <td style="border: 1px solid #000; ">&nbsp;<?php echo $item['SubjectName'];?></td>
-                            <td style="border: 1px solid #000; ">&nbsp;<?php echo $item['SubjectID']?></td>
-                            <td style="border: 1px solid #000;  text-align: center;"><?php echo $item['Start'].' - '.$item['End'].' | '.date("d/m/Y", strtotime($item['Date']));?></td>
-                            <td style="border: 1px solid #000;  text-align: center;"><?php echo $item['Room']?></td>
+                        <tr v-for="(item, index) in listresult" :key="index" :id="item.id">
+                            <td style="border: 1px solid #000; text-align: center;">{{index + 1}}</td>
+                            <td style="border: 1px solid #000; ">{{item.subjecname}}</td>
+                            <td style="border: 1px solid #000; ">&nbsp;{{item.subjectcode}}</td>
+                            <td style="border: 1px solid #000;  text-align: center;">{{item.start}} - {{item.end}} | {{getFormatDate(item.date)}}</td>
+                            <td style="border: 1px solid #000;  text-align: center;">{{item.room}}</td>
                         </tr>
-                        <?php $i++; endforeach; ?>
-                        -->
                     </tbody>
                 </table>
                 <table style="width: 100%; border: none; border-collapse: collapse; margin-top: 30px; color: black;">
@@ -124,10 +113,10 @@
                             <td style="width: 50%; vertical-align: top; text-align: center;">
                                 <p style="font-weight: bold; margin: 0; padding: 0; font-size: 12pt; text-transform:uppercase;">SINH VIÊN</p>
                                 <p style="margin: 0; padding: 0; font-size: 11pt; font-style: italic;">(Ký và ghi rõ họ tên)</p>
-                                <!-- <p style="margin-top:80px;"><b><?php echo $_SESSION['name_sv']; ?></b></p> -->
+                                <p style="margin-top:80px;"><b>{{profilestudent.fullname}}</b></p>
                             </td>
                             <td style="width: 50%; text-align: center; vertical-align: top; ">
-                                <p style="font-size: 12pt; margin:0; padding:0;">Hà Nội, ngày ..... tháng ..... năm 2019</p>
+                                <p style="font-size: 12pt; margin:0; padding:0;">Hà Nội, ngày ..... tháng ..... năm 2020</p>
                                 <p style="font-weight: bold; margin: 0; padding: 0; text-transform: uppercase; font-size: 12pt;">XÁC NHẬN CỦA PHÒNG ĐÀO TẠO</p>
                                 <p style="font-weight: bold; margin-top: 80px;">&nbsp;</p>
                             </td>
@@ -145,7 +134,88 @@
 </template>
 
 <script>
+    import API from "@/services/modules/account.services.js";
+    import moment from 'moment';
+    export default {
+        data() {
+            return {
+                listresult: null,
+                profilestudent: null
+            }
+        },
+
+        methods: {
+            async getResultStudent(){
+                try {                
+                    let res = await API.getResultStudent();
+                    res = res.data;
+                    if(res.success) {
+                        this.listresult = res.data;
+                    }
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+
+            async getProfileStudent(){
+                try {                  
+                    const res = await API.getProfileStudent();
+                    this.profilestudent = res.data.data[0];
+                    console.log(this.profilestudent);
+                } catch (error) {
+                    this.$toasted.show('Đã có lỗi xảy ra', {
+                            theme: "toasted-primary",
+                            position: "top-right",
+                            duration : 5000,
+                            type: 'error'
+                        });
+                }
+            },
+
+            getFormatDate : function (date) {
+                return moment(date).format('DD/MM/YYYY');
+            },
+
+            exportHTML() {
+                var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                    "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                    "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                    "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title><style>@page Section1{margin:0.75in 0.40in 0.75in 0.40in ;} div.Section1 {page:Section1;}</style></head><body><div class='Section1'>";
+                var footer = "</div></body></html>";
+                var sourceHTML = header + document.getElementById("printableTable").innerHTML + footer;
+
+                var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                var fileDownload = document.createElement("a");
+                document.body.appendChild(fileDownload);
+                fileDownload.href = source;
+                fileDownload.download = 'giayduthi.doc';
+                fileDownload.click();
+                document.body.removeChild(fileDownload);
+            },
+
+            printDiv() {
+                window.frames["print_frame"].document.body.innerHTML = document.getElementById("printableTable").innerHTML;
+                window.frames["print_frame"].window.focus();
+                window.frames["print_frame"].window.print();
+            }
+        },
+
+        watch: {
+        },
+
+        async created() {
+            await this.getResultStudent();
+            await this.getProfileStudent();
+        }
+    }
+
 </script>
+
 
 <style>
 </style>

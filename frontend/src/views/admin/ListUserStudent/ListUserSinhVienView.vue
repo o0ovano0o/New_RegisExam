@@ -107,7 +107,6 @@ export default {
        async deleteStudent(item){
             try {
                 await API.deleteStudent(item.id);
-                await this.getListStudent();
                 this.$toasted.show('Xóa thành công', {
                         theme: "toasted-primary",
                         position: "top-right",

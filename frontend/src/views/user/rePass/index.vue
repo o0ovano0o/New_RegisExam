@@ -110,7 +110,7 @@
                                 <!-- <label for="inputPasswordNewVerify" -->
                                     <!-- class="col-lg-5 col-form-label form-control-label">Xác thực</label> -->
                                 <div class="col-lg-7">
-                                    <input type="password" class="form-control" id="repass" name="repass" required="">
+                                    <input type="password" @blur="handleBlur" class="form-control" v-model="repass" id="repass" name="repass" required="">
                                     <span id="checkrepass" class="form-text small text-muted"></span>
                                 </div>
                             </div>
@@ -140,7 +140,9 @@
                 pass:{
                     oldpass:'',
                     newpass:''
-                }
+                },
+                repass:'',
+                canSubmit: false 
             }
         },
 
@@ -167,19 +169,37 @@
             },
 
             async submit(){
-                try {
-                    console.log(this.pass);
-                    const res = await API.repass(this.pass);
-                    if(res.data.success){
-                        this.$toasted.show('Thay đổi mật khẩu thành công', {
+                if(this.repass == this.pass.newpass && this.pass.newpass != '' && this.pass.oldpass != ''){
+                    try {
+                        const res = await API.repass(this.pass);
+                        if(res.data.success){
+                            this.$toasted.show('Thay đổi mật khẩu thành công', {
+                                theme: "toasted-primary",
+                                position: "top-right",
+                                duration : 5000,
+                                type: 'success'
+                            });
+                        }
+                        
+                    } catch (error) {
+                        this.$toasted.show('Thay đổi mật khẩu không thành công ', {
                             theme: "toasted-primary",
                             position: "top-right",
                             duration : 5000,
-                            type: 'success'
+                            type: 'error'
                         });
                     }
-                } catch (error) {
-                    this.$toasted.show('Thay đổi mật khẩu không thành công ', {
+                }
+                else if(this.pass.newpass == '' || this.pass.oldpass == '' || this.repass == '') {
+                    this.$toasted.show('Vui lòng nhập đầy đủ thông tin', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+                }
+                else{
+                    this.$toasted.show('Mật khẩu nhập lại không khớp', {
                         theme: "toasted-primary",
                         position: "top-right",
                         duration : 5000,
@@ -187,6 +207,17 @@
                     });
                 }
             },
+
+            handleBlur(){
+                if (this.repass != this.pass.newpass){
+                    this.$toasted.show('Mật khẩu nhập lại không khớp', {
+                        theme: "toasted-primary",
+                        position: "top-right",
+                        duration : 5000,
+                        type: 'error'
+                    });
+                }
+            }
         },
 
         watch: {
