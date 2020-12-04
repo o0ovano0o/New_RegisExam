@@ -41,4 +41,21 @@ router.post('/api/student/register', async (req, res) => {
   }
 });
 
+router.post('/intergrates/register', async (req, res) => {
+  try {
+    const { UserName , Name ,Email , DateOfBirth , Address , Class  } = req.body;
+    if (!UserName || !Name) {
+      return res.status(400).json({ success: false, msg: 'Thiếu thông tin bắt buộc' });
+    }
+
+    const rows = await knex('student').where({ studentcode:UserName }).count('*', { as: 'count' });
+    if (rows[0].count > 0) return res.status(400).json({ success: false, msg: 'Tên tài khoản đã tồn tại' });
+    const result = await knex('student').insert({ studentcode: UserName , fullname: Name, password: sha1(UserName), datebirth: DateOfBirth, hometown:Address, class: Class, email: Email });
+    if (!result) return res.status(400).json({ success: true, msg: 'Đăng ký tài khoản thất bại' });
+    return res.status(200).json({ success: true, msg: 'Đăng ký tài khoản thành công' });
+  } catch (err) {
+    handleAPIError(err, res);
+  }
+});
+
 module.exports = router;

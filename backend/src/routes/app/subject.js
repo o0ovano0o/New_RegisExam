@@ -29,7 +29,7 @@ router.get('/api/admin/subjects', validateAdminAPI, async(req, res) => {
         const { id } = await knex('exam').first('id').where({ status: 1 });
         const examid = id;
         const listsubject = await knex('subject')
-            .join('exam', 'examid', '=', 'exam.id')
+            .join('exam', 'examid', 'exam.id')
             .select('subject.*').andWhere({examid});
         return res.status(200).json({
             success: true,

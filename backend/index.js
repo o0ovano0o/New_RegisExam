@@ -4,10 +4,13 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const pg = require('pg');
 const cors = require('cors');
+const cron = require('node-cron');
 const pgSession = require('connect-pg-simple')(session);
 
 require('dotenv').config();
 const { validateAppAPI } = require('./src/middlewares/validateAPIAuthentication');
+
+const reminderSendMail = require('./src/common/sendEmailMonitor');
 
 app.use(
     cors({
@@ -52,11 +55,14 @@ if (app.get('env') === 'production') {
 
 app.use(session(sess_cfg));
 
-app.get('/api/me', validateAppAPI, (req, res) => {
+app.get('/api/me', validateAppAPI, async (req, res) => {
+    await reminderSendMail();
     res.json({
         id: req.session.user_id,
     });
 });
+
+cron.schedule('* * * * *', reminderSendMail);
 
 const PUPLIC_APIS = [
     'login',
