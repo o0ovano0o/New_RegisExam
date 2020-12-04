@@ -78,9 +78,9 @@
                                         <div class="col">
                                             <div class="progress progress-sm mr-2">
                                                 <div class="progress-bar bg-info" role="progressbar"
-                                                   style="width: <?php echo ($data1 / $data) * 100; ?>%"
+                                                    v-bind:style="{width: ratio + '%'}"
                                                     aria-valuenow="50" aria-valuemin="0"
-                                                    aria-valuemax="<?php echo ($data1 / $data) * 100; ?>">
+                                                    :aria-valuemax="ratio">
                                                 </div>
                                             </div>
                                         </div>

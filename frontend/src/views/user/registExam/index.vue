@@ -53,7 +53,7 @@
                                     <tr class="fixketqua" v-for="(item, index) in classeslist" :key="index" :id="item.id">
                                         <td style="text-align: center;"><input type="checkbox" :value="item.id" style="display: block;"></td>
                                         <td data-target="hocphan">{{item.subjecname}}</td>
-                                        <td data-target="mahocphan">{{item.subjectid}}</td>
+                                        <td data-target="mahocphan">{{item.subjectcode}}</td>
                                         <td data-target="ngaythi">{{item.date}}</td>
                                         <td data-target="phongthi">{{item.room}}</td>
                                         <td data-target="giobatdau">{{item.start}}</td>
@@ -93,7 +93,7 @@
                                     <tr  v-for="(item, index) in listresult" :key="index" :id="item.id">
                                         <td>{{index + 1}}</td>
                                         <td data-target="hocphan">{{item.subjecname}}</td>
-                                        <td data-target="mahocphan">{{item.subjectid}}</td>
+                                        <td data-target="mahocphan">{{item.subjectcode}}</td>
                                         <td data-target="ngaythi">{{item.date}}</td>
                                         <td data-target="phongthi">{{item.room}}</td>
                                         <td data-target="giobatdau">{{item.start}}</td>
@@ -111,7 +111,7 @@
                         <div class="col-md-4">Tổng số môn học đã đăng ký:<!-- <?php echo $i-1;?> --></div>
                         <div class="col-md-6"> </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-success" id="save"><i class="fa fa-save"></i>&nbsp; Ghi Nhận</button>
+                            <button type="button" class="btn btn-success" id="save" @click="registExam()"><i class="fa fa-save"></i>&nbsp; Ghi Nhận</button>
                         </div>
                     </div>
                 </div>
@@ -175,14 +175,14 @@
 
             async deleteResult(item){
                 try {
-                    await API.deleteResult(item.id);
-                    await this.getResultStudent();
+                    await API.deleteResult(item.id);                    
                     this.$toasted.show('Xóa ca thi thành công', {
                             theme: "toasted-primary",
                             position: "top-right",
                             duration : 5000,
                             type: 'success'
                         });
+                    //await this.getResultStudent();
                 } catch (error) {
                     this.$toasted.show('Đã có lỗi xảy ra', {
                             theme: "toasted-primary",
@@ -191,6 +191,10 @@
                             type: 'error'
                         });
                 }
+            },
+            
+            async registExam(){
+                
             }
         },
 
