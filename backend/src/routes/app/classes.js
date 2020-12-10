@@ -95,13 +95,15 @@ router.get('/api/student/home', validateStudentAPI, async(req, res) => {
         const { user_id } = req.session;
         const studentid = user_id
         const listsubject = await knex('listsubject').join('subject', 'subjectid', 'subject.id').join('student', 'studentid', 'student.id').select().where({ studentid });
-
-      const allow = listsubject.filter(item => item.status = 1);
-      const notallow = listsubject.filter(item => item.status = 0);
-      const ratio = (allow.length/listsubject.length)*100;
-      const {id } = await knex('exam').first('id').where({status: 1});
-      const examid=id;
-      const classeslist = await knex('classes').join('subject', 'subject.id','subjectid').select('subject.*', 'classes.*').whereIn('subjectid', listsubject.map(item=> item.subjectid)).andWhere({ "classes.examid": examid });
+        const allow = listsubject.filter(item => item.status = 1);
+        const notallow = listsubject.filter(item => item.status = 0);
+        const ratio = (allow.length/listsubject.length)*100;
+        const {id } = await knex('exam').first('id').where({status: 1});
+        const examid=id;
+        let listresult = await knex('result').where({ studentid: user_id}).andWhere({ examid});
+        listresult = listresult.map(item => item.subjectid);
+        const subjectids = await listsubject.filter(item => !listresult.includes(item.subjectid));
+      const classeslist = await knex('classes').join('subject', 'subject.id','classes.subjectid').select('subject.*', 'classes.*').whereIn('subjectid', subjectids.map(item=> item.subjectid)).andWhere({ "classes.examid": examid });
       return res.status(200).json({
         success: true,
         classeslist,
