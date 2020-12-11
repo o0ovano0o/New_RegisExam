@@ -58,4 +58,8 @@ router.post('/intergrates/register', async (req, res) => {
   }
 });
 
+router.get('/heathz', async (req, res) => {
+  res.status(200).json({ msg:'Service hoạt động', success: true});
+});
+
 module.exports = router;
