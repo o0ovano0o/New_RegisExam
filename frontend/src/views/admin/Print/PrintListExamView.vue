@@ -51,8 +51,8 @@
                         </div>
                     </div>
                     <br>
-                    <div class="d-inline-block">
-                        <button name="btm" class="btn btn-success btn-icon-split " onclick="exportHTML();">
+                    <div class="d-inline-block" >
+                        <button name="btm" class="btn btn-success btn-icon-split " v-on:click="exportHTML">
                             <span class="icon text-white-50">
                                 <i class="fas fa-file-word"></i>
                             </span>
@@ -60,7 +60,7 @@
                         </button>
                     </div>
                     <div class="d-inline-block">
-                        <button href="#" class="btn btn-secondary btn-icon-split" onclick="printDiv1()">
+                        <button href="#" class="btn btn-secondary btn-icon-split" v-on:click="printHTML">
                             <span class="icon text-white-50">
                                 <i class="fa fa-print"></i>
                             </span>
@@ -115,19 +115,16 @@
                                         <th style="width: 100px; border: 1px solid;">Chữ ký</th>
                                         <th style="width: 100px; border: 1px solid;">Ghi chú</th>
                                     </tr>
-                                    <tr style="text-align: center;" v-for="(item, index) in listprint" :key="index">
-                                        <th style="width: 50px; border: 1px solid;">Ơ</th>
-                                        <th style="width: 200px; border: 1px solid;">Do Van A</th>
-                                        <th style="width: 150px; border: 1px solid;">17020568</th>
-                                        <th style="width: 150px; border: 1px solid;">2/9/1999</th>
-                                        <th style="width: 100px; border: 1px solid;"></th>
-                                        <th style="width: 100px; border: 1px solid;">Sinh vien dh</th>
-                                    </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td></td>
-                                        <td></td><td></td><td></td><td></td><td></td>
+                                        <tr style="text-align: center;" v-for="(item, index) in listprint" :key="index">
+                                        <td style="width: 50px; border: 1px solid;">{{ index + 1 }}</td>
+                                        <td style="width: 200px; border: 1px solid;">{{ item.fullname }}</td>
+                                        <td style="width: 150px; border: 1px solid;">{{ item.studentcode }}</td>
+                                        <td style="width: 150px; border: 1px solid;">{{ item.datebirth}}</td>
+                                        <td style="width: 100px; border: 1px solid;"></td>
+                                        <td style="width: 100px; border: 1px solid;"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -198,7 +195,32 @@
                             type: 'error'
                         });
                 }
-            }                   
+            },
+            exportHTML: function(){
+                var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title><style>@page Section1{margin:0.75in 0.40in 0.75in 0.40in ;} div.Section1 {page:Section1;}</style></head><body><div class='Section1'>";
+                var footer = "</div></body></html>";
+                var sourceHTML = header + document.getElementById("printableTableAdmin").innerHTML + footer;
+
+                var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                var fileDownload = document.createElement("a");
+                document.body.appendChild(fileDownload);
+                fileDownload.href = source;
+                fileDownload.download = 'danhsachphongthi.doc';
+                fileDownload.click();
+                document.body.removeChild(fileDownload); 
+            },
+            printHTML: function(){
+                window.frames["print_frame"].document.body.innerHTML =
+                document.getElementById("printableTableAdmin").innerHTML;
+                window.frames["print_frame"].window.focus();
+                window.frames["print_frame"].window.print();
+
+            }
+
         }
     }
 </script>
+
