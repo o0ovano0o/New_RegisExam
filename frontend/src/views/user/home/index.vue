@@ -204,7 +204,7 @@
                 ratio: null
             }
         },
-
+    
         methods: {
             
             async getHomeStudent(){
