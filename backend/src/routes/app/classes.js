@@ -73,7 +73,7 @@ router.put('/api/admin/classes/:id',validateUser,  validateAdminAPI, async(req, 
 });
 
 
-router.get('/api/admin/classess/:examid', validateAdminAPI, async(req, res) => {
+router.get('/api/admin/classess/:examid',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { examid } = req.params;
         const listclasses = await knex('classes')
@@ -90,7 +90,7 @@ router.get('/api/admin/classess/:examid', validateAdminAPI, async(req, res) => {
 });
 
 
-router.get('/api/student/home', validateStudentAPI, async(req, res) => {
+router.get('/api/student/home',validateUser, validateStudentAPI, async(req, res) => {
     try {
         const { user_id } = req.session;
         const studentid = user_id

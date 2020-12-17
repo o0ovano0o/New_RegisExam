@@ -49,6 +49,7 @@ export default {
         }
         ).then((result) => {
           this.isAuthenticated = true;
+          this.$router.push({ name: "student_home"});
           this.reqToApi = JSON.stringify(result.data, undefined, 4);
         })
         .catch((err2) => {
