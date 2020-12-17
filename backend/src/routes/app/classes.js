@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI, validateStudentAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI, validateStudentAPI,validateUser } = require('../../middlewares/validateAPIAuthentication');
 
-router.post('/api/admin/classes/:examid', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/classes/:examid',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { examid } = req.params;
         const { subjectcode,subjectname, date, room, start, end, amount, typeclasses } = req.body;
@@ -31,7 +31,7 @@ router.post('/api/admin/classes/:examid', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.delete('/api/admin/classes/:id', validateAdminAPI, async(req, res) => {
+router.delete('/api/admin/classes/:id',validateUser,  validateAdminAPI, async(req, res) => {
     try {
         const { id } = req.params;
         if ( !id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
@@ -49,7 +49,7 @@ router.delete('/api/admin/classes/:id', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.put('/api/admin/classes/:id', validateAdminAPI, async(req, res) => {
+router.put('/api/admin/classes/:id',validateUser,  validateAdminAPI, async(req, res) => {
     try {
         const { id } = req.params;
         const { date, room, start, end, amount, typeclasses } = req.body;

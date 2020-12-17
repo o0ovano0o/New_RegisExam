@@ -2,9 +2,9 @@ const router = require('express').Router();
 const sha1 = require('sha1');
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI, validateUser } = require('../../middlewares/validateAPIAuthentication');
 
-router.get('/api/admin/home',validateAdminAPI , async (req, res) => {
+router.get('/api/admin/home',validateUser, validateAdminAPI , async (req, res) => {
   try {
     const [exam] = await knex('exam').count();
     const [student] = await knex('student').count();

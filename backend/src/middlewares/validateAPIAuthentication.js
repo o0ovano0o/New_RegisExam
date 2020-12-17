@@ -1,3 +1,4 @@
+const knex = require('../knex');
 function validateAppSession(req) {
   if (!req.session.user_id) {
     return { success: false, msg: 'Bạn cần đăng nhập!' };
@@ -37,8 +38,39 @@ function validateStudentAPI(req, res, next) {
   return res.status(401).json(validateRes);
 }
 
+async function validateUser(req, res, next) {
+  if(!req.headers.token) {
+    res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
+  }
+  var obj = req.headers.token;
+  let roles = null;
+  obj.list_roles.split('|').forEach(element => {
+    if(element.search('GROUP5') > 0){
+      roles = element.split('/');
+    }
+  });
+  if(!roles) {
+    res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
+  }
+  if(roles == 'SYS_ADMIN') {
+    const [admin] = await knex('admin').where({ username: obj.user_name});
+    Object(admin, {
+      user_id: admin.id
+    })
+    req.session=admin;
+  }
+  if(roles == 'GROUP_USER') {
+    const [student] = await knex('student').where({ studentcode: obj.user_name});
+    Object(student, {
+      user_id: student.id
+    })
+    req.session=student;
+  }
+}
+
 module.exports = {
   validateAppAPI,
   validateStudentAPI,
-  validateAdminAPI
+  validateAdminAPI,
+  validateUser
 };

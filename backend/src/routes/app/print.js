@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI, validateUser } = require('../../middlewares/validateAPIAuthentication');
 
-router.post('/api/admin/print_room', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/print_room',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { subjectcode, typeclasses } = req.body;
         if (!subjectcode || !typeclasses) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });

@@ -2,9 +2,9 @@ const router = require('express').Router();
 const sha1 = require('sha1');
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI, validateStudentAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI, validateStudentAPI,validateUser } = require('../../middlewares/validateAPIAuthentication');
 
-router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/student/import',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { datarow } = req.body;
         if (datarow.length > 100) {
@@ -42,7 +42,7 @@ router.post('/api/admin/student/import', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.put('/api/student/password', validateStudentAPI, async(req, res) => {
+router.put('/api/student/password',validateUser, validateStudentAPI, async(req, res) => {
     try {
         const { user_id } = req.session;
         const { newpass, oldpass } = req.body;
@@ -64,7 +64,7 @@ router.put('/api/student/password', validateStudentAPI, async(req, res) => {
     }
 });
 
-router.post('/api/admin/student', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/student',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { studentcode, fullname, datebirth, gender, hometown, classes } = req.body;
         if (!studentcode || !fullname || !datebirth || !gender || !hometown || !classes) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
@@ -83,7 +83,7 @@ router.post('/api/admin/student', validateAdminAPI, async(req, res) => {
 });
 
 
-router.get('/api/admin/students', validateAdminAPI, async(req, res) => {
+router.get('/api/admin/students',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const listexam = await knex('student').select();
         return res.status(200).json({
@@ -95,7 +95,7 @@ router.get('/api/admin/students', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.post('/api/admin/student/query', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/student/query',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { studentcode } = req.body;
         const student = await knex('student').where({ studentcode });
@@ -108,7 +108,7 @@ router.post('/api/admin/student/query', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.get('/api/admin/student/getme', validateStudentAPI, async(req, res) => {
+router.get('/api/admin/student/getme',validateUser, validateStudentAPI, async(req, res) => {
     try {
         const { user_id } = req.session;
         const student = await knex('student').where('id', user_id);
@@ -121,7 +121,7 @@ router.get('/api/admin/student/getme', validateStudentAPI, async(req, res) => {
     }
 });
 
-router.delete('/api/admin/student/:id', validateAdminAPI, async(req, res) => {
+router.delete('/api/admin/student/:id',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { id } = req.params;
         if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
