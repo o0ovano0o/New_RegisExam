@@ -60,7 +60,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <h1 style="text-align: center; text-transform: uppercase; font-weight: bold; font-size: 14pt; margin: 30px 0 0 0; padding: 0; color: black;">PHIẾU BÁO DỰ THI HỌC KÌ I 2019-2020</h1>
+                <h1 style="text-align: center; text-transform: uppercase; font-weight: bold; font-size: 14pt; margin: 30px 0 0 0; padding: 0; color: black;" v-for="(item1, index1) in listresult" :key="index1" :id="item1.id">PHIẾU BÁO DỰ THI {{ item1.examname}} </h1>
                 <p style="text-align: center; font-weight: bold; margin: 0; padding: 0; font-size: 14pt; color: black;">
 
                     Ngày {{(new Date()).getDate()}} tháng {{(new Date()).getMonth() + 1}} năm {{(new Date()).getFullYear()}}

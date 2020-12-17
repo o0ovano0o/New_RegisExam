@@ -113,6 +113,8 @@ export default {
                         duration : 5000,
                         type: 'success'
                     });
+                await API.getListStudent();
+
             } catch (error) {
                 this.$toasted.show('Đã có lỗi xảy ra', {
                         theme: "toasted-primary",
