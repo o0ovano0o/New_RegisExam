@@ -39,7 +39,7 @@ export default {
           // `http://apigateway.toedu.me/auth/api/intergrates/users/me`,
           "http://apigateway.toedu.me/nhom5/heathz",
            {
-        withCredentials: true,
+        withCredentials: false,
         data: {
         },
         headers: {
