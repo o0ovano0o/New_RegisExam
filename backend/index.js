@@ -56,6 +56,7 @@ if (app.get('env') === 'production') {
 app.use(session(sess_cfg));
 
 app.get('/api/me', validateAppAPI, async (req, res) => {
+
     res.json({
         id: req.session.user_id,
     });
