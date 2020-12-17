@@ -55,14 +55,16 @@ async function validateUser(req, res, next) {
   if(roles == 'SYS_ADMIN') {
     const [admin] = await knex('admin').where({ username: obj.user_name});
     Object(admin, {
-      user_id: admin.id
+      user_id: admin.id,
+      userrole: 2
     })
     req.session=admin;
   }
   if(roles == 'GROUP_USER') {
     const [student] = await knex('student').where({ studentcode: obj.user_name});
     Object(student, {
-      user_id: student.id
+      user_id: student.id,
+      userrole: 1
     })
     req.session=student;
   }
