@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI,validateUser } = require('../../middlewares/validateAPIAuthentication');
 
 
 

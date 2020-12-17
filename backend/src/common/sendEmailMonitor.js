@@ -8,7 +8,7 @@ async function reminderSendMail() {
     .join('classes','classes.id','classesid')
     .select('subject.*', 'classes.*','result.*');
   await Promise.all(listresult.map(async (item)=>{
-    var date = moment(item.date,'YYYY-DD-MM');
+    var date = moment(item.date,'YYYY-MM-DD');
     const tomorow= moment().add(1,'days').diff(date, 'days') ;
     console.log('tomorow',tomorow);
     if(tomorow==0 && item.status == 0){
