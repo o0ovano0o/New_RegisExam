@@ -59,8 +59,9 @@
         methods: {
             async submit(){
                 try {
-                    const res = await LoginAPI.logInUser(this.user);                   
+                    const res = await LoginAPI.logInUser(this.user);
                     if(res.data.success){
+                        document.cookie = "login=true";
                         this.$router.push('/student/home');
                         this.$toasted.show('Đăng nhập thành công', {
                             theme: "toasted-primary",
@@ -84,7 +85,7 @@
         },
 
         created() {
-            
+
         },
     }
 </script>

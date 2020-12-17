@@ -13,6 +13,9 @@ import Toasted from 'vue-toasted';
 
 
 
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 
 Vue.use(Toasted)
 // Install BootstrapVue

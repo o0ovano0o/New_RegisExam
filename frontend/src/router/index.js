@@ -1,46 +1,46 @@
 import Vue from 'vue'
 import vueRouter from 'vue-router'
-
 Vue.use(vueRouter)
-
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 let router = new vueRouter({
 
     mode: "history",
     routes: [
         // {
-        //   path: "/login",
-        //   name: "user_login",
-        //   component: require("@/views/_general/logIn/logIn").default
-        // },
-        {
-            path: "/demo-import",
-            name: "demo-import",
-            component: require("@/views/admin/layout").default,
-            children: [{
-                path: '',
-                name: "demo-import-detail",
-                component: require("@/views/admin/import/index.vue").default
-            }]
-        },
-        // {
-        //     path: "/admin/home",
-        //     name: "admin_home",
-        //     component: require("@/views/admin/layout").default,
-        //     children: [{
-        //         path: '',
-        //         name: "admin_home_detail",
-        //         component: require("@/views/admin/home").default
-        //     }]
-        // },
+            //   path: "/login",
+            //   name: "user_login",
+            //   component: require("@/views/_general/logIn/logIn").default
+            // },
+            {
+                path: "/demo-import",
+                name: "demo-import",
+                component: require("@/views/admin/layout").default,
+                children: [{
+                    path: '',
+                    name: "demo-import-detail",
+                    component: require("@/views/admin/import/index.vue").default
+                }]
+            },
+            // {
+                //     path: "/admin/home",
+                //     name: "admin_home",
+                //     component: require("@/views/admin/layout").default,
+                //     children: [{
+                    //         path: '',
+                    //         name: "admin_home_detail",
+                    //         component: require("@/views/admin/home").default
+                    //     }]
+                    // },
 
 
-        // {
-        //   path: "/login",
-        //   name: "user_login",
-        //   component: require("@/views/_general/logIn/logIn").default
-        // },
-        {
-            path: "/student/login",
+                    // {
+                        //   path: "/login",
+                        //   name: "user_login",
+                        //   component: require("@/views/_general/logIn/logIn").default
+                        // },
+                        {
+                            path: "/student/login",
             name: "student_login",
             component: require("@/views/user/login/login-student").default
         },
@@ -209,25 +209,25 @@ let router = new vueRouter({
             name: "student_repass",
             component: require("@/views/user/layout").default,
             children:[
-              {
-                path:'',
-                name:"student_repass_detail",
-                component: require("@/views/user/repass").default
-              }
+                {
+                    path:'',
+                    name:"student_repass_detail",
+                    component: require("@/views/user/repass").default
+                }
             ]
-          }
+        }
         // {
-        //   path: "/catalog",
-        //   name: "catalog",
-        //   component: require("@/views/admin/catalog/index").default,
-        //   children: [
-        //     {
-        //       path: ':id',
+            //   path: "/catalog",
+            //   name: "catalog",
+            //   component: require("@/views/admin/catalog/index").default,
+            //   children: [
+                //     {
+                    //       path: ':id',
         //       name:'product',
         //       component: require("@/views/admin/catalog/page/product.vue").default
         //     },
         //     {
-        //       path: "/admin-products/:id",
+            //       path: "/admin-products/:id",
         //       name: "admin-products",
         //       component: require("@/views/admin/catalog/components/product").default
         //     }
@@ -235,13 +235,18 @@ let router = new vueRouter({
         // }
     ]
 });
+        // var getCookies = function(){
+        //     var pairs = document.cookie.split(';');
+        //     console.log(pairs);
+        //     var cookies = {};
+        //     for (var i=0; i<pairs.length; i++){
+        //       var pair = pairs[i].split("=");
+        //       cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
+        //     }
+        //     return cookies;
+        //   }
 
-router.beforeEach((to, from, next) => {
-    if (!to.name) {
-        next('student/home');
-    } else {
-        next();
-    }
-})
+// const axios = require('axios');
+
 
 export default router;

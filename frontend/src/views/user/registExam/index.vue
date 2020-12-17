@@ -68,7 +68,7 @@
 
                     </div>
                 </div>
-                
+
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
@@ -99,7 +99,7 @@
                                         <td>{{item.start}}</td>
                                         <td>{{item.end}}</td>
                                         <td style="text-align:center;" data-target="cathi">{{item.examid}}</td>
-                                        <td style="text-align:center;"><a :id="item.id" data-role='delete' :data-id="item.examid" href="" class="btn btn-warning" @click="deleteResult(item)" style="color: red; padding: 1px 5px;">xóa</a></td>                                       
+                                        <td style="text-align:center;"><a :id="item.id" data-role='delete' :data-id="item.examid" href="" class="btn btn-warning" @click="deleteResult(item)" style="color: red; padding: 1px 5px;">xóa</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -168,7 +168,7 @@
         },
         methods: {
             async getClasslist(){
-                try {                
+                try {
                     let res = await API.getHomeStudent();
                     res = res.data;
                     if(res.success) {
@@ -201,7 +201,7 @@
                         }
                     }
                 }
-                
+
             },
 
             checkboxValid : function(){
@@ -227,8 +227,8 @@
             registExam(){
                 var mythis = this;
                 var checkedExam = $("#ddReferences input[type=checkbox]:checked");
-                $.each(checkedExam, function(index, obj){
-                    mythis.registexam.classesid = obj.id; 
+                $.each(checkedExam,async function(index, obj){
+                    mythis.registexam.classesid = obj.id;
                     for (var i=0; i<mythis.classeslist.length; i++)
                     {
                         if(mythis.classeslist[i].id == obj.id){
@@ -236,19 +236,19 @@
                             break;
                         }
                     }
-                    try 
-                    {      
-                        let res = API.registExamStudent(mythis.registexam);
+                    try
+                    {
+                        let res = await API.registExamStudent(mythis.registexam);
                         if(res.data.success){
-                            this.$toasted.show(res.data.msg, {
-                                theme: "toasted-primary",
-                                position: "top-right",
-                                duration : 5000,
-                                type: 'success'
-                            });
-                            
+                            let res = await API.getHomeStudent();
+                            res = res.data;
+                            if(res.success) {
+                                mythis.classeslist = res.classeslist;
+                            }
+                            await mythis.getResultStudent();
+                            mythis.checkboxValid();
                         }
-                    } 
+                    }
                     catch (error) {
                         this.$toasted.show('Lỗi không thể đăng ký ca thi', {
                             theme: "toasted-primary",
@@ -260,7 +260,7 @@
                 })
             },
             async getResultStudent(){
-                try {                
+                try {
                     let res = await API.getResultStudent();
                     res = res.data;
                     if(res.success) {
@@ -278,7 +278,7 @@
 
             async deleteResult(item){
                 try {
-                    await API.deleteResult(item.id);                    
+                    await API.deleteResult(item.id);
                     this.$toasted.show('Xóa ca thi thành công', {
                             theme: "toasted-primary",
                             position: "top-right",
@@ -299,7 +299,7 @@
                 return moment(date).format('DD/MM/YYYY');
             },
         },
-        
+
         async created() {
             await this.getClasslist();
             await this.getResultStudent();
@@ -307,7 +307,7 @@
         },
 
         mounted(){
-            
+
         }
     }
 
