@@ -43,7 +43,7 @@ async function validateUser(req, res, next) {
     res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   }
   var obj = parseJwt(req.headers.authorization);
-
+  console.log(objd);
   let roles = null;
   if(!obj) return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   obj.list_roles.split('|').forEach(element => {
