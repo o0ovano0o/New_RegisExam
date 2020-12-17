@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI, validateUser } = require('../../middlewares/validateAPIAuthentication');
 
-router.post('/api/admin/exam', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/exam',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { examname, examyear, semester, note } = req.body;
         if (!examname || !examyear || !semester || !note) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
@@ -19,7 +19,7 @@ router.post('/api/admin/exam', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.delete('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
+router.delete('/api/admin/exam/:id',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { id } = req.params;
         if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
@@ -36,7 +36,7 @@ router.delete('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.put('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
+router.put('/api/admin/exam/:id', validateUser,validateAdminAPI, async(req, res) => {
     try {
         const { id } = req.params;
         const { examname, examyear, semester, note, status } = req.body;
@@ -58,7 +58,7 @@ router.put('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.get('/api/admin/exams', validateAdminAPI, async(req, res) => {
+router.get('/api/admin/exams',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const listexam = await knex('exam').select().orderBy('id', "desc");
         return res.status(200).json({
@@ -70,7 +70,7 @@ router.get('/api/admin/exams', validateAdminAPI, async(req, res) => {
     }
 });
 
-router.get('/api/admin/exam/:id', validateAdminAPI, async(req, res) => {
+router.get('/api/admin/exam/:id',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { id } = req.params;
         if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });

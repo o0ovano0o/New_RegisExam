@@ -1,3 +1,5 @@
+const knex = require('../knex');
+import jwt_decode from "jwt-decode";
 function validateAppSession(req) {
   if (!req.session.user_id) {
     return { success: false, msg: 'Bạn cần đăng nhập!' };
@@ -37,8 +39,55 @@ function validateStudentAPI(req, res, next) {
   return res.status(401).json(validateRes);
 }
 
+async function validateUser(req, res, next) {
+  if(!req.headers.token) {
+    res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
+  }
+  console.log(req.headers);
+  var obj = jwt_decode(req.headers.authorization);
+  // var obj = parseJwt(req.headers.authorization);
+  console.log(objd);
+  let roles = null;
+  if(!obj) return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
+  obj.list_roles.split('|').forEach(element => {
+    if(element.search('GROUP5') > 0){
+      roles = element.split('/');
+    }
+  });
+  if(!roles) {
+    return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
+  }
+  if(roles == 'SYS_ADMIN') {
+    const [admin] = await knex('admin').where({ username: obj.user_name});
+    Object(admin, {
+      user_id: admin.id,
+      userrole: 2
+    })
+    req.session=admin;
+  }
+  if(roles == 'GROUP_USER') {
+    const [student] = await knex('student').where({ studentcode: obj.user_name});
+    Object(student, {
+      user_id: student.id,
+      userrole: 1
+    })
+    req.session=student;
+  }
+}
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+};
+
 module.exports = {
   validateAppAPI,
   validateStudentAPI,
-  validateAdminAPI
+  validateAdminAPI,
+  validateUser
 };

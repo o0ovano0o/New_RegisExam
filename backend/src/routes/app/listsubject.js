@@ -2,9 +2,9 @@ const router = require('express').Router();
 const sha1 = require('sha1');
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateAdminAPI, validateStudentAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateAdminAPI, validateStudentAPI,validateUser } = require('../../middlewares/validateAPIAuthentication');
 
-router.post('/api/admin/listsubject/import/:status', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/listsubject/import/:status', validateUser,validateAdminAPI, async(req, res) => {
     try {
         const { status } = req.params;
         const { datarow } = req.body;
@@ -69,7 +69,7 @@ router.post('/api/admin/listsubject/import/:status', validateAdminAPI, async(req
     }
 });
 
-router.post('/api/admin/listsubject/:status', validateAdminAPI, async(req, res) => {
+router.post('/api/admin/listsubject/:status',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { status } = req.params;
         const { studentcode, subjectcode, subjectname } = req.body;
@@ -110,7 +110,7 @@ router.post('/api/admin/listsubject/:status', validateAdminAPI, async(req, res) 
     }
 });
 
-router.put('/api/admin/listsubject/:listsubjectid/:status', validateAdminAPI, async(req, res) => {
+router.put('/api/admin/listsubject/:listsubjectid/:status',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { status, listsubjectid } = req.params;
         if (!listsubjectid) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
@@ -126,7 +126,7 @@ router.put('/api/admin/listsubject/:listsubjectid/:status', validateAdminAPI, as
     }
 });
 
-router.get('/api/admin/listsubject/:subjectid', validateAdminAPI, async(req, res) => {
+router.get('/api/admin/listsubject/:subjectid',validateUser, validateAdminAPI, async(req, res) => {
     try {
         const { subjectid } = req.params;
         const list = await knex('listsubject').join('subject', 'subjectid', 'subject.id').join('student', 'studentid', 'student.id').select('listsubject.id as id',
@@ -149,7 +149,7 @@ router.get('/api/admin/listsubject/:subjectid', validateAdminAPI, async(req, res
 });
 
 // những môn mà sinh viên học
-router.get('/api/student/listsubject/:studentid', validateStudentAPI, async(req, res) => {
+router.get('/api/student/listsubject/:studentid',validateUser, validateStudentAPI, async(req, res) => {
     try {
         const { studentid } = req.params;
         const list = await knex('listsubject').join('subject', 'subjectid', 'subject.id').join('student', 'studentid', 'student.id').select('*').where({ studentid });

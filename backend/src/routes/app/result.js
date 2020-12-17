@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
-const { validateStudentAPI } = require('../../middlewares/validateAPIAuthentication');
+const { validateStudentAPI,validateUser } = require('../../middlewares/validateAPIAuthentication');
 
 
 
-router.get('/api/student/result', validateStudentAPI, async(req, res) => {
+router.get('/api/student/result',validateUser, validateStudentAPI, async(req, res) => {
     try {
         const { id } = await knex('exam').first('id').where({ status: 1 });
         const examid = id;
@@ -27,7 +27,7 @@ router.get('/api/student/result', validateStudentAPI, async(req, res) => {
 
 
 
-router.post('/api/student/result', validateStudentAPI, async(req, res) => {
+router.post('/api/student/result',validateUser, validateStudentAPI, async(req, res) => {
     try {
         const { id } = await knex('exam').first('id').where({ status: 1 });
         const examid = id;
@@ -47,7 +47,7 @@ router.post('/api/student/result', validateStudentAPI, async(req, res) => {
     }
 });
 
-router.delete('/api/student/result/:id', validateStudentAPI, async(req, res) => {
+router.delete('/api/student/result/:id',validateUser, validateStudentAPI, async(req, res) => {
     try {
         const { id } = req.params;
         if (!id) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
