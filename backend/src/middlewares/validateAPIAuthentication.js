@@ -44,13 +44,14 @@ async function validateUser(req, res, next) {
   }
   var obj = req.headers.token;
   let roles = null;
+  if(!obj) return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   obj.list_roles.split('|').forEach(element => {
     if(element.search('GROUP5') > 0){
       roles = element.split('/');
     }
   });
   if(!roles) {
-    res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
+    return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   }
   if(roles == 'SYS_ADMIN') {
     const [admin] = await knex('admin').where({ username: obj.user_name});

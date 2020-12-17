@@ -78,10 +78,6 @@ router.post('/intergrates/register', async (req, res) => {
 router.get('/heathz', async (req, res) => {
   console.log(req.headders);
   console.log("-==============---------------======================");
-  console.log(req.header);
-  console.log("-==============---------------======================");
-  console.log(req);
-  console.log("-==============---------------======================");
   res.status(200).json({ msg:'Service hoạt động', success: true});
 });
 
