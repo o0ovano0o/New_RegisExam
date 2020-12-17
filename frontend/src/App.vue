@@ -36,8 +36,8 @@ export default {
       //   },
       // };
       axios.get(
-          // `http://apigateway.toedu.me/auth/api/intergrates/users/me`,
-          "http://apigateway.toedu.me/nhom5/heathz",
+          `http://apigateway.toedu.me/auth/api/intergrates/users/me`,
+          // "http://apigateway.toedu.me/nhom5/heathz",
            {
         withCredentials: false,
         data: {
@@ -48,9 +48,18 @@ export default {
         },
         }
         ).then((result) => {
-          this.isAuthenticated = true;
+          let role=null;
+          console.log(result);
+          result.data.data.listRoles.split('|').forEach(element => {
+            if(element.search('G5') > 0){
+              role = element.split('/')[0];
+            }
+          });
+          if(role == 'GROUP_ADMIN') 
+          this.$router.push({ name: "admin_home"});
+          if(role == 'GROUP_USER') 
           this.$router.push({ name: "student_home"});
-          this.reqToApi = JSON.stringify(result.data, undefined, 4);
+          // this.reqToApi = JSON.stringify(result.data, undefined, 4);
         })
         .catch((err2) => {
           console.log(err2);

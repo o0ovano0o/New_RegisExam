@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const knex = require('../../knex');
+const axios = require('axios');
 const handleAPIError = require('../../common/handleAPIError');
 const { validateAdminAPI,validateUser } = require('../../middlewares/validateAPIAuthentication');
 
@@ -9,6 +10,7 @@ router.post('/api/admin/admin',validateUser, validateAdminAPI, async(req, res) =
         if (!username || !password || !fullname) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
         const check = await knex('admin')
             .insert({ username, password, fullname });
+        
         if (!check) return res.status(400).json({ success: false, msg: 'Thêm quản trị viên thất bại' });
         return res.status(200).json({
             success: true,

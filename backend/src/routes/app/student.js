@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const sha1 = require('sha1');
+const axios = require('axios');
 const knex = require('../../knex');
 const handleAPIError = require('../../common/handleAPIError');
 const { validateAdminAPI, validateStudentAPI,validateUser } = require('../../middlewares/validateAPIAuthentication');
@@ -13,10 +14,24 @@ router.post('/api/admin/student/import',validateUser, validateAdminAPI, async(re
         if (!datarow) return res.status(400).json({ success: false, msg: 'Thông tin bắt buộc bị thiếu' });
         const column = datarow[0];
         let listcode = [];
+        let listuser = [];
         let obj = await datarow.splice(1).map((row, index) => {
             listcode.push(row[column.findIndex((item) => item.toLowerCase() == 'studentcode')]);
             const studentcode = row[column.findIndex((item) => item.toLowerCase() == 'studentcode')];
             let password = sha1(studentcode);
+            listuser.push({
+
+                    "userName": row[column.findIndex((item) => item.toLowerCase() == 'studentcode')],
+                    "name": row[column.findIndex((item) => item.toLowerCase() == 'fullname')],
+                    "password": row[column.findIndex((item) => item.toLowerCase() == 'studentcode')],
+                    "email": `${row[column.findIndex((item) => item.toLowerCase() == 'studentcode')]}@vnu.edu.vn`,
+                    "dateOfBirth": null,
+                    "class": row[column.findIndex((item) => item.toLowerCase() == 'class')],
+                    "phoneNumber": null,
+                    "address": row[column.findIndex((item) => item.toLowerCase() == 'hometown')],
+                    "groupCode": "G5"
+
+            });
             return {
                 studentcode: row[column.findIndex((item) => item.toLowerCase() == 'studentcode')],
                 fullname: row[column.findIndex((item) => item.toLowerCase() == 'fullname')],
@@ -27,6 +42,16 @@ router.post('/api/admin/student/import',validateUser, validateAdminAPI, async(re
                 password,
             }
         });
+
+        
+        await axios.post('http://apigateway.toedu.me/auth/api/Intergrates/groups/users/G5', listuser, 
+        {
+
+            headers: {
+              Authorization: req.headers.authorization,
+              "Content-Type": "application/json",
+            },
+            });
         console.log(listcode);
         await knex('student').delete().whereIn('studentcode', listcode);
         const check = await knex('student')

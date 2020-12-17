@@ -1,5 +1,5 @@
 const knex = require('../knex');
-import jwt_decode from "jwt-decode";
+const jwt_decode = require("jwt-decode");
 function validateAppSession(req) {
   if (!req.session.user_id) {
     return { success: false, msg: 'Bạn cần đăng nhập!' };
@@ -40,50 +40,60 @@ function validateStudentAPI(req, res, next) {
 }
 
 async function validateUser(req, res, next) {
-  if(!req.headers.token) {
-    res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
+  if(!req.headers.authorization) {
+    return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   }
   console.log(req.headers);
-  var obj = jwt_decode(req.headers.authorization);
+  var obj = await jwt_decode(req.headers.authorization);
   // var obj = parseJwt(req.headers.authorization);
-  console.log(objd);
+  console.log(obj);
   let roles = null;
   if(!obj) return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   obj.list_roles.split('|').forEach(element => {
-    if(element.search('GROUP5') > 0){
-      roles = element.split('/');
+    if(element.search('G5') > 0){
+      roles = element.split('/')[0];
     }
   });
+  console.log(roles);
   if(!roles) {
     return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   }
-  if(roles == 'SYS_ADMIN') {
-    const [admin] = await knex('admin').where({ username: obj.user_name});
-    Object(admin, {
+  if(roles == 'GROUP_ADMIN') {
+    console.log(obj);
+    let [admin] = await knex('admin').where({ username: obj.user_name});
+    admin = Object.assign(admin, {
       user_id: admin.id,
       userrole: 2
-    })
-    req.session=admin;
+    });
+    console.log(admin);
+    req.session.user_id = admin.user_id;
+    req.session.username = admin.username;
+   
+    req.session.fullname = admin.fullname;
+    req.session.userrole = admin.userrole;
+    // req.session= Object.assign(req.session,admin);
   }
   if(roles == 'GROUP_USER') {
-    const [student] = await knex('student').where({ studentcode: obj.user_name});
-    Object(student, {
+    let [student] = await knex('student').where({ studentcode: obj.user_name});
+    student = Object.assign(student, {
       user_id: student.id,
       userrole: 1
-    })
-    req.session=student;
+    });
+    console.log(student);
+    req.session.user_id = student.id;
+    req.session.studentcode = student.studentcode;
+    req.session.fullname = student.fullname;
+    req.session.datebirth = student.datebirth;
+    req.session.gender = student.gender;
+    req.session.hometown = student.hometown;
+    req.session.class = student.class;
+    req.session.email = student.email;
+    req.session.userrole = student.userrole;
+    // req.session= Object.assign(req.session,student);
   }
+  next();
 }
 
-function parseJwt (token) {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-
-  return JSON.parse(jsonPayload);
-};
 
 module.exports = {
   validateAppAPI,
