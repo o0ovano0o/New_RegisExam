@@ -36,15 +36,17 @@ export default {
       //   },
       // };
       axios.get(
-          `http://apigateway.toedu.me/auth/api/intergrates/users/me`,
+          // `http://apigateway.toedu.me/auth/api/intergrates/users/me`,
+          "http://apigateway.toedu.me/nhom5/heathz",
            {
-        withCredentials: false,
+        withCredentials: true,
         data: {
         },
         headers: {
           Authorization: token,
-
-        },}
+          "Content-Type": "application/json",
+        },
+        }
         ).then((result) => {
           this.isAuthenticated = true;
           this.reqToApi = JSON.stringify(result.data, undefined, 4);
