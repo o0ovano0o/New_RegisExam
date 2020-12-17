@@ -1,4 +1,5 @@
 const knex = require('../knex');
+import jwt_decode from "jwt-decode";
 function validateAppSession(req) {
   if (!req.session.user_id) {
     return { success: false, msg: 'Bạn cần đăng nhập!' };
@@ -42,7 +43,9 @@ async function validateUser(req, res, next) {
   if(!req.headers.token) {
     res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
   }
-  var obj = parseJwt(req.headers.authorization);
+  console.log(req.headers);
+  var obj = jwt_decode(req.headers.authorization);
+  // var obj = parseJwt(req.headers.authorization);
   console.log(objd);
   let roles = null;
   if(!obj) return res.status(401).json({ success: false, msg: 'Bạn cần đăng nhập!' });
