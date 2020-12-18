@@ -83,7 +83,7 @@
                         </a>
 
                         <div class="user-menu dropdown-menu useout">
-                            <a class="nav-link" href="/admin/login"><i class="fa fa-power-off"></i>Đăng xuất</a>
+                            <a class="nav-link" @click="window.location.assign('http://toedu.me/')"><i class="fa fa-power-off"></i>Đăng xuất</a>
                         </div>
                     </div>
 

@@ -107,13 +107,14 @@ export default {
        async deleteStudent(item){
             try {
                 await API.deleteStudent(item.id);
+                 const res = await API.getListStudent();
+                this.liststudent = res.data.data;
                 this.$toasted.show('Xóa thành công', {
                         theme: "toasted-primary",
                         position: "top-right",
                         duration : 5000,
                         type: 'success'
                     });
-                await API.getListStudent();
 
             } catch (error) {
                 this.$toasted.show('Đã có lỗi xảy ra', {

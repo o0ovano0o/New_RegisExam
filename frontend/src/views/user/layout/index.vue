@@ -16,7 +16,7 @@
                     <li class="">
                         <a class="collapse-item "
                             href="/student/print-exam-registration"> <i class="menu-icon fa fa-print"></i>In danh sách thi</a>
-                    </li>                   
+                    </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -47,7 +47,7 @@
                         <div class="user-menu dropdown-menu useout">
                             <a class="nav-link" href="/student/profile"><i class="fa fa-user"></i>Hồ sơ sinh viên</a>
 
-                            <a class="nav-link" href="/student/login" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-power-off"></i>Đăng xuất</a>
+                            <a class="nav-link"  @click="window.location.assign('http://toedu.me/')" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-power-off"></i>Đăng xuất</a>
                         </div>
                     </div>
 
@@ -87,9 +87,9 @@
         },
 
         methods: {
-            
+
             async getProfileStudent(){
-                try {                  
+                try {
                     const res = await API.getProfileStudent();
                     this.userProfile = res.data.data;
                     this.$toasted.show(this.userProfile.fullname, {
@@ -114,7 +114,7 @@
 
         async created() {
             await this.getProfileStudent();
-            
+
         },
     }
 </script>

@@ -55,10 +55,11 @@ export default {
               role = element.split('/')[0];
             }
           });
-          if(role == 'GROUP_ADMIN') 
-          this.$router.push({ name: "admin_home"});
-          if(role == 'GROUP_USER') 
+          if(role == 'GROUP_ADMIN')
+           this.$router.push({ name: "admin_home"});
+          if(role == 'GROUP_USER')
           this.$router.push({ name: "student_home"});
+          this.$router.go();
           // this.reqToApi = JSON.stringify(result.data, undefined, 4);
         })
         .catch((err2) => {
